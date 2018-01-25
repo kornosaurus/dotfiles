@@ -9,7 +9,7 @@ export DS_API_PASSWD="R-_-=xspq|e896w"
 export POEDITOR_API_TOKEN="db3f89b335a1aeed425a06dbf7635f6b"
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/simon/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 export EDITOR=nvim
 
@@ -131,11 +131,6 @@ _yargs_completions()
 complete -F _yargs_completions diversity
 ###-end-diversity-completions-###
 
-source /Users/simon/bin/twapi
-source /Users/simon/bin/gitlab
-
-source /Users/simon/Apps/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 alias em='emacsclient -a "" -c'
 alias emd='emacs --daemon'
 
@@ -147,34 +142,10 @@ export LC_NUMERIC="en_US.UTF-8"
 export LC_TIME="en_US.UTF-8"
 export LC_ALL="c.utf-8"
 
-bindkey -v
 export VISUAL=nvim
-export KEYTIMEOUT=1
-
-zle -N zle-line-init
-zle -N zle-keymap-select
-zle -N edit-command-line
-
-bindkey '^P' up-history
-bindkey '^N' down-history
-bindkey '^?' backward-delete-char
-bindkey '^h' backward-delete-char
-bindkey '^w' backward-kill-word
-bindkey '^r' history-incremental-search-backward
-
-# Better searching in command mode
-bindkey -M vicmd '?' history-incremental-search-backward
-bindkey -M vicmd '/' history-incremental-search-forward
-
-# Beginning search with arrow keys
-bindkey "^[OA" up-line-or-beginning-search
-bindkey "^[OB" down-line-or-beginning-search
-bindkey -M vicmd "k" up-line-or-beginning-search
-bindkey -M vicmd "j" down-line-or-beginning-search
-
 
 # edit command in vim
-bindkey -M vicmd "^V" edit-command-line
+bindkey "^V" edit-command-line
 #
 # Use fzf!
 if [ -e /usr/local/opt/fzf/shell/completion.zsh ]; then
@@ -183,4 +154,7 @@ if [ -e /usr/local/opt/fzf/shell/completion.zsh ]; then
 fi
 export FZF_DEFAULT_COMMAND='ag -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
