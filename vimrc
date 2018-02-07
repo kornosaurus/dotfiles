@@ -55,6 +55,7 @@ Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'rizzatti/dash.vim'
 Plug 'mattn/emmet-vim'
+Plug 'Shougo/unite.vim'
 call plug#end()
 
 if executable('ag')
@@ -124,7 +125,11 @@ map ; :Buffers<CR>
 map <leader>t :Files<CR>
 map <leader>r :Tags<CR>
 
+" Buffer nav
 map <leader><Tab> :b#<cr>
+nnoremap <Tab> :bnext!<CR>
+nnoremap <S-Tab> :bprev!<CR><Paste>
+
 
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
@@ -287,6 +292,17 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+
+" Resize pane with arrow keys
+nnoremap <Left> :vertical resize -1<CR>
+nnoremap <Right> :vertical resize +1<CR>
+nnoremap <Up> :resize -1<CR>
+nnoremap <Down> :resize +1<CR>
+" Disable arrow keys completely in Insert Mode
+imap <up> <nop>
+imap <down> <nop>
+imap <left> <nop>
+imap <right> <nop>
 
 " Close the current buffer
 map <leader>bd :Bclose<cr>:tabclose<cr>gT
