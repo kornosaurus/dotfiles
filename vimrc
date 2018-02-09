@@ -55,7 +55,9 @@ Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'rizzatti/dash.vim'
 Plug 'mattn/emmet-vim'
-Plug 'Shougo/unite.vim'
+Plug 'Shougo/denite.nvim'
+Plug 'mhartington/nvim-typescript'
+Plug 'leafgarland/typescript-vim'
 call plug#end()
 
 if executable('ag')
