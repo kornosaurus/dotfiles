@@ -146,13 +146,14 @@ export VISUAL=nvim
 
 # edit command in vim
 bindkey "^V" edit-command-line
-#
+
 # Use fzf!
 if [ -e /usr/local/opt/fzf/shell/completion.zsh ]; then
   source /usr/local/opt/fzf/shell/key-bindings.zsh
   source /usr/local/opt/fzf/shell/completion.zsh
 fi
-export FZF_DEFAULT_COMMAND='ag -g ""'
+
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 

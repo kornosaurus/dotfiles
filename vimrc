@@ -17,15 +17,14 @@ Plug 'mattn/emmet-vim'
 Plug 'Shougo/denite.nvim'
 Plug 'mhartington/nvim-typescript'
 Plug 'leafgarland/typescript-vim'
+Plug 'tomtom/tcomment_vim'
 call plug#end()
 
-if executable('ag')
-  " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-  set grepprg=ag\ --nogroup\ --nocolor
-
+if executable('rg')
+  set grepprg=ag\ --vimgrep\ --no-heading
 
   " ack.vim use ag
-  let g:ackprg = 'ag --vimgrep '
+  let g:ackprg = 'rg --vimgrep --no-heading'
 endif
 
 let g:ackhighlight = 1
@@ -313,7 +312,7 @@ vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Pressing ,ss will toggle and untoggle spell checking
+" Pressing ,ss will toggle and un-toggle spell checking
 
 " Shortcuts using <leader>
 map <leader>ss :setlocal spell!<cr>
@@ -326,8 +325,6 @@ map <leader>s? z=
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Remove the Windows ^M - when the encodings gets messed up
-noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Quickly open a buffer for scribble
 map <leader>q :e ~/buffer<cr>
@@ -346,13 +343,13 @@ vnoremap < <gv
 vnoremap > >gv
 
 " " Copy to clipboard
-vnoremap  y  "+y
-nnoremap  Y  "+yg_
-nnoremap  y  "+y
+vnoremap <leader>y  "+y
+nnoremap <leader>Y  "+yg_
+nnoremap <leader>y  "+y
 " " Paste from clipboard
-nnoremap p "+p
-nnoremap P "+P
-nnoremap p "+p
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+nnoremap <leader>p "+p
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
