@@ -25,8 +25,8 @@ chunkc set 5_desktop_mode                float
 
 chunkc set 1_desktop_tree                ~/.chunkwm_layouts/dev_1
 
-chunkc set global_desktop_offset_top     45
-chunkc set global_desktop_offset_bottom  45
+chunkc set global_desktop_offset_top     15
+chunkc set global_desktop_offset_bottom  15
 chunkc set global_desktop_offset_left    15
 chunkc set global_desktop_offset_right   15
 chunkc set global_desktop_offset_gap     15

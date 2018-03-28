@@ -1,47 +1,5 @@
-"""""""""""""""""""""""""""""""""""
-" Maintainer:
-"       Amir Salihefendic
-"       http://amix.dk - amix@amix.dk
-"
-" Version:
-"       6.0 - 01/04/17 14:24:34
-"
-" Blog_post:
-"       http://amix.dk/blog/post/19691#The-ultimate-Vim-configuration-on-Github
-"
-" Awesome_version:
-"       Get this config, nice color schemes and lots of plugins!
-"
-"       Install the awesome version from:
-"
-"           https://github.com/amix/vimrc
-"
-" Syntax_highlighted:
-"       http://amix.dk/vim/vimrc.html
-"
-" Raw_version:
-"       http://amix.dk/vim/vimrc.txt
-"
-" Sections:
-"    -> General
-"    -> VIM user interface
-"    -> Colors and Fonts
-"    -> Files and backups
-"    -> Text, tab and indent related
-"    -> Visual mode related
-"    -> Moving around, tabs and buffers
-"    -> Status line
-"    -> Editing mappings
-"    -> vimgrep searching and cope displaying
-"    -> Spell checking
-"    -> Misc
-"    -> Helper functions
-"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 call plug#begin('~/.vim/plugged')
-"Plug 'pangloss/vim-javascript'
-"Plug 'jelera/vim-javascript-syntax'
+Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'vim-airline/vim-airline'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -49,11 +7,12 @@ Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-surround'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
 Plug 'dracula/vim'
+Plug 'arcticicestudio/nord-vim'
 Plug 'mileszs/ack.vim'
 Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'
-Plug 'rizzatti/dash.vim'
 Plug 'mattn/emmet-vim'
 Plug 'Shougo/denite.nvim'
 Plug 'mhartington/nvim-typescript'
@@ -81,24 +40,36 @@ let g:ale_fixers = {
 \   'javascript': ['eslint'],
 \}
 
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\}
+
 let g:airline#extensions#ale#enabled = 1
 
 highlight clear ALEErrorSign
 highlight clear ALEWarningSign
 
-let g:gitgutter_sign_added = '·'
-let g:gitgutter_sign_modified = '·'
-let g:gitgutter_sign_removed = '·'
-let g:gitgutter_sign_removed_first_line = '·'
-let g:gitgutter_sign_modified_removed = '·'
+let g:gitgutter_sign_added = '•'
+let g:gitgutter_sign_modified = '•'
+let g:gitgutter_sign_removed = '•'
+let g:gitgutter_sign_removed_first_line = '•'
+let g:gitgutter_sign_modified_removed = '•'
 
+" This fucks with performance
+augroup javascript_folding
+  set foldlevelstart=99
+  au!
+  au FileType javascript setlocal foldmethod=syntax
+augroup END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Move cursor with C-hjkl in insert mode
 inoremap <C-k> <C-o>gk
 inoremap <C-h> <Left>
 inoremap <C-l> <Right>
 inoremap <C-j> <C-o>gj
+
 " Line numbers
 set number relativenumber
 
@@ -129,9 +100,10 @@ map <leader>r :Tags<CR>
 
 " Buffer nav
 map <leader><Tab> :b#<cr>
-nnoremap <Tab> :bnext!<CR>
-nnoremap <S-Tab> :bprev!<CR><Paste>
 
+" Tab nav
+nnoremap <Tab> :tabnext<CR>
+nnoremap <S-Tab> :tabprevious<CR>
 
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
@@ -225,10 +197,14 @@ au BufReadPost *.ejs set syntax=html
 
 set termguicolors
 set background=dark " or light if you prefer the light version
-let g:two_firewatch_italics=1
-colorscheme dracula
-let g:airline_theme='dracula'
+colorscheme nord
+let g:airline_theme='nord'
+let g:nord_italic_comments = 1
 highlight clear SignColumn
+highlight Normal ctermbg=NONE
+highlight nonText ctermbg=NONE
+let &t_ZH="\e[3m"
+let &t_ZR="\e[23m"
 
 "
 " Line number colors
@@ -236,7 +212,8 @@ highlight clear SignColumn
 " highlight CursorLineNr ctermbg=NONE
 
 " Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf8
+set encoding=utf-8
+lang en_US.UTF-8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
@@ -312,9 +289,6 @@ map <leader>bd :Bclose<cr>:tabclose<cr>gT
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
 
-map <leader>l :bnext<cr>
-map <leader>h :bprevious<cr>
-
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
@@ -332,19 +306,17 @@ set laststatus=2
 " Remap VIM 0 to first non-blank character
 map 0 ^
 
-" Move a line of text using ALT+[jk] or Command+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
 nmap <M-k> mz:m-2<cr>`z
-vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
-
+vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Pressing ,ss will toggle and untoggle spell checking
-map <leader>ss :setlocal spell!<cr>
 
 " Shortcuts using <leader>
+map <leader>ss :setlocal spell!<cr>
 map <leader>sn ]s
 map <leader>sp [s
 map <leader>sa zg
@@ -363,9 +335,6 @@ map <leader>q :e ~/buffer<cr>
 " Quickly open a markdown buffer for scribble
 map <leader>x :e ~/buffer.md<cr>
 
-" Toggle paste mode on and off
-map <leader>pp :setlocal paste!<cr>
-
 nnoremap <Leader>a :Ack!<Space>
 
 " j/k will move virtual lines (lines that wrap)
@@ -376,16 +345,18 @@ noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 vnoremap < <gv
 vnoremap > >gv
 
+" " Copy to clipboard
+vnoremap  y  "+y
+nnoremap  Y  "+yg_
+nnoremap  y  "+y
+" " Paste from clipboard
+nnoremap p "+p
+nnoremap P "+P
+nnoremap p "+p
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Returns true if paste mode is enabled
-function! HasPaste()
-    if &paste
-        return 'PASTE MODE  '
-    endif
-    return ''
-endfunction
 
 " Don't close window, when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
