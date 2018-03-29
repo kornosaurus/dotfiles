@@ -93,16 +93,27 @@ nmap <leader>w :w!<cr>
 " SYNCING
 map <leader>s :!stage-sync<CR>
 
-map ; :Buffers<CR>
-map <leader>t :Files<CR>
-map <leader>r :Tags<CR>
-
 " Buffer nav
 map <leader><Tab> :b#<cr>
 
 " Tab nav
 nnoremap <Tab> :tabnext<CR>
 nnoremap <S-Tab> :tabprevious<CR>
+
+" fzf
+map <leader>b :Buffers<CR>
+map <leader>ff :Files<CR>
+map <leader>fl :Lines<CR>
+map <leader>fb :BLines<cr>
+map <leader>ft :Tags<cr>
+map <leader>fr :History<cr>
+map <leader>fh :Helptags<cr>
+map <leader>f: :History:<cr>
+map <leader>f/ :History/<cr>
+map <leader>fg :GFiles<cr>
+map <leader>fs :GFiles?<cr>
+map <leader>fc :Commits<cr>
+
 
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
