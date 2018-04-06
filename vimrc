@@ -97,10 +97,9 @@ nnoremap <Tab> :tabnext<CR>
 nnoremap <S-Tab> :tabprevious<CR>
 
 " fzf
-map <leader>b :Buffers<CR>
+map <leader>fb :Buffers<CR>
 map <leader>ff :Files<CR>
 map <leader>fl :Lines<CR>
-map <leader>fb :BLines<cr>
 map <leader>ft :Tags<cr>
 map <leader>fr :History<cr>
 map <leader>fh :Helptags<cr>
