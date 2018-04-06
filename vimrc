@@ -2,22 +2,31 @@ call plug#begin('~/.vim/plugged')
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'vim-airline/vim-airline'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-surround'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
-Plug 'dracula/vim'
-Plug 'arcticicestudio/nord-vim'
 Plug 'mileszs/ack.vim'
 Plug 'w0rp/ale'
-Plug 'airblade/vim-gitgutter'
 Plug 'mattn/emmet-vim'
-Plug 'Shougo/denite.nvim'
-Plug 'mhartington/nvim-typescript'
 Plug 'leafgarland/typescript-vim'
 Plug 'tomtom/tcomment_vim'
+Plug 'mhinz/vim-startify'
+
+" Themes
+Plug 'dracula/vim'
+Plug 'morhetz/gruvbox'
+Plug 'liuchengxu/space-vim-dark'
+Plug 'arcticicestudio/nord-vim'
+
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 call plug#end()
 
 if executable('rg')
@@ -30,6 +39,8 @@ endif
 let g:ackhighlight = 1
 
 let g:deoplete#enable_at_startup = 1
+
+let g:startify_change_to_vcs_root = 1
 
 map <C-n> :NERDTreeToggle<CR>
 
@@ -45,21 +56,6 @@ let g:ale_linters = {
 
 let g:airline#extensions#ale#enabled = 1
 
-highlight clear ALEErrorSign
-highlight clear ALEWarningSign
-
-let g:gitgutter_sign_added = '•'
-let g:gitgutter_sign_modified = '•'
-let g:gitgutter_sign_removed = '•'
-let g:gitgutter_sign_removed_first_line = '•'
-let g:gitgutter_sign_modified_removed = '•'
-
-" This fucks with performance
-augroup javascript_folding
-  set foldlevelstart=99
-  au!
-  au FileType javascript setlocal foldmethod=syntax
-augroup END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -205,21 +201,22 @@ syntax enable
 
 au BufReadPost *.ejs set syntax=html
 
-set termguicolors
-set background=dark " or light if you prefer the light version
-colorscheme nord
-let g:airline_theme='nord'
-let g:nord_italic_comments = 1
+" set termguicolors
+set background=dark
+colorscheme gruvbox
+let g:airline_theme='gruvbox'
 highlight clear SignColumn
+highlight Comment cterm=italic
 highlight Normal ctermbg=NONE
+highlight NonText ctermbg=NONE
 highlight nonText ctermbg=NONE
+highlight LineNr ctermbg=NONE
+highlight CursorLineNr ctermbg=NONE
+highlight SignColumn ctermbg=NONE
+highlight ALEErrorSign ctermbg=NONE ctermfg=red
+highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
-
-"
-" Line number colors
-" highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg= ctermbg=NONE guibg=NONE
-" highlight CursorLineNr ctermbg=NONE
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf-8
@@ -227,7 +224,6 @@ lang en_US.UTF-8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
@@ -337,12 +333,6 @@ map <leader>s? z=
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Quickly open a buffer for scribble
-map <leader>q :e ~/buffer<cr>
-
-" Quickly open a markdown buffer for scribble
-map <leader>x :e ~/buffer.md<cr>
-
 nnoremap <Leader>a :Ack!<Space>
 
 " j/k will move virtual lines (lines that wrap)
@@ -355,9 +345,11 @@ vnoremap > >gv
 
 " " Copy to clipboard
 vnoremap <leader>y  "+y
+nnoremap <leader>y  "+y
 nnoremap <leader>Y  "+yg_
 nnoremap <leader>y  "+y
 " " Paste from clipboard
+vnoremap <leader>p "+p
 nnoremap <leader>p "+p
 nnoremap <leader>P "+P
 nnoremap <leader>p "+p
