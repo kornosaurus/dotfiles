@@ -97,10 +97,9 @@ nnoremap <Tab> :tabnext<CR>
 nnoremap <S-Tab> :tabprevious<CR>
 
 " fzf
-map <leader>b :Buffers<CR>
+map <leader>fb :Buffers<CR>
 map <leader>ff :Files<CR>
 map <leader>fl :Lines<CR>
-map <leader>fb :BLines<cr>
 map <leader>ft :Tags<cr>
 map <leader>fr :History<cr>
 map <leader>fh :Helptags<cr>
@@ -201,20 +200,21 @@ syntax enable
 
 au BufReadPost *.ejs set syntax=html
 
-" set termguicolors
+set termguicolors
 set background=dark
-colorscheme gruvbox
+let g:gruvbox_contrast_dark = 'hard'
 let g:airline_theme='gruvbox'
+colorscheme gruvbox
 highlight clear SignColumn
-highlight Comment cterm=italic
-highlight Normal ctermbg=NONE
-highlight NonText ctermbg=NONE
-highlight nonText ctermbg=NONE
-highlight LineNr ctermbg=NONE
-highlight CursorLineNr ctermbg=NONE
-highlight SignColumn ctermbg=NONE
-highlight ALEErrorSign ctermbg=NONE ctermfg=red
-highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
+highlight EndOfBuffer guifg=#161c26
+highlight Comment gui=italic cterm=italic
+highlight Normal guibg=NONE ctermbg=NONE
+highlight NonText ctermbg=NONE guibg=NONE
+highlight LineNr ctermbg=NONE guibg=NONE
+highlight CursorLineNr ctermbg=NONE guibg=NONE
+highlight SignColumn ctermbg=NONE guibg=NONE
+highlight ALEErrorSign ctermbg=NONE ctermfg=red guibg=NONE
+highlight ALEWarningSign ctermbg=NONE ctermfg=yellow guibg=NONE
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 
