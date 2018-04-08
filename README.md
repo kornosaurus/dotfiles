@@ -3,9 +3,7 @@
 ## Applications
 * alacritty
 * neovim
-* oh-my-zsh
-* the silver searcher
-* fzf
+  * ripgrep
+  * fzf
+* oh-my-zsh / fish
 
-### TODO
-* make install scripts
