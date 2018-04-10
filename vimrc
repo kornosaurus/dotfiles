@@ -1,24 +1,28 @@
 call plug#begin('~/.vim/plugged')
+" Languages
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+
+" Other stuff
 Plug 'vim-airline/vim-airline'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-surround'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/goyo.vim'
 Plug 'mileszs/ack.vim'
 Plug 'w0rp/ale'
 Plug 'mattn/emmet-vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'mhinz/vim-startify'
+Plug 'ludovicchabant/vim-gutentags'
 
 " Themes
 Plug 'dracula/vim'
 Plug 'morhetz/gruvbox'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'arcticicestudio/nord-vim'
+Plug 'joshdick/onedark.vim'
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -27,10 +31,11 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
+
 call plug#end()
 
 if executable('rg')
-  set grepprg=ag\ --vimgrep\ --no-heading
+  set grepprg=rg\ --vimgrep\ --no-heading
 
   " ack.vim use ag
   let g:ackprg = 'rg --vimgrep --no-heading'
@@ -41,6 +46,17 @@ let g:ackhighlight = 1
 let g:deoplete#enable_at_startup = 1
 
 let g:startify_change_to_vcs_root = 1
+
+if has('nvim')
+  autocmd TabNewEntered * Startify
+else
+  autocmd VimEnter * let t:startify_new_tab = 1
+  autocmd BufEnter *
+        \ if !exists('t:startify_new_tab') && empty(expand('%')) |
+        \   let t:startify_new_tab = 1 |
+        \   Startify |
+        \ endif
+endif
 
 map <C-n> :NERDTreeToggle<CR>
 
@@ -65,6 +81,8 @@ inoremap <C-h> <Left>
 inoremap <C-l> <Right>
 inoremap <C-j> <C-o>gj
 
+set cursorline
+
 " Line numbers
 set number relativenumber
 
@@ -87,7 +105,7 @@ let g:mapleader = " "
 nmap <leader>w :w!<cr>
 
 " SYNCING
-map <leader>s :!stage-sync<CR>
+map <leader>s :!~/bin/stage-sync<CR>
 
 " Buffer nav
 map <leader><Tab> :b#<cr>
@@ -132,11 +150,7 @@ set wildmenu
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
-if has("win16") || has("win32")
-    set wildignore+=.git\*,.hg\*,.svn\*
-else
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
-endif
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 
 "Always show current position
 " set ruler
@@ -186,24 +200,16 @@ set novisualbell
 set t_vb=
 set tm=500
 
-" Properly disable sound on errors on MacVim
-if has("gui_macvim")
-    autocmd GUIEnter * set vb t_vb=
-endif
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
 syntax enable
 
-au BufReadPost *.ejs set syntax=html
-
 set termguicolors
 set background=dark
 let g:gruvbox_contrast_dark = 'hard'
-let g:airline_theme='gruvbox'
+let g:airline_theme='onedark'
 colorscheme gruvbox
 highlight clear SignColumn
 highlight EndOfBuffer guifg=#161c26
@@ -213,8 +219,8 @@ highlight NonText ctermbg=NONE guibg=NONE
 highlight LineNr ctermbg=NONE guibg=NONE
 highlight CursorLineNr ctermbg=NONE guibg=NONE
 highlight SignColumn ctermbg=NONE guibg=NONE
-highlight ALEErrorSign ctermbg=NONE ctermfg=red guibg=NONE
-highlight ALEWarningSign ctermbg=NONE ctermfg=yellow guibg=NONE
+highlight ALEErrorSign ctermbg=NONE ctermfg=red guifg=red guibg=NONE
+highlight ALEWarningSign ctermbg=NONE ctermfg=yellow guifg=yellow guibg=NONE
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 
@@ -343,12 +349,12 @@ noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 vnoremap < <gv
 vnoremap > >gv
 
-" " Copy to clipboard
-vnoremap <leader>y  "+y
-nnoremap <leader>y  "+y
-nnoremap <leader>Y  "+yg_
-nnoremap <leader>y  "+y
-" " Paste from clipboard
+" Copy to clipboard
+vnoremap <leader>y "+y
+nnoremap <leader>y "+y
+nnoremap <leader>Y "+yg_
+nnoremap <leader>y "+y
+" Paste from clipboard
 vnoremap <leader>p "+p
 nnoremap <leader>p "+p
 nnoremap <leader>P "+P

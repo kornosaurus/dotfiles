@@ -1,0 +1,10 @@
+--exclude=node_modules
+--exclude=.git
+--exclude=coverage
+--exclude=*.css
+--exclude=__test__
+--exclude=test
+--exclude=docs
+--exclude=po
+--exclude=*.json
+
