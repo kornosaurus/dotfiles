@@ -1,3 +1,4 @@
+-f ./.git/tags
 --exclude=node_modules
 --exclude=.git
 --exclude=coverage
@@ -7,4 +8,3 @@
 --exclude=docs
 --exclude=po
 --exclude=*.json
-

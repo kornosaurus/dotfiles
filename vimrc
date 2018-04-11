@@ -4,7 +4,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 
 " Other stuff
-Plug 'vim-airline/vim-airline'
+Plug 'itchyny/lightline.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-surround'
 Plug '/usr/local/opt/fzf'
@@ -41,6 +41,8 @@ if executable('rg')
   let g:ackprg = 'rg --vimgrep --no-heading'
 endif
 
+let g:gutentags_ctags_tagfile = './.git/tags'
+
 let g:ackhighlight = 1
 
 let g:deoplete#enable_at_startup = 1
@@ -69,8 +71,6 @@ let g:ale_fixers = {
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \}
-
-let g:airline#extensions#ale#enabled = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -106,13 +106,6 @@ nmap <leader>w :w!<cr>
 
 " SYNCING
 map <leader>s :!~/bin/stage-sync<CR>
-
-" Buffer nav
-map <leader><Tab> :b#<cr>
-
-" Tab nav
-nnoremap <Tab> :tabnext<CR>
-nnoremap <S-Tab> :tabprevious<CR>
 
 " fzf
 map <leader>fb :Buffers<CR>
@@ -209,7 +202,6 @@ syntax enable
 set termguicolors
 set background=dark
 let g:gruvbox_contrast_dark = 'hard'
-let g:airline_theme='onedark'
 colorscheme gruvbox
 highlight clear SignColumn
 highlight EndOfBuffer guifg=#161c26
@@ -261,6 +253,12 @@ set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
 
+set splitbelow
+set splitright
+
+set noshowmode " Dont show mode
+
+set tags=.git/tags
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
@@ -274,6 +272,16 @@ vnoremap <silent> / :<C-u>call VisualSelection('', '')<CR>:Ack!<C-R>=@/<CR><CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Buffer nav
+map <leader><Tab> :b#<cr>
+
+" Tab nav
+nnoremap <Tab> :tabnext<CR>
+nnoremap <S-Tab> :tabprevious<CR>
+
+nnoremap <leader>tn :tabnew<CR>
+nnoremap <leader>tc :tabclose<CR>
 
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
@@ -289,6 +297,7 @@ nnoremap <Left> :vertical resize -1<CR>
 nnoremap <Right> :vertical resize +1<CR>
 nnoremap <Up> :resize -1<CR>
 nnoremap <Down> :resize +1<CR>
+
 " Disable arrow keys completely in Insert Mode
 imap <up> <nop>
 imap <down> <nop>
@@ -296,7 +305,7 @@ imap <left> <nop>
 imap <right> <nop>
 
 " Close the current buffer
-map <leader>bd :Bclose<cr>:tabclose<cr>gT
+map <leader>bd :Bclose<cr>gT
 
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
@@ -328,11 +337,11 @@ vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 " Pressing ,ss will toggle and un-toggle spell checking
 
 " Shortcuts using <leader>
-map <leader>ss :setlocal spell!<cr>
-map <leader>sn ]s
-map <leader>sp [s
-map <leader>sa zg
-map <leader>s? z=
+" map <leader>ss :setlocal spell!<cr>
+" map <leader>sn ]s
+" map <leader>sp [s
+" map <leader>sa zg
+" map <leader>s? z=
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -366,6 +375,7 @@ nnoremap <leader>p "+p
 
 " Don't close window, when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
+
 function! <SID>BufcloseCloseIt()
    let l:currentBufNum = bufnr("%")
    let l:alternateBufNum = bufnr("#")
