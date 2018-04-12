@@ -16,6 +16,8 @@ Plug 'leafgarland/typescript-vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'mhinz/vim-startify'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'majutsushi/tagbar'
+Plug 'airblade/vim-gitgutter'
 
 " Themes
 Plug 'dracula/vim'
@@ -26,6 +28,8 @@ Plug 'joshdick/onedark.vim'
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'Shougo/neosnippet'
+  Plug 'Shougo/neosnippet-snippets'
 else
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
@@ -41,7 +45,12 @@ if executable('rg')
   let g:ackprg = 'rg --vimgrep --no-heading'
 endif
 
-let g:gutentags_ctags_tagfile = './.git/tags'
+let g:gitgutter_override_sign_column_highlight = 1
+let g:gitgutter_sign_added = '•'
+let g:gitgutter_sign_modified = '•'
+let g:gitgutter_sign_removed = '•'
+let g:gitgutter_sign_removed_first_line = '•'
+let g:gitgutter_sign_modified_removed = '•'
 
 let g:ackhighlight = 1
 
@@ -60,7 +69,11 @@ else
         \ endif
 endif
 
-map <C-n> :NERDTreeToggle<CR>
+noremap <C-n> :NERDTreeToggle<CR>
+noremap <C-m> :TagbarToggle<CR>
+imap <C-e>     <Plug>(neosnippet_expand_or_jump)
+smap <C-e>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-e>     <Plug>(neosnippet_expand_target)
 
 command Note :split ~/notes/notes.md
 
@@ -82,6 +95,9 @@ inoremap <C-l> <Right>
 inoremap <C-j> <C-o>gj
 
 set cursorline
+set signcolumn=yes
+set updatetime=100
+set tags=./tags;/
 
 " Line numbers
 set number relativenumber
@@ -257,8 +273,6 @@ set splitbelow
 set splitright
 
 set noshowmode " Dont show mode
-
-set tags=.git/tags
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
