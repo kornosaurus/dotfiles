@@ -69,8 +69,8 @@ else
         \ endif
 endif
 
-noremap <C-n> :NERDTreeToggle<CR>
-noremap <C-m> :TagbarToggle<CR>
+nnoremap <C-n> :NERDTreeToggle<CR>
+nnoremap <C-t> :TagbarToggle<CR>
 imap <C-e>     <Plug>(neosnippet_expand_or_jump)
 smap <C-e>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-e>     <Plug>(neosnippet_expand_target)
@@ -93,6 +93,7 @@ inoremap <C-k> <C-o>gk
 inoremap <C-h> <Left>
 inoremap <C-l> <Right>
 inoremap <C-j> <C-o>gj
+nnoremap / /\v
 
 set cursorline
 set signcolumn=yes
