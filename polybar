@@ -13,7 +13,7 @@ background = #7F000000
 background-alt = #55000000
 ;foreground = ${xrdb:color7:#222}
 foreground = #dfdfdf
-foreground-alt = #555
+foreground-alt = #999
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
@@ -30,7 +30,7 @@ fixed-center = false
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-line-size = 3
+;line-size = 3
 line-color = #f00
 
 padding-left = 0
