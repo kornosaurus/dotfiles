@@ -8,3 +8,4 @@
 --exclude=docs
 --exclude=po
 --exclude=*.json
+--exclude=*.xml

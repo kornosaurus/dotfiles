@@ -2,6 +2,9 @@ call plug#begin('~/.vim/plugged')
 " Languages
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'leafgarland/typescript-vim'
+Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'], 'do': 'npm install -g tern' }
+Plug 'wokalski/autocomplete-flow'
 
 " Other stuff
 Plug 'itchyny/lightline.vim'
@@ -12,19 +15,12 @@ Plug 'junegunn/fzf.vim'
 Plug 'mileszs/ack.vim'
 Plug 'w0rp/ale'
 Plug 'mattn/emmet-vim'
-Plug 'leafgarland/typescript-vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'mhinz/vim-startify'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'majutsushi/tagbar'
 Plug 'airblade/vim-gitgutter'
-
-" Themes
-Plug 'dracula/vim'
-Plug 'morhetz/gruvbox'
-Plug 'liuchengxu/space-vim-dark'
-Plug 'arcticicestudio/nord-vim'
-Plug 'joshdick/onedark.vim'
+Plug 'Shougo/echodoc.vim'
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -35,6 +31,14 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
+
+
+" Themes
+Plug 'dracula/vim'
+Plug 'morhetz/gruvbox'
+Plug 'liuchengxu/space-vim-dark'
+Plug 'arcticicestudio/nord-vim'
+Plug 'joshdick/onedark.vim'
 
 call plug#end()
 
@@ -54,7 +58,11 @@ let g:gitgutter_sign_modified_removed = '•'
 
 let g:ackhighlight = 1
 
+set completeopt-=preview
+let g:deoplete#sources#ternjs#types = 1
 let g:deoplete#enable_at_startup = 1
+let g:echodoc_enable_at_startup = 1
+let g:neosnippet#enable_completed_snippet = 1
 
 let g:startify_change_to_vcs_root = 1
 
@@ -82,7 +90,7 @@ let g:ale_fixers = {
 \}
 
 let g:ale_linters = {
-\   'javascript': ['eslint'],
+\   'javascript': ['eslint', 'flow'],
 \}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
