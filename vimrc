@@ -21,6 +21,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'Shougo/echodoc.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
+Plug 'artur-shaik/vim-javacomplete2'
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -73,6 +74,7 @@ let g:startify_change_to_vcs_root = 1
 
 " dont map C-h
 let g:AutoPairsMapCh = 0
+let g:JavaComplete_EnableDefaultMappings = 0
 
 if has('nvim')
   autocmd TabNewEntered * Startify
@@ -461,3 +463,5 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
