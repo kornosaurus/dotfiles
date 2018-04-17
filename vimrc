@@ -1,4 +1,4 @@
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.local/share/nvim/plugged')
 " Languages
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
@@ -8,11 +8,9 @@ Plug 'wokalski/autocomplete-flow'
 
 " Other stuff
 Plug 'itchyny/lightline.vim'
-Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-surround'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'mileszs/ack.vim'
 Plug 'w0rp/ale'
 Plug 'mattn/emmet-vim'
 Plug 'tomtom/tcomment_vim'
@@ -22,6 +20,7 @@ Plug 'majutsushi/tagbar'
 Plug 'airblade/vim-gitgutter'
 Plug 'Shougo/echodoc.vim'
 Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-fugitive'
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -44,11 +43,18 @@ Plug 'joshdick/onedark.vim'
 call plug#end()
 
 if executable('rg')
-  set grepprg=rg\ --vimgrep\ --no-heading
-
-  " ack.vim use ag
-  let g:ackprg = 'rg --vimgrep --no-heading'
+  set grepprg=rg\ --vimgrep
 endif
+
+let g:lightline = {
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head'
+      \ },
+      \ }
 
 let g:gitgutter_override_sign_column_highlight = 1
 let g:gitgutter_sign_added = '•'
@@ -57,8 +63,6 @@ let g:gitgutter_sign_removed = '•'
 let g:gitgutter_sign_removed_first_line = '•'
 let g:gitgutter_sign_modified_removed = '•'
 
-let g:ackhighlight = 1
-
 set completeopt-=preview
 let g:deoplete#sources#ternjs#types = 1
 let g:deoplete#enable_at_startup = 1
@@ -66,6 +70,9 @@ let g:echodoc_enable_at_startup = 1
 let g:neosnippet#enable_completed_snippet = 1
 
 let g:startify_change_to_vcs_root = 1
+
+" dont map C-h
+let g:AutoPairsMapCh = 0
 
 if has('nvim')
   autocmd TabNewEntered * Startify
@@ -78,8 +85,6 @@ else
         \ endif
 endif
 
-nnoremap <C-n> :NERDTreeToggle<CR>
-nnoremap <C-t> :TagbarToggle<CR>
 imap <C-e>     <Plug>(neosnippet_expand_or_jump)
 smap <C-e>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-e>     <Plug>(neosnippet_expand_target)
@@ -97,17 +102,13 @@ let g:ale_linters = {
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Move cursor with C-hjkl in insert mode
-inoremap <C-k> <C-o>gk
-inoremap <C-h> <Left>
-inoremap <C-l> <Right>
-inoremap <C-j> <C-o>gj
-nnoremap / /\v
-
 set cursorline
 set signcolumn=yes
 set updatetime=100
 set tags=./tags;/
+
+let g:netrw_banner = 0
+let g:netrw_winsize = 20
 
 " Line numbers
 set number relativenumber
@@ -146,6 +147,8 @@ map <leader>fg :GFiles<cr>
 map <leader>fs :GFiles?<cr>
 map <leader>fc :Commits<cr>
 
+" Toggles
+nnoremap <leader>tt :TagbarToggle<CR>
 
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
@@ -291,7 +294,6 @@ set noshowmode " Dont show mode
 " Super useful! From an idea by Michael Naumann
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
-vnoremap <silent> / :<C-u>call VisualSelection('', '')<CR>:Ack!<C-R>=@/<CR><CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
@@ -310,17 +312,28 @@ nnoremap <leader>tc :tabclose<CR>
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
 
+" Move to matches
+nmap <silent> <C-N> :cn<CR>zv
+nmap <silent> <C-P> :cp<CR>zv
+
 " Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+nmap <C-j> <C-W>j
+nmap <C-k> <C-W>k
+nmap <C-h> <C-W>h
+nmap <C-l> <C-W>l
 
 " Resize pane with arrow keys
 nnoremap <Left> :vertical resize -1<CR>
 nnoremap <Right> :vertical resize +1<CR>
 nnoremap <Up> :resize -1<CR>
 nnoremap <Down> :resize +1<CR>
+
+" Move cursor with C-hjkl in insert mode
+inoremap <C-K> <C-o>gk
+inoremap <C-H> <Left>
+inoremap <C-L> <Right>
+inoremap <C-J> <C-o>gj
+nnoremap / /\v
 
 " Disable arrow keys completely in Insert Mode
 imap <up> <nop>
@@ -371,8 +384,6 @@ vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-nnoremap <Leader>a :Ack!<Space>
 
 " j/k will move virtual lines (lines that wrap)
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
