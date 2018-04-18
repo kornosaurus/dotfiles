@@ -140,7 +140,7 @@ export LC_MESSAGES="en_US.UTF-8"
 export LC_MONETARY="en_US.UTF-8"
 export LC_NUMERIC="en_US.UTF-8"
 export LC_TIME="en_US.UTF-8"
-export LC_ALL="c.utf-8"
+export LC_ALL="c"
 
 export VISUAL=nvim
 
@@ -155,6 +155,7 @@ fi
 
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS="--color bg+:'#202020'"
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

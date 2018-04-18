@@ -40,6 +40,7 @@ Plug 'morhetz/gruvbox'
 Plug 'liuchengxu/space-vim-dark'
 Plug 'arcticicestudio/nord-vim'
 Plug 'joshdick/onedark.vim'
+Plug 'itchyny/landscape.vim'
 
 call plug#end()
 
@@ -87,10 +88,6 @@ else
         \ endif
 endif
 
-imap <C-e>     <Plug>(neosnippet_expand_or_jump)
-smap <C-e>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-e>     <Plug>(neosnippet_expand_target)
-
 command Note :split ~/notes/notes.md
 
 let g:ale_fixers = {
@@ -114,6 +111,10 @@ let g:netrw_winsize = 20
 
 " Line numbers
 set number relativenumber
+
+" Trailing
+set listchars=trail:·
+set list
 
 " Sets how many lines of history VIM has to remember
 set history=500
@@ -148,6 +149,11 @@ map <leader>f/ :History/<cr>
 map <leader>fg :GFiles<cr>
 map <leader>fs :GFiles?<cr>
 map <leader>fc :Commits<cr>
+
+" TAB remap
+imap <C-s>     <Plug>(neosnippet_expand_or_jump)
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Toggles
 nnoremap <leader>tt :TagbarToggle<CR>
@@ -235,8 +241,9 @@ set background=dark
 let g:gruvbox_contrast_dark = 'hard'
 colorscheme gruvbox
 highlight clear SignColumn
-highlight EndOfBuffer guifg=#161c26
+highlight EndOfBuffer guifg=#202020
 highlight Comment gui=italic cterm=italic
+highlight Whitespace ctermbg=NONE ctermfg=grey guifg=grey guibg=NONE
 highlight Normal guibg=NONE ctermbg=NONE
 highlight NonText ctermbg=NONE guibg=NONE
 highlight LineNr ctermbg=NONE guibg=NONE
@@ -455,13 +462,11 @@ function! VisualSelection(direction, extra_filter) range
     let @" = l:saved_reg
 endfunction
 
-fun! <SID>StripTrailingWhitespaces()
+fun! StripTrailingWhitespaces()
   let l = line(".")
   let c = col(".")
   %s/\s\+$//e
   call cursor(l, c)
 endfun
-
-autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
