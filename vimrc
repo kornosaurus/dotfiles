@@ -33,7 +33,6 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
-
 " Themes
 Plug 'dracula/vim'
 Plug 'morhetz/gruvbox'
@@ -41,7 +40,6 @@ Plug 'liuchengxu/space-vim-dark'
 Plug 'arcticicestudio/nord-vim'
 Plug 'joshdick/onedark.vim'
 Plug 'itchyny/landscape.vim'
-
 call plug#end()
 
 if executable('rg')
@@ -98,9 +96,6 @@ let g:ale_linters = {
 \   'javascript': ['eslint', 'flow'],
 \}
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set cursorline
 set signcolumn=yes
 set updatetime=100
@@ -131,38 +126,6 @@ set autoread
 let mapleader = " "
 let g:mapleader = " "
 
-" Fast saving
-nmap <leader>w :w!<cr>
-
-" SYNCING
-map <leader>s :!~/bin/stage-sync<CR>
-
-" fzf
-map <leader>fb :Buffers<CR>
-map <leader>ff :Files<CR>
-map <leader>fl :Lines<CR>
-map <leader>ft :Tags<cr>
-map <leader>fr :History<cr>
-map <leader>fh :Helptags<cr>
-map <leader>f: :History:<cr>
-map <leader>f/ :History/<cr>
-map <leader>fg :GFiles<cr>
-map <leader>fs :GFiles?<cr>
-map <leader>fc :Commits<cr>
-
-" TAB remap
-imap <C-s>     <Plug>(neosnippet_expand_or_jump)
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" Toggles
-nnoremap <leader>tt :TagbarToggle<CR>
-
-" :W sudo saves the file
-" (useful for handling the permission-denied error)
-command W w !sudo tee % > /dev/null
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -181,9 +144,6 @@ set wildmenu
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
-
-"Always show current position
-" set ruler
 
 " Height of the command bar
 set cmdheight=1
@@ -230,9 +190,6 @@ set novisualbell
 set t_vb=
 set tm=500
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
 syntax enable
 
@@ -261,18 +218,13 @@ lang en_US.UTF-8
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
 set nowb
 set noswapfile
 
+set laststatus=2
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use spaces instead of tabs
 set expandtab
 
@@ -296,17 +248,14 @@ set splitright
 
 set noshowmode " Dont show mode
 
-""""""""""""""""""""""""""""""
-" => Visual mode related
-""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"======================== MAPPINGS ========================="
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Moving around, tabs, windows and buffers
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Buffer nav
 map <leader><Tab> :b#<cr>
@@ -331,12 +280,6 @@ nmap <C-k> <C-W>k
 nmap <C-h> <C-W>h
 nmap <C-l> <C-W>l
 
-" Resize pane with arrow keys
-nnoremap <Left> :vertical resize -1<CR>
-nnoremap <Right> :vertical resize +1<CR>
-nnoremap <Up> :resize -1<CR>
-nnoremap <Down> :resize +1<CR>
-
 " Move cursor with C-hjkl in insert mode
 inoremap <C-K> <C-o>gk
 inoremap <C-H> <Left>
@@ -360,27 +303,13 @@ map <leader>ba :bufdo bd<cr>
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " Return to last edit position when opening files (You want this!)
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Status bar
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set laststatus=2
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Editing mappings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Remap VIM 0 to first non-blank character
 map 0 ^
 
 nmap <M-j> mz:m+<cr>`z
 nmap <M-k> mz:m-2<cr>`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Spell checking
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Pressing ,ss will toggle and un-toggle spell checking
 
 " Shortcuts using <leader>
 " map <leader>ss :setlocal spell!<cr>
@@ -388,11 +317,6 @@ vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 " map <leader>sp [s
 " map <leader>sa zg
 " map <leader>s? z=
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Misc
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " j/k will move virtual lines (lines that wrap)
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
@@ -412,6 +336,33 @@ vnoremap <leader>p "+p
 nnoremap <leader>p "+p
 nnoremap <leader>P "+P
 nnoremap <leader>p "+p
+
+" Fast saving
+nmap <leader>w :w!<cr>
+
+" SYNCING
+map <leader>s :!~/bin/stage-sync<CR>
+
+" fzf
+map <leader>fb :Buffers<CR>
+map <leader>ff :Files<CR>
+map <leader>fl :Lines<CR>
+map <leader>ft :Tags<cr>
+map <leader>fr :History<cr>
+map <leader>fh :Helptags<cr>
+map <leader>f: :History:<cr>
+map <leader>f/ :History/<cr>
+map <leader>fg :GFiles<cr>
+map <leader>fs :GFiles?<cr>
+map <leader>fc :Commits<cr>
+
+" TAB remap
+imap <C-s>     <Plug>(neosnippet_expand_or_jump)
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Toggles
+nnoremap <leader>tt :TagbarToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
@@ -470,3 +421,4 @@ fun! StripTrailingWhitespaces()
 endfun
 
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
+autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
