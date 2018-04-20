@@ -131,9 +131,6 @@ _yargs_completions()
 complete -F _yargs_completions diversity
 ###-end-diversity-completions-###
 
-alias em='emacsclient -a "" -c'
-alias emd='emacs --daemon'
-
 export LC_COLLATE="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
 export LC_MESSAGES="en_US.UTF-8"
@@ -145,7 +142,10 @@ export LC_ALL="c"
 export VISUAL=nvim
 
 # edit command in vim
-bindkey "^V" edit-command-line
+bindkey "^E" edit-command-line
+
+# title
+export ZSH_THEME_TERM_TITLE_IDLE="%1/"
 
 # Use fzf!
 if [ -e /usr/local/opt/fzf/shell/completion.zsh ]; then
