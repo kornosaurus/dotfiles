@@ -1,15 +1,14 @@
 call plug#begin('~/.local/share/nvim/plugged')
 " Languages
-Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
-Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'], 'do': 'npm install -g tern' }
-Plug 'wokalski/autocomplete-flow'
 
 " Other stuff
-Plug 'itchyny/lightline.vim'
+Plug 'mhartington/nvim-typescript'
+Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-surround'
-Plug '/usr/local/opt/fzf'
+Plug '/home/simonk/.fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'w0rp/ale'
 Plug 'mattn/emmet-vim'
@@ -25,8 +24,6 @@ Plug 'artur-shaik/vim-javacomplete2'
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'Shougo/neosnippet'
-  Plug 'Shougo/neosnippet-snippets'
 else
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
@@ -40,21 +37,16 @@ Plug 'liuchengxu/space-vim-dark'
 Plug 'arcticicestudio/nord-vim'
 Plug 'joshdick/onedark.vim'
 Plug 'itchyny/landscape.vim'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'sjl/badwolf'
 call plug#end()
 
 if executable('rg')
   set grepprg=rg\ --vimgrep
 endif
 
-let g:lightline = {
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'fugitive#head'
-      \ },
-      \ }
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'badwolf'
 
 let g:gitgutter_override_sign_column_highlight = 1
 let g:gitgutter_sign_added = '•'
@@ -64,12 +56,8 @@ let g:gitgutter_sign_removed_first_line = '•'
 let g:gitgutter_sign_modified_removed = '•'
 
 set completeopt-=preview
-let g:deoplete#sources#ternjs#types = 1
 let g:deoplete#enable_at_startup = 1
 let g:echodoc_enable_at_startup = 1
-let g:neosnippet#enable_completed_snippet = 1
-
-let g:startify_change_to_vcs_root = 1
 
 " dont map C-h
 let g:AutoPairsMapCh = 0
@@ -99,7 +87,7 @@ let g:ale_linters = {
 set cursorline
 set signcolumn=yes
 set updatetime=100
-set tags=./tags;/
+set tags=./tags
 
 let g:netrw_banner = 0
 let g:netrw_winsize = 20
@@ -196,7 +184,7 @@ syntax enable
 set termguicolors
 set background=dark
 let g:gruvbox_contrast_dark = 'hard'
-colorscheme gruvbox
+colorscheme space-vim-dark
 highlight clear SignColumn
 highlight EndOfBuffer guifg=#202020
 highlight Comment gui=italic cterm=italic
@@ -232,8 +220,8 @@ set expandtab
 set smarttab
 
 " 1 tab == 2 spaces
-set shiftwidth=2
-set tabstop=2
+set shiftwidth=4
+set tabstop=4
 
 " Linebreak on 500 characters
 set lbr
@@ -357,7 +345,6 @@ map <leader>fs :GFiles?<cr>
 map <leader>fc :Commits<cr>
 
 " TAB remap
-imap <C-s>     <Plug>(neosnippet_expand_or_jump)
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
@@ -422,3 +409,5 @@ endfun
 
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" set filetypes as typescript.jsx
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.jsx

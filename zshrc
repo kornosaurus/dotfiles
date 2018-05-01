@@ -1,12 +1,12 @@
+export LC_ALL="en_US.UTF-8"
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ '
 # This is for autocompleting api function
 fpath=(~/bin $fpath)
-# If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:/opt/local/bin:$HOME/Apps/alacritty/target/release:$HOME/.cargo/bin:$PATH
 
-# Passwords and Tokens
-export DS_API_PASSWD="R-_-=xspq|e896w"
-export POEDITOR_API_TOKEN="db3f89b335a1aeed425a06dbf7635f6b"
+export ANT_HOME="/home/simonk/Apps/apache-ant-1.10.3"
+
+# If you come from bash you might have to change your $PATH.
+export PATH=$HOME/bin:/usr/local/bin:/opt/local/bin:$HOME/Apps/alacritty/target/release:$HOME/.cargo/bin:$PATH:$ANT_HOME/bin
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -60,7 +60,7 @@ ZSH_THEME="kornosaurus"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -137,7 +137,7 @@ export LC_MESSAGES="en_US.UTF-8"
 export LC_MONETARY="en_US.UTF-8"
 export LC_NUMERIC="en_US.UTF-8"
 export LC_TIME="en_US.UTF-8"
-export LC_ALL="c"
+export LC_ALL="C"
 
 export VISUAL=nvim
 
