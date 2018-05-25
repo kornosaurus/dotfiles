@@ -223,7 +223,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id setxkbmap -option caps:escape &
 
 # Bar
-exec_always --no-startup-id /home/simonk/bin/launch_polybar.sh
+exec_always --no-startup-id ~/bin/launch-polybar
 
 # Music
 exec --no-startup-id nohup mopidy > ~/.nohup
