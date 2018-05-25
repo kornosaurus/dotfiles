@@ -25,7 +25,7 @@ height = 27
 ;offset-x = 1%
 ;offset-y = 1%
 radius = 0.0
-fixed-center = false
+fixed-center = true
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -43,9 +43,9 @@ font-0 = fixed:pixelsize=10;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = Siji:pixelsize=10;1
 
-modules-left = i3
+modules-left = i3 mpd
 modules-center = xwindow
-modules-right = filesystem xbacklight volume xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-right = filesystem xbacklight volume xkeyboard memory cpu vpn wlan eth battery temperature date powermenu
 
 ;wm-restack = bspwm
 wm-restack = i3
@@ -146,7 +146,7 @@ label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
 [module/mpd]
 type = internal/mpd
-format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+format-online = <icon-prev> <icon-stop> <toggle> <icon-next>  <label-song>
 
 icon-prev = 
 icon-stop = 
@@ -154,7 +154,7 @@ icon-play = 
 icon-pause = 
 icon-next = 
 
-label-song-maxlen = 25
+label-song-maxlen = 50
 label-song-ellipsis = true
 
 [module/xbacklight]
@@ -195,9 +195,17 @@ format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
 label = %percentage_used%%
 
+[module/vpn]
+type = custom/script
+exec = ~/bin/polybar/vpn
+exec-if = ~/bin/polybar/vpn
+interval = 3.0
+format-prefix-foreground = ${colors.foreground-alt}
+format-prefix = " "
+
 [module/wlan]
 type = internal/network
-interface = wlp0s20u3u2
+interface = wlp2s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
@@ -219,7 +227,7 @@ ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
-interface = eno1
+interface = enx1065300c3315
 interval = 3.0
 
 format-connected-underline = #55aa55
@@ -345,10 +353,10 @@ menu-0-1-exec = menu-open-2
 menu-1-0 = cancel
 menu-1-0-exec = menu-open-0
 menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
+menu-1-1-exec = systemctl reboot
 
 menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
+menu-2-0-exec = systemctl poweroff -i
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
 

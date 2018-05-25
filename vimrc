@@ -1,11 +1,19 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                                           "
+"                         PLUG                              "
+"                                                           "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
 " Languages
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
+Plug 'calviken/vim-gdscript3'
+
 
 " Other stuff
-Plug 'mhartington/nvim-typescript'
+Plug 'godlygeek/tabular'
+Plug 'Shougo/echodoc.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-surround'
 Plug '/home/simonk/.fzf'
@@ -14,21 +22,18 @@ Plug 'w0rp/ale'
 Plug 'mattn/emmet-vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'mhinz/vim-startify'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'majutsushi/tagbar'
 Plug 'airblade/vim-gitgutter'
-Plug 'Shougo/echodoc.vim'
-Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-fugitive'
-Plug 'artur-shaik/vim-javacomplete2'
+" Plug 'artur-shaik/vim-javacomplete2'
 
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+" Plug 'ludovicchabant/vim-gutentags'
+" Plug 'majutsushi/tagbar'
+
+Plug 'francoiscabrol/ranger.vim'
+Plug 'rbgrouleff/bclose.vim'
+Plug 'ryanoasis/vim-devicons'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'mhartington/nvim-typescript'
 
 " Themes
 Plug 'dracula/vim'
@@ -41,6 +46,36 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'sjl/badwolf'
 call plug#end()
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                                           "
+"                       COLORS                              "
+"                                                           "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+syntax enable
+
+set termguicolors
+set background=dark
+colorscheme badwolf
+highlight EndOfBuffer guifg=#202020
+highlight Comment gui=italic cterm=italic
+highlight Whitespace ctermbg=NONE ctermfg=grey guifg=grey guibg=NONE
+highlight Normal guibg=NONE ctermbg=NONE
+highlight NonText ctermbg=NONE guibg=NONE
+highlight LineNr ctermbg=NONE guibg=NONE guifg=grey
+highlight CursorLineNr ctermbg=NONE guibg=NONE
+highlight SignColumn ctermbg=NONE guibg=NONE
+highlight ALEErrorSign ctermbg=NONE ctermfg=red guifg=red guibg=NONE
+highlight ALEWarningSign ctermbg=NONE ctermfg=yellow guifg=yellow guibg=NONE
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                                           "
+"                         OPTIONS                           "
+"                                                           "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:vim_markdown_folding_disabled = 1
+
 if executable('rg')
   set grepprg=rg\ --vimgrep
 endif
@@ -48,7 +83,10 @@ endif
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'badwolf'
 
-let g:gitgutter_override_sign_column_highlight = 1
+let g:nvim_typescript#max_completion_detail=100
+let g:nvim_typescript#javascript_support=1
+let g:nvim_typescript#server_path='/usr/local/bin/tsserver'
+
 let g:gitgutter_sign_added = '•'
 let g:gitgutter_sign_modified = '•'
 let g:gitgutter_sign_removed = '•'
@@ -57,24 +95,18 @@ let g:gitgutter_sign_modified_removed = '•'
 
 set completeopt-=preview
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#min_pattern_length = 1
+let g:deoplete#auto_complete_delay = 0
+let g:deoplete#sources = {}
+let g:deoplete#omni_patterns = {}
+let g:deoplete#sources.typescript = ['typescript', 'file']
+let g:deoplete#sources['typescript.jsx'] = ['typescript', 'file']
+
 let g:echodoc_enable_at_startup = 1
 
-" dont map C-h
-let g:AutoPairsMapCh = 0
+" Stop mapping!
 let g:JavaComplete_EnableDefaultMappings = 0
-
-if has('nvim')
-  autocmd TabNewEntered * Startify
-else
-  autocmd VimEnter * let t:startify_new_tab = 1
-  autocmd BufEnter *
-        \ if !exists('t:startify_new_tab') && empty(expand('%')) |
-        \   let t:startify_new_tab = 1 |
-        \   Startify |
-        \ endif
-endif
-
-command Note :split ~/notes/notes.md
+let g:ranger_map_keys = 0
 
 let g:ale_fixers = {
 \   'javascript': ['eslint'],
@@ -114,17 +146,8 @@ set autoread
 let mapleader = " "
 let g:mapleader = " "
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set 7 lines to the cursor - when moving vertically using j/k
 set so=7
-
-" Avoid garbled characters in Chinese language windows OS
-let $LANG='en'
-set langmenu=en
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
 
 " Turn on the WiLd menu
 set wildmenu
@@ -178,24 +201,6 @@ set novisualbell
 set t_vb=
 set tm=500
 
-" Enable syntax highlighting
-syntax enable
-
-set termguicolors
-set background=dark
-let g:gruvbox_contrast_dark = 'hard'
-colorscheme space-vim-dark
-highlight clear SignColumn
-highlight EndOfBuffer guifg=#202020
-highlight Comment gui=italic cterm=italic
-highlight Whitespace ctermbg=NONE ctermfg=grey guifg=grey guibg=NONE
-highlight Normal guibg=NONE ctermbg=NONE
-highlight NonText ctermbg=NONE guibg=NONE
-highlight LineNr ctermbg=NONE guibg=NONE
-highlight CursorLineNr ctermbg=NONE guibg=NONE
-highlight SignColumn ctermbg=NONE guibg=NONE
-highlight ALEErrorSign ctermbg=NONE ctermfg=red guifg=red guibg=NONE
-highlight ALEWarningSign ctermbg=NONE ctermfg=yellow guifg=yellow guibg=NONE
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 
@@ -237,8 +242,12 @@ set splitright
 set noshowmode " Dont show mode
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"======================== MAPPINGS ========================="
+"                                                           "
+"                         MAPPINGS                          "
+"                                                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
@@ -274,6 +283,8 @@ inoremap <C-H> <Left>
 inoremap <C-L> <Right>
 inoremap <C-J> <C-o>gj
 nnoremap / /\v
+
+nnoremap <leader>e :Ranger<CR>
 
 " Disable arrow keys completely in Insert Mode
 imap <up> <nop>
@@ -344,16 +355,11 @@ map <leader>fg :GFiles<cr>
 map <leader>fs :GFiles?<cr>
 map <leader>fc :Commits<cr>
 
-" TAB remap
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" Toggles
-nnoremap <leader>tt :TagbarToggle<CR>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helper functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                                           "
+"                         FUNCTIONS                         "
+"                                                           "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Don't close window, when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
@@ -407,7 +413,34 @@ fun! StripTrailingWhitespaces()
   call cursor(l, c)
 endfun
 
+function! StartifyEntryFormat()
+    return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+endfunction
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                                           "
+"                      AUTO COMMANDS                        "
+"                                                           "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-" set filetypes as typescript.jsx
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.jsx
+
+" TODO: Find who unsets this!
+autocmd BufEnter * set noshowmode
+
+" Cant debug this now but something clears SignColumn, cant be found with :verbose
+autocmd VimEnter * highlight GitGutterAdd guifg=lightgreen | highlight GitGutterDelete guifg=red | highlight GitGutterChange guifg=yellow | highlight GitGutterChangeDelete guifg=red
+
+if has('nvim')
+  autocmd TabNewEntered * Startify
+else
+  autocmd VimEnter * let t:startify_new_tab = 1
+  autocmd BufEnter *
+        \ if !exists('t:startify_new_tab') && empty(expand('%')) |
+        \   let t:startify_new_tab = 1 |
+        \   Startify |
+        \ endif
+endif
+

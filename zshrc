@@ -1,12 +1,9 @@
 export LC_ALL="en_US.UTF-8"
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ '
-# This is for autocompleting api function
-fpath=(~/bin $fpath)
-
 export ANT_HOME="/home/simonk/Apps/apache-ant-1.10.3"
 
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:/opt/local/bin:$HOME/Apps/alacritty/target/release:$HOME/.cargo/bin:$PATH:$ANT_HOME/bin
+export PATH=$HOME/bin:$HOME/bin/work/:/usr/local/bin:/opt/local/bin:$HOME/Apps/alacritty/target/release:$HOME/.cargo/bin:$PATH:$ANT_HOME/bin:/home/simonk/.local/bin
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -60,7 +57,7 @@ ZSH_THEME="kornosaurus"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -69,7 +66,9 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -131,13 +130,12 @@ _yargs_completions()
 complete -F _yargs_completions diversity
 ###-end-diversity-completions-###
 
+export LC_ALL="en_US.UTF-8"
 export LC_COLLATE="en_US.UTF-8"
-export LC_CTYPE="en_US.UTF-8"
 export LC_MESSAGES="en_US.UTF-8"
 export LC_MONETARY="en_US.UTF-8"
 export LC_NUMERIC="en_US.UTF-8"
 export LC_TIME="en_US.UTF-8"
-export LC_ALL="C"
 
 export VISUAL=nvim
 
@@ -154,9 +152,8 @@ if [ -e /usr/local/opt/fzf/shell/completion.zsh ]; then
 fi
 
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_COMMAND='rg --hidden --files --null | xargs -0 dirname | uniq'
 export FZF_DEFAULT_OPTS="--color bg+:'#202020'"
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
