@@ -1,5 +1,4 @@
 export LC_ALL="en_US.UTF-8"
-[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ '
 export ANT_HOME="/home/simonk/Apps/apache-ant-1.10.3"
 
 # If you come from bash you might have to change your $PATH.
@@ -9,6 +8,9 @@ export PATH=$HOME/bin:$HOME/bin/work/:/usr/local/bin:/opt/local/bin:$HOME/Apps/a
 export ZSH=~/.oh-my-zsh
 
 export EDITOR=nvim
+export BROWSER=qutebrowser
+
+export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -57,7 +59,7 @@ ZSH_THEME="kornosaurus"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -140,7 +142,7 @@ export LC_TIME="en_US.UTF-8"
 export VISUAL=nvim
 
 # edit command in vim
-bindkey "^E" edit-command-line
+bindkey "^z" edit-command-line
 
 # title
 export ZSH_THEME_TERM_TITLE_IDLE="%1/"
@@ -151,9 +153,12 @@ if [ -e /usr/local/opt/fzf/shell/completion.zsh ]; then
   source /usr/local/opt/fzf/shell/completion.zsh
 fi
 
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,gen,node_modules}/**" 2> /dev/null'
 export FZF_CTRL_T_COMMAND='rg --hidden --files --null | xargs -0 dirname | uniq'
-export FZF_DEFAULT_OPTS="--color bg+:'#202020'"
 
+# nord: #2E3440
+# papercolor light: #EEEEEE
+export FZF_DEFAULT_OPTS="--color bg+:'#2E3440'"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+

@@ -50,6 +50,11 @@ modules-right = filesystem xbacklight volume xkeyboard memory cpu vpn wlan eth b
 ;wm-restack = bspwm
 wm-restack = i3
 
+; HACK: 
+; SHOW TRAY AND HIDE IT, pgadmin4 crashes without it
+tray-position = right
+tray-scale = 0.0
+
 ;override-redirect = true
 
 ;scroll-up = bspwm-desknext
