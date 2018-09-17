@@ -1,6 +1,5 @@
 # Configuration for Alacritty, the GPU enhanced terminal emulator
 
-
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty it self.
@@ -28,8 +27,8 @@ window:
   # Units are physical pixels; this is not DPI aware.
   # (change requires restart)
   padding:
-    x: 2
-    y: 2
+    x: 25
+    y: 20
 
   # Window decorations
   # Setting this to false will result in window without borders and title bar.
@@ -87,13 +86,13 @@ font:
   normal:
     family: Iosevka
     # Style can be specified to pick a specific face.
-    style: regular
+    style: Medium
 
   # The bold font face
   bold:
     family: Iosevka
     # Style can be specified to pick a specific face.
-    style: bold
+    style: Bold
 
   # The italic font face
   italic:
@@ -102,22 +101,20 @@ font:
     style: Italic
 
   # Point size of the font
-  size: 13.0
-  # Laptop
-  # size: 10.0
+  size: 12.0
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
   offset:
-    x: 0.0
-    y: 0.0
+    x: 0
+    y: 0
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increase the x offset to move the glyph to
   # the right, increase the y offset to move the glyph upward.
   glyph_offset:
-    x: 0.0
-    y: 0.0
+    x: 0
+    y: 0
 
   # OS X only: use thin stroke font rendering. Thin strokes are suitable
   # for retina displays, but for non-retina you probably want this set to
@@ -191,28 +188,46 @@ colors:
   primary:
     background: '0x282a36'
     foreground: '0xf8f8f2'
-  
-  # Normal colors
-  normal:
-    black:   '0x000000'
-    red:     '0xff5555'
-    green:   '0x50fa7b'
-    yellow:  '0xf1fa8c'
-    blue:    '0xcaa9fa'
-    magenta: '0xff79c6'
-    cyan:    '0x8be9fd'
-    white:   '0xbfbfbf'
-  
-  # Bright colors
   bright:
-    black:   '0x282a35'
-    red:     '0xff6e67'
-    green:   '0x5af78e'
-    yellow:  '0xf4f99d'
-    blue:    '0xcaa9fa'
-    magenta: '0xff92d0'
-    cyan:    '0x9aedfe'
-    white:   '0xe6e6e6'
+    black: '0x555f69'
+    red: '0xfc4474'
+    green: '0x96e931'
+    yellow: '0xe89e0f'
+    blue: '0x4083cd'
+    magenta: '0xd358d5'
+    cyan: '0x22abbb'
+    white: '0xdfdfdf'
+  normal:
+    black: '0x555f69'
+    red: '0xfc4474'
+    green: '0x96e931'
+    yellow: '0xe89e0f'
+    blue: '0x4083cd'
+    magenta: '0xd358d5'
+    cyan: '0x22abbb'
+    white: '0xdfdfdf'
+
+  # Normal colors
+  # normal:
+  #   black:   '0x000000'
+  #   red:     '0xff5555'
+  #   green:   '0x50fa7b'
+  #   yellow:  '0xf1fa8c'
+  #   blue:    '0xcaa9fa'
+  #   magenta: '0xff79c6'
+  #   cyan:    '0x8be9fd'
+  #   white:   '0xbfbfbf'
+  # 
+  # # Bright colors
+  # bright:
+  #   black:   '0x282a35'
+  #   red:     '0xff6e67'
+  #   green:   '0x5af78e'
+  #   yellow:  '0xf4f99d'
+  #   blue:    '0xcaa9fa'
+  #   magenta: '0xff92d0'
+  #   cyan:    '0x9aedfe'
+  #   white:   '0xe6e6e6'
 
   # Colors (Solarized Dark)
   # Default colors
@@ -297,7 +312,7 @@ visual_bell:
   duration: 0
 
 # Background opacity
-background_opacity: 1.00 
+background_opacity: 0.93 
 
 # Mouse bindings
 #

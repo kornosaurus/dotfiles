@@ -52,11 +52,9 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+Return exec alacritty -e nvim
 
 bindsym $mod+Shift+f exec alacritty -e ranger  # Filebrowser
-bindsym $mod+Shift+m exec alacritty -e neomutt # Mail
 bindsym $mod+Shift+n exec alacritty -e ncmpcpp # Music
-bindsym $mod+Shift+b exec firefox              # Browser
-bindsym $mod+Shift+o exec oni              # Browser
-bindsym $mod+$sup+b exec qutebrowser           # Browser#2
+bindsym $mod+Shift+b exec qutebrowser          # Browser
+bindsym $sup+b exec qutebrowser --enable-webengine-inspector
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -193,7 +191,7 @@ bindsym $mod+Ctrl+Shift+h resize grow width 10 px or 10 ppt
 exec --no-startup-id nitrogen --restore
 
 # Composition manager
-exec_always --no-startup-id compton -b
+exec --no-startup-id compton -b
 
 # Network manager
 exec --no-startup-id nm-applet
@@ -210,6 +208,16 @@ exec --no-startup-id while :; do; yes $’\n’ | nc -lu 127.0.0.1 5555 > /tmp/m
 
 exec --no-startup-id fcitx
 
+# notifications 
+exec killall -q notify-osd
+exec --no-startup-id dunst
+
+#############################
+###      window rules     ###
+#############################
+for_window [title="qutebrowser edit"] floating enabled
+
+
 #############################
 ### settings for i3-gaps: ###
 #############################
@@ -221,5 +229,14 @@ bindsym $mod+a gaps outer current set 0; gaps inner current set 0
 bindsym $mod+Shift+a gaps outer current set 15; gaps inner current set 10
 
 # Set inner/outer gaps
-gaps inner 10
-gaps outer 15
+# smart_gaps on
+gaps inner 15
+gaps outer 10
+
+# class                 border  backgr. text    indicator child_border
+client.focused          #bd93f9 #285577 #ffffff #4e5166   #4e5166 
+client.focused_inactive #282a36 #222222 #888888 #323444   #323444
+client.unfocused        #282a36 #222222 #888888 #323444   #323444 
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+client.background       #ffffff

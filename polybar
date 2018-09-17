@@ -9,19 +9,25 @@
 
 [colors]
 ;background = ${xrdb:color0:#222}
-background = #7F000000
-background-alt = #55000000
+; background = #80282a36
+; background-alt = #80282a36
 ;foreground = ${xrdb:color7:#222}
-foreground = #dfdfdf
-foreground-alt = #999
-primary = #ffb52a
-secondary = #e60053
-alert = #bd2c40
+; foreground = #f8f8f2
+; foreground-alt = #bd93f9
+; primary = #ffb52a
+; secondary = #bd93f9
+; alert = #bd2c40
+background = ${xrdb:color0:#222}
+foreground = ${xrdb:color7:#222}
+foreground-alt = ${xrdb:color1:#222}
+primary = ${xrdb:color1:#222}
+secondary = ${xrdb:color2:#222}
+alert = ${xrdb:color3:#222}
 
 [bar/mybar]
 monitor = ${env:MONITOR:}
 width = 100%
-height = 27
+height = 32
 ;offset-x = 1%
 ;offset-y = 1%
 radius = 0.0
@@ -39,21 +45,21 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = fixed:pixelsize=10;1
+font-0 = Tamzen:pixelsize=13;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = Siji:pixelsize=10;1
 
-modules-left = i3 mpd
-modules-center = xwindow
-modules-right = filesystem xbacklight volume xkeyboard memory cpu vpn wlan eth battery temperature date powermenu
+modules-left = i3
+modules-center = mpd
+modules-right = volume xkeyboard memory cpu vpn wlan eth battery date
 
 ;wm-restack = bspwm
 wm-restack = i3
 
 ; HACK: 
 ; SHOW TRAY AND HIDE IT, pgadmin4 crashes without it
-tray-position = right
-tray-scale = 0.0
+; tray-position = right
+; tray-scale = 0.0
 
 ;override-redirect = true
 
@@ -100,7 +106,7 @@ label-unmounted-foreground = ${colors.foreground-alt}
 type = internal/bspwm
 
 label-focused = %index%
-label-focused-background = ${colors.background-alt}
+label-focused-background = ${colors.background}
 label-focused-underline= ${colors.primary}
 label-focused-padding = 2
 
@@ -125,11 +131,12 @@ wrapping-scroll = false
 ;pin-workspaces = true
 
 label-mode-padding = 2
-label-mode-foreground = #000
-label-mode-background = ${colors.primary}
+label-mode-foreground = ${colors.primary}
+label-mode-background = ${colors.background}
 
 ; focused = Active workspace on focused monitor
 label-focused = %index%
+label-focused-foreground = ${colors.foreground-alt}
 label-focused-background = ${module/bspwm.label-focused-background}
 label-focused-underline = ${module/bspwm.label-focused-underline}
 label-focused-padding = ${module/bspwm.label-focused-padding}
@@ -151,7 +158,7 @@ label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
 [module/mpd]
 type = internal/mpd
-format-online = <icon-prev> <icon-stop> <toggle> <icon-next>  <label-song>
+format-online = <icon-prev><toggle><icon-next>  <label-song>  [<label-time>]
 
 icon-prev = 
 icon-stop = 
@@ -274,13 +281,13 @@ format-muted-foreground = ${colors.foreground-alt}
 label-muted = sound muted
 
 bar-volume-width = 10
-bar-volume-foreground-0 = #55aa55
-bar-volume-foreground-1 = #55aa55
-bar-volume-foreground-2 = #55aa55
-bar-volume-foreground-3 = #55aa55
-bar-volume-foreground-4 = #55aa55
-bar-volume-foreground-5 = #f5a70a
-bar-volume-foreground-6 = #ff5555
+bar-volume-foreground-0 = ${colors.primary}
+bar-volume-foreground-1 = ${colors.primary}
+bar-volume-foreground-2 = ${colors.primary}
+bar-volume-foreground-3 = ${colors.primary}
+bar-volume-foreground-4 = ${colors.primary}
+bar-volume-foreground-5 = ${colors.primary}
+bar-volume-foreground-6 = ${colors.primary}
 bar-volume-gradient = false
 bar-volume-indicator = |
 bar-volume-indicator-font = 2
@@ -288,7 +295,7 @@ bar-volume-fill = ─
 bar-volume-fill-font = 2
 bar-volume-empty = ─
 bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground-alt}
+bar-volume-empty-foreground = ${colors.foreground}
 
 [module/battery]
 type = internal/battery

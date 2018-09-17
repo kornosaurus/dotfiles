@@ -1,3 +1,4 @@
+(cat ~/.cache/wal/sequences &)
 export LC_ALL="en_US.UTF-8"
 export ANT_HOME="/home/simonk/Apps/apache-ant-1.10.3"
 
@@ -99,38 +100,7 @@ export NVM_DIR="/Users/simon/.nvm"
 
 # Aliases
 
-###-begin-diversity-completions-###
-#
-# yargs command completion script
-#
-# Installation: diversity completion >> ~/.bashrc
-#    or diversity completion >> ~/.bash_profile on OSX.
-#
-
-autoload bashcompinit
-bashcompinit
-
-_yargs_completions()
-{
-    local cur_word args type_list
-
-    cur_word="${COMP_WORDS[COMP_CWORD]}"
-    args=("${COMP_WORDS[@]}")
-
-    # ask yargs to generate completions.
-    type_list=$(diversity --get-yargs-completions "${args[@]}")
-
-    COMPREPLY=( $(compgen -W "${type_list}" -- ${cur_word}) )
-
-    # if no match was found, fall back to filename completion
-    if [ ${#COMPREPLY[@]} -eq 0 ]; then
-      COMPREPLY=( $(compgen -f -- "${cur_word}" ) )
-    fi
-
-    return 0
-}
-complete -F _yargs_completions diversity
-###-end-diversity-completions-###
+(cat ~/.cache/wal/sequences &)
 
 export LC_ALL="en_US.UTF-8"
 export LC_COLLATE="en_US.UTF-8"
@@ -140,9 +110,6 @@ export LC_NUMERIC="en_US.UTF-8"
 export LC_TIME="en_US.UTF-8"
 
 export VISUAL=nvim
-
-# edit command in vim
-bindkey "^z" edit-command-line
 
 # title
 export ZSH_THEME_TERM_TITLE_IDLE="%1/"
@@ -159,6 +126,33 @@ export FZF_CTRL_T_COMMAND='rg --hidden --files --null | xargs -0 dirname | uniq'
 # nord: #2E3440
 # papercolor light: #EEEEEE
 export FZF_DEFAULT_OPTS="--color bg+:'#2E3440'"
+
+# VI mode
+bindkey -v
+export KEYTIMEOUT=1
+
+# Better searching in command mode
+bindkey -M vicmd '?' history-incremental-search-backward
+bindkey -M vicmd '/' history-incremental-search-forward
+
+# Beginning search with arrow keys
+bindkey "^[OA" up-line-or-beginning-search
+bindkey "^[OB" down-line-or-beginning-search
+bindkey -M vicmd "k" up-line-or-beginning-search
+bindkey -M vicmd "j" down-line-or-beginning-search
+
+# edit command in vim
+bindkey "^e" edit-command-line
+
+# Allow Ctrl-z to toggle between suspend and resume 
+function Resume {  
+    fg
+    zle push-input 
+    BUFFER=""
+    zle accept-line
+} 
+zle -N Resume
+bindkey "^Z" Resume
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
