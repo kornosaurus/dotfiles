@@ -24,10 +24,13 @@ hide_edge_borders none
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
-#
+
 bindsym XF86AudioRaiseVolume exec amixer sset Master 5%+
 bindsym XF86AudioLowerVolume exec amixer sset Master 5%-
 bindsym XF86AudioMute exec amixer sset Master toggle
+bindsym XF86AudioPlay exec mpc-play
+bindsym XF86AudioNext exec mpc next > /dev/null
+bindsym XF86AudioPrev exec mpc prev > /dev/null
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
@@ -53,6 +56,7 @@ bindsym $mod+Shift+Return exec alacritty -e nvim
 
 bindsym $mod+Shift+f exec alacritty -e ranger  # Filebrowser
 bindsym $mod+Shift+n exec alacritty -e ncmpcpp # Music
+bindsym $mod+Shift+o exec oni                  # Editor
 bindsym $mod+Shift+b exec qutebrowser          # Browser
 bindsym $sup+b exec qutebrowser --enable-webengine-inspector
 
@@ -188,7 +192,7 @@ bindsym $mod+Ctrl+Shift+h resize grow width 10 px or 10 ppt
 # Autostart applications #
 ##########################
 
-exec --no-startup-id nitrogen --restore
+exec_always --no-startup-id wal -R
 
 # Composition manager
 exec --no-startup-id compton -b
@@ -208,7 +212,7 @@ exec --no-startup-id while :; do; yes $’\n’ | nc -lu 127.0.0.1 5555 > /tmp/m
 
 exec --no-startup-id fcitx
 
-# notifications 
+# notifications
 exec killall -q notify-osd
 exec --no-startup-id dunst
 
@@ -234,9 +238,9 @@ gaps inner 15
 gaps outer 10
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #bd93f9 #285577 #ffffff #4e5166   #4e5166 
+client.focused          #bd93f9 #285577 #ffffff #4e5166   #4e5166
 client.focused_inactive #282a36 #222222 #888888 #323444   #323444
-client.unfocused        #282a36 #222222 #888888 #323444   #323444 
+client.unfocused        #282a36 #222222 #888888 #323444   #323444
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
 client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 client.background       #ffffff

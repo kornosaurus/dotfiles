@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+import os
+import sys
+import yaml
+
+if len(sys.argv) == 2:
+    wallpaper = sys.argv[1]
+else:
+    print('Usage: pywal-set <wallpaper>')
+    exit(0)
+
+os.system("wal -i %s" % wallpaper)
+
+with open('/home/simonk/.cache/wal/colors.yml', 'r') as color_file:
+    with open('/home/simonk/.alacritty.yml', 'r') as alacritty_file:
+        # not 100%, wont set all 16 colors correctly
+        colors = yaml.load(color_file)
+        alacritty = yaml.load(alacritty_file)
+
+        alacritty['colors']['cursor'] = {
+            'cursor': colors['special']['cursor'].replace('#', '0x'),
+            'text': colors['special']['background'].replace('#', '0x')
+        }
+
+        alacritty['colors']['primary'] = {
+            'foreground': colors['special']['foreground'].replace('#', '0x'),
+            'background': colors['special']['background'].replace('#', '0x'),
+        }
+
+        alacritty['colors']['normal'] = {
+            'black': colors['colors']['color0'].replace('#', '0x'),
+            'red': colors['colors']['color1'].replace('#', '0x'),
+            'green': colors['colors']['color2'].replace('#', '0x'),
+            'yellow': colors['colors']['color3'].replace('#', '0x'),
+            'blue': colors['colors']['color4'].replace('#', '0x'),
+            'magenta': colors['colors']['color5'].replace('#', '0x'),
+            'cyan': colors['colors']['color6'].replace('#', '0x'),
+            'white': colors['colors']['color7'].replace('#', '0x')
+        }
+
+        alacritty['colors']['bright'] = {
+            'black': colors['colors']['color8'].replace('#', '0x'),
+            'red': colors['colors']['color9'].replace('#', '0x'),
+            'green': colors['colors']['color10'].replace('#', '0x'),
+            'yellow': colors['colors']['color11'].replace('#', '0x'),
+            'blue': colors['colors']['color12'].replace('#', '0x'),
+            'magenta': colors['colors']['color13'].replace('#', '0x'),
+            'cyan': colors['colors']['color14'].replace('#', '0x'),
+            'white': colors['colors']['color15'].replace('#', '0x')
+        }
+
+with open('/home/simonk/.alacritty.yml', 'w') as outfile:
+    yaml.dump(alacritty, outfile, default_flow_style=False)

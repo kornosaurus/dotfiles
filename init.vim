@@ -4,8 +4,6 @@
 "                                                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'calviken/vim-gdscript3'
-
 Plug 'ap/vim-css-color'
 Plug 'Shougo/echodoc.vim'
 Plug 'mhinz/vim-startify'
@@ -13,23 +11,28 @@ Plug 'tpope/vim-surround'
 Plug 'wellle/targets.vim'
 Plug '/home/simonk/.fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'w0rp/ale'
-Plug 'mattn/emmet-vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
 
+Plug 'w0rp/ale'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'starcraftman/vim-eclim'
+Plug 'davidhalter/jedi-vim'
+Plug 'zchee/deoplete-jedi'
 Plug 'racer-rust/vim-racer'
+
+Plug 'HerringtonDarkholme/yats.vim'
+
+Plug 'mattn/emmet-vim'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'plasticboy/vim-markdown'
+Plug 'vimwiki/vimwiki'
 
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
-Plug 'dracula/vim'
-Plug 'liuchengxu/space-vim-dark'
-Plug 'dylanaraps/wal.vim'
+Plug 'chriskempson/base16-vim'
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -39,14 +42,17 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax enable
 
-" set termguicolors
+set termguicolors
 set background=dark
 
-colorscheme wal
+colorscheme base16-tomorrow-night
+let g:airline_theme='base16_tomorrow'
+let g:airline_powerline_fonts = 1
 
 highlight EndOfBuffer guifg=grey
-highlight Comment guifg=#5C6370
-highlight StatusLine guibg=NONE ctermbg=NONE
+highlight Comment cterm=italic
+highlight CursorLineNr ctermfg=1
+highlight StatusLine guibg=NONE ctermfg=2 ctermbg=0
 highlight Whitespace ctermbg=NONE ctermfg=grey guifg=#282726 guibg=NONE
 highlight Normal guibg=NONE ctermbg=NONE
 highlight NonText ctermbg=NONE guibg=NONE
@@ -62,6 +68,9 @@ highlight ALEWarningSign ctermbg=NONE ctermfg=yellow guifg=yellow guibg=NONE
 "                         OPTIONS                           "
 "                                                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:vimwiki_list = [{ 'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md' }]
+
 let g:startify_lists = [
             \ { 'type': 'files',     'header': ['   MRU']            },
             \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
@@ -69,12 +78,14 @@ let g:startify_lists = [
             \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
             \ { 'type': 'commands',  'header': ['   Commands']       },
             \ ]
-let g:startify_bookmarks = [ 
+let g:startify_bookmarks = [
             \ {'c': '~/.config/nvim/init.vim' },
             \ {'z': '~/.zshrc'                },
             \ {'a': '~/.alacritty.yml'        },
             \ {'i': '~/.config/i3/config'     },
             \ ]
+
+let g:startify_change_to_vcs_root = 1
 
 let g:fzf_command_prefix = 'Fzf'
 
@@ -91,23 +102,23 @@ let g:nvim_typescript#server_path='/usr/local/bin/tsserver'
 
 let g:racer_cmd = "/home/simonk/.cargo/bin/racer"
 let g:racer_experimental_completer = 1
-let g:startify_change_to_vcs_root = 1
 
 set completeopt-=preview
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#min_pattern_length = 2
 let g:deoplete#enable_smart_case = 1
 let g:deoplete#file#enable_buffer_path = 1
 let g:deoplete#disable_auto_complete = 1
 
+call deoplete#custom#option('ignore_sources', {'_': ['buffer']})
 let g:deoplete#omni#input_patterns = {}
-let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
-let g:deoplete#omni#input_patterns.typescript = '[^. *\t]\.\w*'
-let g:deoplete#omni#input_patterns.javascript = '[^. *\t]\.\w*'
-let g:deoplete#omni#input_patterns.typescriptreact = '[^. *\t]\.\w*'
+let g:deoplete#omni#input_patterns.java = '[\w\.]+'
+let g:deoplete#omni#input_patterns.html = '<[^>]*'
+let g:deoplete#omni#input_patterns.xml  = '<[^>]*'
+let g:deoplete#omni#input_patterns.md   = '<[^>]*'
+let g:deoplete#omni#input_patterns.css   = '[\w:]+'
+let g:deoplete#omni#input_patterns.scss   = '[\w:]+'
 
-let g:EclimCompletionMethod = 'omnifunc'
-let g:EclimJavaSearchSingleResult = 'edit'
+let g:nvim_typescript#diagnostics_enable = 0
 
 let g:echodoc_enable_at_startup = 1
 
@@ -119,32 +130,27 @@ let g:neosnippet#disable_runtime_snippets = {
 let g:neosnippet#snippets_directory='~/.config/nvim/snippets'
 let g:neosnippet#enable_completed_snippet=1
 
+let g:ale_sign_error = '✘'
+let g:ale_sign_warning = '⚠'
+
 let g:ale_fixers = {
 \   'javascript': ['eslint'],
 \}
 
 let g:ale_linters = {
 \   'javascript': ['eslint'],
-\   'typescript': ['eslint'],
+\   'typescript': ['eslint', 'tslint', 'tsserver', 'typecheck'],
 \   'java': [],
 \   'rust': ['cargo'],
+\   'python': ['flake8'],
 \}
 
 let g:ale_linter_aliases = {
-\   'typescriptreact': 'typescript'
+\   'typescript.tsx': 'typescript'
 \ }
 
-let g:ale_lint_on_text_changed = 0
-let g:ale_lint_on_enter = 1
-let g:ale_lint_on_save = 1
-
-let g:gitgutter_sign_added = '•'
-let g:gitgutter_sign_modified = '•'
-let g:gitgutter_sign_removed = '•'
-let g:gitgutter_sign_removed_first_line = '•'
-let g:gitgutter_sign_modified_removed = '•'
-
 set signcolumn=yes
+
 set updatetime=100
 
 set wrap
@@ -153,8 +159,15 @@ let g:netrw_banner = 0
 
 set number relativenumber
 
+set conceallevel=3 concealcursor=niv
+set cursorline
+
 filetype plugin on
 filetype indent on
+
+" suppress the annoying 'match x of y', 'The only match' and 'Pattern not
+" found' messages
+set shortmess+=c
 
 set autoread
 
@@ -194,52 +207,7 @@ set undofile
 " Live substitute
 set inccommand=nosplit
 
-" tsx bugged, needs typescript loaded before going to tsx, easy fix below
-set filetype=typescript
-
-""""" STATUSLINE
-" Function: display errors from Ale in statusline
-function! LinterStatus() abort
-   let l:counts = ale#statusline#Count(bufnr(''))
-   let l:all_errors = l:counts.error + l:counts.style_error
-   let l:all_non_errors = l:counts.total - l:all_errors
-   return l:counts.total == 0 ? '' : printf(
-   \ 'W:%d E:%d',
-   \ l:all_non_errors,
-   \ l:all_errors
-   \)
-endfunction
-
-let g:currentmode={ 'n' : 'Normal ', 'no' : 'N·Operator Pending ', 'v' : 'Visual ', 'V' : 'V·Line ', '^V' : 'V·Block ', 's' : 'Select ', 'S': 'S·Line ', '^S' : 'S·Block ', 'i' : 'Insert ', 'R' : 'Replace ', 'Rv' : 'V·Replace ', 'c' : 'Command ', 'cv' : 'Vim Ex ', 'ce' : 'Ex ', 'r' : 'Prompt ', 'rm' : 'More ', 'r?' : 'Confirm ', '!' : 'Shell ', 't' : 'Terminal '}
-
-" Function: return current mode
-" abort -> function will abort soon as error detected
-function! ModeCurrent() abort
-    let l:modecurrent = mode()
-    " use get() -> fails safely, since ^V doesn't seem to register
-    " 3rd arg is used when return of mode() == 0, which is case with ^V
-    " thus, ^V fails -> returns 0 -> replaced with 'V Block'
-    let l:modelist = toupper(get(g:currentmode, l:modecurrent, 'V·Block '))
-    let l:current_status_mode = l:modelist
-    return l:current_status_mode
-endfunction
-
-set statusline=
-set statusline+=\ %{ModeCurrent()}
-set statusline+=\ ‹‹
-set statusline+=\ %t
-set statusline+=\ ››
-set statusline+=\ %{fugitive#statusline()}
-set statusline+=\ %m
-set statusline+=%=
-set statusline+=\ %{LinterStatus()}
-set statusline+=%y
-set statusline+=\ ‹‹
-set statusline+=\ %p%%
-set statusline+=\ ››\ %*
-
 set laststatus=2
-    
 set smarttab
 
 set shiftwidth=4
@@ -251,19 +219,19 @@ set si "Smart indent
 set splitbelow
 set splitright
 
-set noshowmode 
-
-" yats needs to initialize for tsx files to be correctly highlighted if you
-" enter a tsx file before a ts file.
-" set filetype=typescript
+set noshowmode
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                           "
 "                         MAPPINGS                          "
 "                                                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 nnoremap <leader><CR> :noh<CR>
+
 nnoremap <leader><Tab> :b#<CR>
+nnoremap <leader>bd :bd<CR>
+nnoremap <leader>bk :bufdo bd<CR>
 
 inoremap <C-h> <Left>
 inoremap <C-j> <Down>
@@ -278,9 +246,6 @@ nnoremap <C-l> <C-w>l
 noremap <silent> <leader>tn :tabnew <CR>
 noremap <silent> <leader>t<Tab> :tabnext <CR>
 noremap <silent> <leader>t<S-Tab> :tabprevious <CR>
-
-noremap <silent> <leader>sv :vsplit new <CR>
-noremap <silent> <leader>sh :split new <CR>
 
 nnoremap j gj
 nnoremap k gk
@@ -301,9 +266,15 @@ nnoremap <leader>fg :FzfGFiles<cr>
 nnoremap <leader>fs :FzfGFiles?<cr>
 nnoremap <leader>fc :FzfCommits<cr>
 
+" fugitive
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gd :Gdiff<cr>
+nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>gl :Glog<cr>
+
 nnoremap / /\v
 " grep
-nnoremap <leader>/ :grep! 
+nnoremap <leader>/ :grep!<space>
 
 nnoremap <C-n> :cn<CR>
 nnoremap <C-p> :cp<CR>
@@ -333,13 +304,12 @@ augroup autocommands
     au Filetype java nmap gs :JavaSearchContext -a split<CR>
     au Filetype java nmap gv :JavaSearchContext -a vsplit<CR>
     au Filetype java nmap gp :JavaDocPreview<CR>
-    au Filetype java nmap <leader>gd :JavaDocSearch -x declarations<CR>
+    au Filetype java nmap gh :JavaDocSearch -x declarations<CR>
     au Filetype java nmap <leader>i :JavaImport<CR>
 
-    au Filetype javascript,typescript,typescriptreact nmap gd :TSDef<CR>
-    au Filetype javascript,typescript,typescriptreact nmap gs :TSDefPreview<CR>
-    au Filetype javascript,typescript,typescriptreact nmap gp :TSType<CR>
-    au BufRead, BufEnter .tsx set filetype=typescript | set filetype=typescriptreact " some hightlights doesnt transfer to typescriptreact
+    au Filetype javascript,typescript,typescript.tsx nmap gd :TSDef<CR>
+    au Filetype javascript,typescript,typescript.tsx nmap gs :TSDefPreview<CR>
+    au Filetype javascript,typescript,typescript.tsx nmap gp :TSType<CR>
 
     au FileType rust nmap gd <Plug>(rust-def)
     au FileType rust nmap gs <Plug>(rust-def-split)
@@ -351,7 +321,3 @@ augroup autocommands
     au Filetype java setlocal noexpandtab
 augroup END
 
-if exists('g:gui_oni')
-    " Enable GUI mouse behavior
-    set mouse=a
-endif

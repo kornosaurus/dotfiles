@@ -1,4 +1,3 @@
-(cat ~/.cache/wal/sequences &)
 export LC_ALL="en_US.UTF-8"
 export ANT_HOME="/home/simonk/Apps/apache-ant-1.10.3"
 
@@ -60,7 +59,7 @@ ZSH_THEME="kornosaurus"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git yarn vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -100,8 +99,6 @@ export NVM_DIR="/Users/simon/.nvm"
 
 # Aliases
 
-(cat ~/.cache/wal/sequences &)
-
 export LC_ALL="en_US.UTF-8"
 export LC_COLLATE="en_US.UTF-8"
 export LC_MESSAGES="en_US.UTF-8"
@@ -120,7 +117,7 @@ if [ -e /usr/local/opt/fzf/shell/completion.zsh ]; then
   source /usr/local/opt/fzf/shell/completion.zsh
 fi
 
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,gen,node_modules}/**" 2> /dev/null'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!**/{build,.git,gen,coverage,node_modules}/**" 2> /dev/null'
 export FZF_CTRL_T_COMMAND='rg --hidden --files --null | xargs -0 dirname | uniq'
 
 # nord: #2E3440
@@ -155,4 +152,4 @@ zle -N Resume
 bindkey "^Z" Resume
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
+[ -f ~/.fzf.zsh ] && source ~/.profile

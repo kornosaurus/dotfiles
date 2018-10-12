@@ -1,0 +1,106 @@
+* {
+    spacing: 2;
+}
+
+#window {
+    border: 0;
+    padding: 20px;
+    width: 500;
+}
+
+#mainbox {
+    border: 0;
+    padding: 0;
+}
+
+#message {
+    border: 2px 0px 0px;
+    padding: 1px;
+}
+
+#textbox {
+}
+
+inputbar {
+    children:   [ prompt,textbox-prompt-colon,entry,case-indicator ];
+}
+
+textbox-prompt-colon {
+    expand: false;
+    str: ":";
+    margin: 0px 0.3em 0em 0em;
+}
+
+#listview {
+    fixed-height: 0;
+    border: 2px 0px 0px;
+    spacing: 2px;
+    scrollbar: true;
+    padding: 2px 0px 0px;
+}
+
+#element {
+    border: 0;
+    padding: 1px;
+}
+
+#element.normal.normal {
+}
+
+#element.normal.urgent {
+}
+
+#element.normal.active {
+}
+
+#element.selected.normal {
+}
+
+#element.selected.urgent {
+}
+
+#element.selected.active {
+}
+
+#element.alternate.normal {
+}
+
+#element.alternate.urgent {
+}
+
+#element.alternate.active {
+}
+
+#scrollbar {
+    width: 4px;
+    border: 0;
+    handle-width: 8px;
+    padding: 0;
+}
+
+#sidebar {
+    border: 2px 0px 0px;
+}
+
+#button {
+}
+
+#button.selected {
+}
+
+#inputbar {
+    spacing: 0;
+    padding: 1px;
+}
+
+#case-indicator {
+    spacing: 0;
+}
+
+#entry {
+    spacing: 0;
+}
+
+#prompt {
+    spacing: 0;
+}

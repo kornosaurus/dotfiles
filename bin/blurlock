@@ -1,4 +1,5 @@
 #!/bin/bash
+. "/home/simonk/.cache/wal/colors.sh"
 
 # take screenshot
 scrot 'tmp.png' -e 'mv $f /tmp/screenshot.png'
@@ -10,7 +11,25 @@ rm /tmp/screenshot.png
 
 # lock the screen
 lock() {
-  i3lock -t -i /tmp/screenshotblur.png
+  i3lock -t -i /tmp/screenshotblur.png -k \
+    --indicator \
+    --veriftext="" \
+    --wrongtext="" \
+    --ring-width=4.0 \
+    --radius=100 \
+    --time-font="Ubuntu mono" \
+    --date-font="Ubuntu mono" \
+    --verifcolor="$color7"ff \
+    --wrongcolor="$color7"ff \
+    --timecolor="$color7"ff \
+    --datecolor="$color7"ff \
+    --separatorcolor="$color0"00 \
+    --keyhlcolor="$color1"ff \
+    --insidecolor="$color0"80 \
+    --ringcolor="$color0"00 \
+    --linecolor="$color0"00 \
+    --insidevercolor="$color0"80 \
+    --ringvercolor="$color4"ff
 }
 
 lock
