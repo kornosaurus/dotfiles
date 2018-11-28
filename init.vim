@@ -19,6 +19,9 @@ Plug 'davidhalter/jedi-vim'
 Plug 'zchee/deoplete-jedi'
 Plug 'racer-rust/vim-racer'
 
+Plug 'airblade/vim-gitgutter'
+
+Plug 'othree/yajs.vim'
 Plug 'HerringtonDarkholme/yats.vim'
 
 Plug 'mattn/emmet-vim'
@@ -47,7 +50,6 @@ set background=dark
 
 colorscheme base16-tomorrow-night
 let g:airline_theme='base16_tomorrow'
-let g:airline_powerline_fonts = 1
 
 highlight EndOfBuffer guifg=grey
 highlight Comment cterm=italic
@@ -61,6 +63,10 @@ highlight CursorLineNr ctermbg=NONE guibg=NONE
 highlight SignColumn ctermbg=NONE guibg=NONE
 highlight ALEErrorSign ctermbg=NONE ctermfg=red guifg=red guibg=NONE
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow guifg=yellow guibg=NONE
+highlight GitGutterAdd guibg=NONE
+highlight GitGutterChange guibg=NONE
+highlight GitGutterDelete guibg=NONE
+highlight GitGutterChangeDelete guibg=NONE
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -68,6 +74,12 @@ highlight ALEWarningSign ctermbg=NONE ctermfg=yellow guifg=yellow guibg=NONE
 "                         OPTIONS                           "
 "                                                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:gitgutter_sign_added = '|'
+let g:gitgutter_sign_modified = '|'
+let g:gitgutter_sign_removed = '|'
+let g:gitgutter_sign_removed_first_line = '|'
+let g:gitgutter_sign_modified_removed = '|'
 
 let g:vimwiki_list = [{ 'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md' }]
 
@@ -162,6 +174,11 @@ set number relativenumber
 set conceallevel=3 concealcursor=niv
 set cursorline
 
+" make vimdiff not readonly
+set noro 
+
+set diffopt+=vertical
+
 filetype plugin on
 filetype indent on
 
@@ -173,6 +190,8 @@ set autoread
 
 let mapleader = " "
 let g:mapleader = " "
+
+set mouse=a
 
 set so=7
 
@@ -279,9 +298,9 @@ nnoremap <leader>/ :grep!<space>
 nnoremap <C-n> :cn<CR>
 nnoremap <C-p> :cp<CR>
 
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" :  "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <C-n> pumvisible() ? "\<C-n>" : deoplete#mappings#manual_complete()
+inoremap <expr> <Tab> pumvisible() ? "\<Down>" :  "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<Up>" : "\<S-Tab>"
+inoremap <expr> <C-n> pumvisible() ? "\<Down>" : deoplete#mappings#manual_complete()
 
 imap <C-e> <Plug>(neosnippet_expand_or_jump)
 smap <C-e> <Plug>(neosnippet_expand_or_jump)
@@ -309,7 +328,8 @@ augroup autocommands
 
     au Filetype javascript,typescript,typescript.tsx nmap gd :TSDef<CR>
     au Filetype javascript,typescript,typescript.tsx nmap gs :TSDefPreview<CR>
-    au Filetype javascript,typescript,typescript.tsx nmap gp :TSType<CR>
+    au Filetype javascript,typescript,typescript.tsx nmap gh :TSType<CR>
+    au Filetype javascript,typescript,typescript.tsx nnoremap gR :TSRename<CR>
 
     au FileType rust nmap gd <Plug>(rust-def)
     au FileType rust nmap gs <Plug>(rust-def-split)

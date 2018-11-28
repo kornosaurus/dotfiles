@@ -1,0 +1,2 @@
+#! /bin/bash
+mpg123 ~/Misc/gem_pickup.mp3

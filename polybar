@@ -51,7 +51,7 @@ font-2 = Siji:pixelsize=10;1
 
 modules-left = i3
 modules-center = mpd
-modules-right = volume xkeyboard memory cpu vpn wlan eth battery date
+modules-right = volume xkeyboard memory cpu vpn wlan eth weather battery date
 
 ;wm-restack = bspwm
 wm-restack = i3
@@ -128,7 +128,7 @@ index-sort = true
 wrapping-scroll = false
 
 ; Only show workspaces on the same output as the bar
-;pin-workspaces = true
+pin-workspaces = true
 
 label-mode-padding = 2
 label-mode-foreground = ${colors.primary}
@@ -206,6 +206,13 @@ format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
 label = %percentage_used%%
+
+[module/weather]
+type = custom/script
+exec = ~/bin/polybar/weather
+interval = 900.0
+format-prefix-foreground = ${colors.foreground-alt}
+format-prefix = " "
 
 [module/vpn]
 type = custom/script
