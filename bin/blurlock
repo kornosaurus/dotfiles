@@ -1,5 +1,4 @@
 #!/bin/bash
-. "/home/simonk/.cache/wal/colors.sh"
 
 # take screenshot
 scrot 'tmp.png' -e 'mv $f /tmp/screenshot.png'
