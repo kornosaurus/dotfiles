@@ -12,31 +12,37 @@ Plug 'wellle/targets.vim'
 Plug '/home/simonk/.fzf'
 Plug 'junegunn/fzf.vim'
 
+Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'w0rp/ale'
+Plug 'neomake/neomake'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
 Plug 'davidhalter/jedi-vim'
 Plug 'zchee/deoplete-jedi'
 Plug 'racer-rust/vim-racer'
-
-Plug 'airblade/vim-gitgutter'
+Plug 'jiangmiao/auto-pairs'
 
 Plug 'othree/yajs.vim'
 Plug 'HerringtonDarkholme/yats.vim'
 
 Plug 'mattn/emmet-vim'
 Plug 'tpope/vim-fugitive'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 
 Plug 'plasticboy/vim-markdown'
 Plug 'vimwiki/vimwiki'
 
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
+Plug 'dansomething/vim-eclim'
+
+Plug 'SirVer/ultisnips'
 
 Plug 'chriskempson/base16-vim'
+Plug 'arcticicestudio/nord-vim'
+Plug 'reedes/vim-colors-pencil'
+Plug 'dracula/vim'
 call plug#end()
+
+" Eclim
+let g:EclimCompletionMethod = 'omnifunc'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                           "
@@ -48,8 +54,7 @@ syntax enable
 set termguicolors
 set background=dark
 
-colorscheme base16-tomorrow-night
-let g:airline_theme='base16_tomorrow'
+colorscheme pencil
 
 highlight EndOfBuffer guifg=grey
 highlight Comment cterm=italic
@@ -63,10 +68,6 @@ highlight CursorLineNr ctermbg=NONE guibg=NONE
 highlight SignColumn ctermbg=NONE guibg=NONE
 highlight ALEErrorSign ctermbg=NONE ctermfg=red guifg=red guibg=NONE
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow guifg=yellow guibg=NONE
-highlight GitGutterAdd guibg=NONE
-highlight GitGutterChange guibg=NONE
-highlight GitGutterDelete guibg=NONE
-highlight GitGutterChangeDelete guibg=NONE
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -75,11 +76,13 @@ highlight GitGutterChangeDelete guibg=NONE
 "                                                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:gitgutter_sign_added = '|'
-let g:gitgutter_sign_modified = '|'
-let g:gitgutter_sign_removed = '|'
-let g:gitgutter_sign_removed_first_line = '|'
-let g:gitgutter_sign_modified_removed = '|'
+let g:AutoPairsMapCh=0
+
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
 
 let g:vimwiki_list = [{ 'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md' }]
 
@@ -122,8 +125,9 @@ let g:deoplete#file#enable_buffer_path = 1
 let g:deoplete#disable_auto_complete = 1
 
 call deoplete#custom#option('ignore_sources', {'_': ['buffer']})
+
 let g:deoplete#omni#input_patterns = {}
-let g:deoplete#omni#input_patterns.java = '[\w\.]+'
+let g:deoplete#omni#input_patterns.java = '[\w\.]*'
 let g:deoplete#omni#input_patterns.html = '<[^>]*'
 let g:deoplete#omni#input_patterns.xml  = '<[^>]*'
 let g:deoplete#omni#input_patterns.md   = '<[^>]*'
@@ -133,14 +137,6 @@ let g:deoplete#omni#input_patterns.scss   = '[\w:]+'
 let g:nvim_typescript#diagnostics_enable = 0
 
 let g:echodoc_enable_at_startup = 1
-
-" Disable default snippet
-let g:neosnippet#disable_runtime_snippets = {
-    \   '_' : 1,
-    \ }
-
-let g:neosnippet#snippets_directory='~/.config/nvim/snippets'
-let g:neosnippet#enable_completed_snippet=1
 
 let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
@@ -161,18 +157,23 @@ let g:ale_linter_aliases = {
 \   'typescript.tsx': 'typescript'
 \ }
 
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 1
+
 set signcolumn=yes
 
 set updatetime=100
 
-set wrap
+set nowrap
 
 let g:netrw_banner = 0
 
-set number relativenumber
+"set number
+"set relativenumber
 
 set conceallevel=3 concealcursor=niv
-set cursorline
+" set cursorline
 
 " make vimdiff not readonly
 set noro 
@@ -220,8 +221,8 @@ set magic
 set showmatch
 
 " Save undo state
-set undodir=~/.vim/undodir
-set undofile
+" set undodir=~/.vim/undodir
+" set undofile
 
 " Live substitute
 set inccommand=nosplit
@@ -240,7 +241,20 @@ set splitright
 
 set noshowmode
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" STATUSLINE "
+
+set statusline=
+set statusline+=\ %f
+set statusline+=%m
+set statusline+=%=
+set statusline+=\ %y
+set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+set statusline+=\[%{&fileformat}\]
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
+set statusline+=\ 
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                           "
 "                         MAPPINGS                          "
 "                                                           "
@@ -251,6 +265,9 @@ nnoremap <leader><CR> :noh<CR>
 nnoremap <leader><Tab> :b#<CR>
 nnoremap <leader>bd :bd<CR>
 nnoremap <leader>bk :bufdo bd<CR>
+
+nnoremap <leader>sv :vsplit<CR>
+nnoremap <leader>sh :split<CR>
 
 inoremap <C-h> <Left>
 inoremap <C-j> <Down>
@@ -276,7 +293,6 @@ nnoremap <leader>fb :FzfBuffers<CR>
 nnoremap <leader>ff :FzfFiles<CR>
 nnoremap <leader>fl :FzfLines<CR>
 nnoremap <leader>ft :FzfTags<cr>
-nnoremap <leader>fr :FzfHistory<cr>
 nnoremap <leader>fh :FzfHelptags<cr>
 nnoremap <leader>fm :FzfMarks<cr>
 nnoremap <leader>f: :FzfHistory:<cr>
@@ -298,18 +314,74 @@ nnoremap <leader>/ :grep!<space>
 nnoremap <C-n> :cn<CR>
 nnoremap <C-p> :cp<CR>
 
-inoremap <expr> <Tab> pumvisible() ? "\<Down>" :  "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<Up>" : "\<S-Tab>"
-inoremap <expr> <C-n> pumvisible() ? "\<Down>" : deoplete#mappings#manual_complete()
+inoremap <expr> <C-n> pumvisible() ? "<C-n>" : deoplete#mappings#manual_complete()
 
-imap <C-e> <Plug>(neosnippet_expand_or_jump)
-smap <C-e> <Plug>(neosnippet_expand_or_jump)
-xmap <C-e> <Plug>(neosnippet_expand_target)
+" DEFX
+nnoremap <leader>e :Defx -split=vertical -winwidth=50 -direction=topleft `expand('%:p:h')` -search=`expand('%:p')` -toggle<CR>
 
-" sessions
-nnoremap <leader>ss :mks! ~/.vim/session/
-nnoremap <leader>so :source ~/.vim/session/
-nnoremap <leader>sd :!rm ~/.vim/session/
+autocmd FileType defx call s:defx_my_settings()
+function! s:defx_my_settings() abort
+    " Define mappings
+    nnoremap <silent><buffer><expr> <CR>
+                \ defx#do_action('drop')
+    nnoremap <silent><buffer><expr> c
+                \ defx#do_action('copy')
+    nnoremap <silent><buffer><expr> m
+                \ defx#do_action('move')
+    nnoremap <silent><buffer><expr> p
+                \ defx#do_action('paste')
+    nnoremap <silent><buffer><expr> l
+                \ defx#do_action('open')
+    nnoremap <silent><buffer><expr> E
+                \ defx#do_action('open', 'vsplit')
+    nnoremap <silent><buffer><expr> P
+                \ defx#do_action('open', 'pedit')
+    nnoremap <silent><buffer><expr> K
+                \ defx#do_action('new_directory')
+    nnoremap <silent><buffer><expr> N
+                \ defx#do_action('new_file')
+    nnoremap <silent><buffer><expr> M
+                \ defx#do_action('new_multiple_files')
+    nnoremap <silent><buffer><expr> C
+                \ defx#do_action('toggle_columns',
+                \                'mark:filename:type:size:time')
+    nnoremap <silent><buffer><expr> d
+                \ defx#do_action('remove')
+    nnoremap <silent><buffer><expr> r
+                \ defx#do_action('rename')
+    nnoremap <silent><buffer><expr> !
+                \ defx#do_action('execute_command')
+    nnoremap <silent><buffer><expr> x
+                \ defx#do_action('execute_system')
+    nnoremap <silent><buffer><expr> yy
+                \ defx#do_action('yank_path')
+    nnoremap <silent><buffer><expr> .
+                \ defx#do_action('toggle_ignored_files')
+    nnoremap <silent><buffer><expr> ;
+                \ defx#do_action('repeat')
+    nnoremap <silent><buffer><expr> h
+                \ defx#do_action('cd', ['..'])
+    nnoremap <silent><buffer><expr> ~
+                \ defx#do_action('cd')
+    nnoremap <silent><buffer><expr> S
+                \ defx#do_action('toggle_sort', 'Time')
+    nnoremap <silent><buffer><expr> q
+                \ defx#do_action('quit')
+    nnoremap <silent><buffer><expr> <Space>
+                \ defx#do_action('toggle_select') . 'j'
+    nnoremap <silent><buffer><expr> *
+                \ defx#do_action('toggle_select_all')
+    nnoremap <silent><buffer><expr> j
+                \ line('.') == line('$') ? 'gg' : 'j'
+    nnoremap <silent><buffer><expr> k
+                \ line('.') == 1 ? 'G' : 'k'
+    nnoremap <silent><buffer><expr> <C-l>
+                \ defx#do_action('redraw')
+    nnoremap <silent><buffer><expr> <C-g>
+                \ defx#do_action('print')
+    nnoremap <silent><buffer><expr> cd
+                \ defx#do_action('change_vim_cwd')
+endfunction
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -318,26 +390,33 @@ nnoremap <leader>sd :!rm ~/.vim/session/
 "                                                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 augroup autocommands
-    " Language bindings
-    au Filetype java nmap gd :JavaSearchContext<CR>
-    au Filetype java nmap gs :JavaSearchContext -a split<CR>
-    au Filetype java nmap gv :JavaSearchContext -a vsplit<CR>
-    au Filetype java nmap gp :JavaDocPreview<CR>
-    au Filetype java nmap gh :JavaDocSearch -x declarations<CR>
-    au Filetype java nmap <leader>i :JavaImport<CR>
+    au BufEnter *.java nmap gd :JavaSearch -a edit<CR>
+    au BufEnter *.java nmap gD :JavaSearch -x implementors -a edit<CR>
+    au BufEnter *.java nmap gs :JavaSearch -a vsplit<CR>
+    au BufEnter *.java nmap gi :JavaImport<CR>
+    au BufEnter *.java nmap gh :JavaDocPreview<CR>
+    au BufEnter *.java nmap gr :JavaRename<CR>
+    au BufEnter *.java nmap <leader>fr :JavaSearch -x references<CR>
 
-    au Filetype javascript,typescript,typescript.tsx nmap gd :TSDef<CR>
-    au Filetype javascript,typescript,typescript.tsx nmap gs :TSDefPreview<CR>
-    au Filetype javascript,typescript,typescript.tsx nmap gh :TSType<CR>
-    au Filetype javascript,typescript,typescript.tsx nnoremap gR :TSRename<CR>
-
-    au FileType rust nmap gd <Plug>(rust-def)
-    au FileType rust nmap gs <Plug>(rust-def-split)
-    au FileType rust nmap gv <Plug>(rust-def-vertical)
-    au FileType rust nmap <leader>gd <Plug>(rust-doc)
+    au BufEnter *.js,*.ts,*.tsx,*.jsx nmap gd :TSDef<CR>
+    au BufEnter *.js,*.ts,*.tsx,*.jsx nmap gs :TSDefPreview<CR>
+    au BufEnter *.js,*.ts,*.tsx,*.jsx nmap gh :TSDoc<CR>
+    au BufEnter *.js,*.ts,*.tsx,*.jsx nmap gr :TSRename<CR>
+    au BufEnter *.js,*.ts,*.tsx,*.jsx nmap <leader>ft :TSRefs<CR>
 
     " indentation
-    au Filetype * setlocal expandtab
-    au Filetype java setlocal noexpandtab
+    au BufEnter * setlocal expandtab
+    au BufEnter *.java setlocal noexpandtab
+
+    " au BufEnter * exe ":EclimDisable"
+
+    " error format
+    au BufEnter *.java exe ":compiler ant"
+    " au BufEnter *.java exe ":EclimEnable"
+    au BufEnter *.java set makeprg=/home/simonk/bin/work/ufo-build
+    au BufEnter *.java set errorformat=\ %#[%.%#]\ %#%f:%l:%v:%*\\d:%*\\d:\ %t%[%^:]%#:%m,
+    \%A\ %#[%.%#]\ %f:%l:\ %m,%-Z\ %#[%.%#]\ %p^,%C\ %#[%.%#]\ %#%m,
+    \%-G%.%#
+
 augroup END
 

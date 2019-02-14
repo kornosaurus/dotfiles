@@ -2,7 +2,7 @@ export LC_ALL="en_US.UTF-8"
 export ANT_HOME="/home/simonk/Apps/apache-ant-1.10.3"
 
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:$HOME/bin/work/:/usr/local/bin:/opt/local/bin:$HOME/Apps/alacritty/target/release:$HOME/.cargo/bin:$PATH:$ANT_HOME/bin:/home/simonk/.local/bin:$HOME/go/bin
+export PATH=$HOME/bin:$HOME/bin/work/:/usr/local/bin:/opt/local/bin:$HOME/Apps/alacritty/target/release:$HOME/.cargo/bin:$PATH:$ANT_HOME/bin:/home/simonk/.local/bin:$HOME/go/bin:$HOME/.nvm/versions/node/v10.14.0/bin
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -59,7 +59,7 @@ ZSH_THEME="kornosaurus"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git yarn vi-mode zsh-autosuggestions)
+plugins=(git yarn vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -94,10 +94,9 @@ export LC_CTYPE=en_US.UTF-8
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export NVM_DIR="/Users/simon/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
 # Aliases
+alias loadnvm=". ~/.nvm/nvm.sh"
+alias lg='lazygit'
 
 export LC_ALL="en_US.UTF-8"
 export LC_COLLATE="en_US.UTF-8"
@@ -141,16 +140,7 @@ bindkey -M vicmd "j" down-line-or-beginning-search
 # edit command in vim
 bindkey "^e" edit-command-line
 
-# Allow Ctrl-z to toggle between suspend and resume 
-function Resume {  
-    fg
-    zle push-input 
-    BUFFER=""
-    zle accept-line
-} 
-zle -N Resume
-bindkey "^Z" Resume
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.fzf.zsh ] && source ~/.profile
-alias lg='lazygit'
+
+[ -z "$TMUX"  ] && { exec tmux } 

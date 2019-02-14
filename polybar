@@ -51,7 +51,7 @@ font-2 = Siji:pixelsize=10;1
 
 modules-left = i3
 modules-center = mpd
-modules-right = volume xkeyboard memory cpu vpn wlan eth weather battery date
+modules-right = volume xkeyboard memory cpu vpn wlan eth battery date
 
 ;wm-restack = bspwm
 wm-restack = i3

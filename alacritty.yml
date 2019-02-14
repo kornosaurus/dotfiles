@@ -1,40 +1,35 @@
-background_opacity: 1
-# Base16 Tomorrow Night - alacritty color config
-# Chris Kempson (http://chriskempson.com)
+background_opacity: 0.8
+# Colors (Nord)
 colors:
-  # Default colors
   primary:
-    background: '0x1d1f21'
-    foreground: '0xc5c8c6'
-
-  # Colors the cursor will use if `custom_cursor_colors` is true
+    background: '0x262626'
+    foreground: '0xD8DEE9'
   cursor:
-    text: '0x1d1f21'
-    cursor: '0xc5c8c6'
-
-  # Normal colors
+    text: '0x2E3440'
+    cursor: '0xD8DEE9'
+      # Normal colors
   normal:
-    black:   '0x1d1f21'
-    red:     '0xcc6666'
-    green:   '0xb5bd68'
-    yellow:  '0xf0c674'
-    blue:    '0x81a2be'
-    magenta: '0xb294bb'
-    cyan:    '0x8abeb7'
-    white:   '0xc5c8c6'
+    black:   '0x000000'
+    red:     '0xff5555'
+    green:   '0x50fa7b'
+    yellow:  '0xf1fa8c'
+    blue:    '0xcaa9fa'
+    magenta: '0xff79c6'
+    cyan:    '0x8be9fd'
+    white:   '0xbfbfbf'
 
   # Bright colors
   bright:
-    black:   '0x969896'
-    red:     '0xde935f'
-    green:   '0x282a2e'
-    yellow:  '0x373b41'
-    blue:    '0xb4b7b4'
-    magenta: '0xe0e0e0'
-    cyan:    '0xa3685a'
-    white:   '0xc5c8c6'
+    black:   '0x575b70'
+    red:     '0xff6e67'
+    green:   '0x5af78e'
+    yellow:  '0xf4f99d'
+    blue:    '0xcaa9fa'
+    magenta: '0xff92d0'
+    cyan:    '0x9aedfe'
+    white:   '0xe6e6e6'
 cursor_style: Block
-custom_cursor_colors: true
+custom_cursor_colors: false
 draw_bold_text_with_bright_colors: false
 dynamic_title: true
 env:
@@ -43,24 +38,24 @@ env:
   TERM: xterm-256color
 font:
   normal:
-    family: Fira Code
-    style: Medium
+    family: mononoki
+    style: Regular
   bold:
-    family: Fira Code
+    family: mononoki
     style: Bold
   italic:
-    family: Fira Code
+    family: mononoki
     style: Italic
   glyph_offset:
     x: 0
     y: 0
   offset:
     x: 0
-    y: 0
+    y: 1
   # Laptop:
-  # size: 8
+  # size: 12
   # Desktop:
-  size: 11
+  size: 8
   use_thin_strokes: false
 hide_cursor_when_typing: false
 key_bindings:
@@ -374,8 +369,6 @@ scrolling:
 selection:
   semantic_escape_chars: ",\u2502`|:\"' ()[]{}<>"
 shell:
-  args:
-  - --login
   program: /bin/zsh
 tabspaces: 8
 visual_bell:

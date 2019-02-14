@@ -54,11 +54,13 @@ bindsym $sup+space exec ~/bin/toggle-kbmap
 bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+Return exec alacritty -e nvim
 
-bindsym $mod+Shift+f exec alacritty -e ranger  # Filebrowser
+bindsym $mod+Shift+e exec alacritty -e ranger  # Filebrowser
 bindsym $mod+Shift+n exec alacritty -e ncmpcpp # Music
-bindsym $mod+Shift+o exec oni                  # Editor
 bindsym $mod+Shift+b exec google-chrome-stable          # Browser
-bindsym $sup+b exec qutebrowser --enable-webengine-inspector
+
+# scrot
+bindsym --release $mod+p "exec scrot '%Y-%m-%d_%H%M%S.png' -e 'mv $f ~/Screenshots/'"
+bindsym --release $mod+Shift+p "exec scrot '%Y-%m-%d_%H%M%S.png' -e 'mv $f ~/Screenshots/' -s"
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -154,9 +156,6 @@ bindsym $mod+Shift+r restart
 
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
-#
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Set shut down, restart and locking features
 set $Locker sleep 0.5 && ~/bin/blurlock && sleep 1
@@ -195,8 +194,6 @@ bindsym $mod+Shift+bracketright move workspace to output right
 # Autostart applications #
 ##########################
 
-exec_always --no-startup-id wal -R
-
 # Composition manager
 exec --no-startup-id compton -b
 
@@ -229,14 +226,13 @@ for_window [title="qutebrowser edit"] floating enabled
 ### settings for i3-gaps: ###
 #############################
 
-bindsym $mod+p gaps inner current plus 5
-bindsym $mod+Shift+p gaps inner current minus 5
+bindsym $mod+g gaps inner current plus 5
+bindsym $mod+Shift+g gaps inner current minus 5
 
 bindsym $mod+a gaps outer current set 0; gaps inner current set 0
-bindsym $mod+Shift+a gaps outer current set 15; gaps inner current set 10
+bindsym $mod+Shift+a gaps outer current set -5; gaps inner current set 15
 
 # Set inner/outer gaps
-smart_gaps on
 gaps inner 15
 gaps outer -5
 
