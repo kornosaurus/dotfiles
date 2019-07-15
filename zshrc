@@ -8,7 +8,7 @@ export PATH=$HOME/bin:$HOME/bin/work/:/usr/local/bin:/opt/local/bin:$HOME/Apps/a
 export ZSH=~/.oh-my-zsh
 
 export EDITOR=nvim
-export BROWSER=qutebrowser
+export BROWSER=google-chrome
 
 export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
@@ -97,6 +97,7 @@ export LC_CTYPE=en_US.UTF-8
 # Aliases
 alias loadnvm=". ~/.nvm/nvm.sh"
 alias lg='lazygit'
+alias v='nvr -s'
 
 export LC_ALL="en_US.UTF-8"
 export LC_COLLATE="en_US.UTF-8"
@@ -106,6 +107,8 @@ export LC_NUMERIC="en_US.UTF-8"
 export LC_TIME="en_US.UTF-8"
 
 export VISUAL=nvim
+
+export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 
 # title
 export ZSH_THEME_TERM_TITLE_IDLE="%1/"
@@ -119,9 +122,7 @@ fi
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!**/{build,.git,gen,coverage,node_modules}/**" 2> /dev/null'
 export FZF_CTRL_T_COMMAND='rg --hidden --files --null | xargs -0 dirname | uniq'
 
-# nord: #2E3440
-# papercolor light: #EEEEEE
-export FZF_DEFAULT_OPTS="--color bg+:'#2E3440'"
+export FZF_DEFAULT_OPTS="--height 40%"
 
 # VI mode
 bindkey -v
@@ -142,5 +143,3 @@ bindkey "^e" edit-command-line
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.fzf.zsh ] && source ~/.profile
-
-[ -z "$TMUX"  ] && { exec tmux } 
