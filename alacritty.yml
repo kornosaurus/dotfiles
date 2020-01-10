@@ -1,32 +1,38 @@
-background_opacity: 1.0
-# Colors (Pencil Dark)
+background_opacity: 1
+# Colors (Srcery)
 colors:
- # Default Colors
- primary:
-   background: '0x212121'
-   foreground: '0xf1f1f1'
- # Normal colors
- normal:
-   black:   '0x626262'
-   red:     '0xc30771'
-   green:   '0x10a778'
-   yellow:  '0xa89c14'
-   blue:    '0x008ec4'
-   magenta: '0x523c79'
-   cyan:    '0x20a5ba'
-   white:   '0xe0e0e0'
- # Bright colors
- bright:
-   black:   '0x626262'
-   red:     '0xfb007a'
-   green:   '0x5fd7af'
-   yellow:  '0xf3e430'
-   blue:    '0x20bbfc'
-   magenta: '0x6855de'
-   cyan:    '0x4fb8cc'
-   white:   '0xf1f1f1'
+    #
+  cursor:
+    text: '0xd8dee9'
+    cursor: '0x4c566a'
+  # Default colors
+  primary:
+    background: '0x0F111A'
+    foreground: '0xd8dee9'
+
+  # Normal colors
+  normal:
+    black:   '0x3b4252'
+    red:     '0xbf616a'
+    green:   '0xa3be8c'
+    yellow:  '0xebcb8b'
+    blue:    '0x81a1c1'
+    magenta: '0xb48ead'
+    cyan:    '0x88c0d0'
+    white:   '0xe5e9f0'
+
+  # Bright colors
+  bright:
+    black:   '0x4c566a'
+    red:     '0xbf616a'
+    green:   '0xa3be8c'
+    yellow:  '0xebcb8b'
+    blue:    '0x81a1c1'
+    magenta: '0xb48ead'
+    cyan:    '0x8fbcbb'
+    white:   '0xeceff4'
 cursor_style: Block
-custom_cursor_colors: false
+custom_cursor_colors: true
 draw_bold_text_with_bright_colors: false
 dynamic_title: true
 env:
@@ -50,7 +56,7 @@ font:
     x: 0
     y: 0
   # Laptop:
-  size: 12.5
+  size: 12
   # Desktop:
   # size: 8.5
   use_thin_strokes: false
@@ -89,14 +95,14 @@ key_bindings:
   - { key: End,      mods: Alt,     chars: "\x1b[1;3F"                       }
   - { key: End,                     chars: "\x1bOF",        mode: AppCursor  }
   - { key: End,                     chars: "\x1b[F",        mode: ~AppCursor }
-  - { key: PageUp,   mods: Shift,   action: ScrollPageUp,   mode: ~Alt       }
+  - { key: PageUp,        mods: Control, action: ScrollPageUp,   mode: ~Alt       }
+  - { key: K,        mods: Control, action: ScrollLineUp,   mode: ~Alt       }
   - { key: PageUp,   mods: Shift,   chars: "\x1b[5;2~",     mode: Alt        }
-  - { key: PageUp,   mods: Control, chars: "\x1b[5;5~"                       }
   - { key: PageUp,   mods: Alt,     chars: "\x1b[5;3~"                       }
   - { key: PageUp,                  chars: "\x1b[5~"                         }
-  - { key: PageDown, mods: Shift,   action: ScrollPageDown, mode: ~Alt       }
+  - { key: PageDown,        mods: Control, action: ScrollPageDown, mode: ~Alt       }
+  - { key: J,        mods: Control, action: ScrollLineDown, mode: ~Alt       }
   - { key: PageDown, mods: Shift,   chars: "\x1b[6;2~",     mode: Alt        }
-  - { key: PageDown, mods: Control, chars: "\x1b[6;5~"                       }
   - { key: PageDown, mods: Alt,     chars: "\x1b[6;3~"                       }
   - { key: PageDown,                chars: "\x1b[6~"                         }
   - { key: Tab,      mods: Shift,   chars: "\x1b[Z"                          }

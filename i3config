@@ -58,8 +58,8 @@ bindsym $mod+Shift+n exec alacritty --title ncmpcpp -e ncmpcpp # Music
 bindsym $mod+Shift+b exec google-chrome # Browser
 
 # scrot
-bindsym --release $mod+p "exec scrot '%Y-%m-%d_%H%M%S.png' -e 'mv $f ~/Screenshots/'"
-bindsym --release $mod+Shift+p "exec scrot '%Y-%m-%d_%H%M%S.png' -e 'mv $f ~/Screenshots/' -s"
+bindsym --release $mod+p "exec maim -s | xclip -selection clipboard -t image/png"
+bindsym --release $mod+Shift+p "exec maim ~/Screenshots/$(date +%s).png -s"
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -219,8 +219,9 @@ exec --no-startup-id dunst
 #############################
 ###      window rules     ###
 #############################
+for_window [window_type="notification"] kill
 for_window [title="ncmpcpp"] floating enabled
-
+for_window [class="(?i)teams" urgent="latest"] exec notify-send "Teams" "New message"
 
 #############################
 ### settings for i3-gaps: ###
@@ -230,11 +231,11 @@ bindsym $mod+g gaps inner current plus 5
 bindsym $mod+Shift+g gaps inner current minus 5
 
 bindsym $mod+a gaps outer current set 0; gaps inner current set 0
-bindsym $mod+Shift+a gaps outer current set -5; gaps inner current set 15
+bindsym $mod+Shift+a gaps outer current set 5; gaps inner current set 15
 
 # Set inner/outer gaps
 gaps inner 15
-gaps outer -5
+gaps outer 5
 
 # class                 border  bground text    indicator child_border
 client.focused          #bd93f9 #285577 #FFFFFF #81A1C1   #81A1C1
