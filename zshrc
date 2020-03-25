@@ -3,13 +3,13 @@ export ANT_HOME="/home/simonk/Apps/apache-ant-1.10.3"
 export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:$HOME/bin/work/:/usr/local/bin:/opt/local/bin:$HOME/Apps/alacritty/target/release:$HOME/.cargo/bin:$PATH:$ANT_HOME/bin:/home/simonk/.local/bin:$HOME/go/bin:$HOME/.nvm/versions/node/v12.10.0/bin
+export PATH=$HOME/bin:$HOME/bin/work/:/usr/local/bin:/opt/local/bin:$HOME/Apps/alacritty/target/release:$HOME/.cargo/bin:$PATH:$ANT_HOME/bin:/home/simonk/.local/bin:$HOME/go/bin
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
 export EDITOR=nvim
-export BROWSER=google-chrome
+export BROWSER=firefox
 
 export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
@@ -63,24 +63,23 @@ export LC_CTYPE=en_US.UTF-8
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # vim mode
-bindkey -v
-export KEYTIMEOUT=1
+# bindkey -v
+# export KEYTIMEOUT=1
 
 # Better searching in command mode
-bindkey -M vicmd '?' history-incremental-search-backward
-bindkey -M vicmd '/' history-incremental-search-forward
-
-# Beginning search with arrow keys
-bindkey "^[OA" up-line-or-beginning-search
-bindkey "^[OB" down-line-or-beginning-search
-bindkey -M vicmd "k" up-line-or-beginning-search
-bindkey -M vicmd "j" down-line-or-beginning-search
-
-# edit command in vim
-bindkey "^e" edit-command-line
+# bindkey -M vicmd '?' history-incremental-search-backward
+# bindkey -M vicmd '/' history-incremental-search-forward
+# 
+# # Beginning search with arrow keys
+# bindkey "^[OA" up-line-or-beginning-search
+# bindkey "^[OB" down-line-or-beginning-search
+# bindkey -M vicmd "k" up-line-or-beginning-search
+# bindkey -M vicmd "j" down-line-or-beginning-search
+# 
+# # edit command in vim
+# bindkey "^e" edit-command-line
 
 # Aliases
-alias loadnvm=". ~/.nvm/nvm.sh"
 alias lg='lazygit'
 alias v='nvr -s'
 alias xclip='xclip -selection c'
@@ -109,6 +108,10 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!**/{bu
 export FZF_CTRL_T_COMMAND='rg --hidden --files --null | xargs -0 dirname | uniq'
 
 export FZF_DEFAULT_OPTS="--height 40% --reverse"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.fzf.zsh ] && source ~/.profile

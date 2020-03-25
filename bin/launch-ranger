@@ -1,2 +1,2 @@
 #! /bin/bash
-alacritty -e ranger
+alacritty -e nnn -e

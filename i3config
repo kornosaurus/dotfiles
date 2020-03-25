@@ -53,18 +53,19 @@ bindsym $sup+space exec ~/bin/toggle-kbmap
 # application shortcuts
 bindsym $mod+Return exec alacritty
 
-bindsym $mod+Shift+e exec alacritty -e ranger  # Filebrowser
-bindsym $mod+Shift+n exec alacritty --title ncmpcpp -e ncmpcpp # Music
-bindsym $mod+Shift+b exec google-chrome # Browser
+bindsym $mod+Shift+e exec ~/bin/launch-ranger  # Filebrowser
+# bindsym $mod+Shift+n exec alacritty --title ncmpcpp -e ncmpcpp # Music
+bindsym $mod+Shift+n exec alacritty -e spt # Music
+bindsym $mod+Shift+b exec firefox # Browser
 
-# scrot
-bindsym --release $mod+p "exec maim -s | xclip -selection clipboard -t image/png"
-bindsym --release $mod+Shift+p "exec maim ~/Screenshots/$(date +%s).png -s"
+# screenshot
+bindsym --release $mod+Shift+s "exec maim -s | xclip -selection clipboard -t image/png"
+bindsym --release $mod+$sup+s "exec maim -s | xclip -selection clipboard -t image/png"
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
-bindsym $mod+space exec rofi -show run
+bindsym $mod+space exec "rofi -show run -modi"
 
 # change focus
 bindsym $mod+h focus left
@@ -229,6 +230,7 @@ for_window [class="(?i)teams" urgent="latest"] exec notify-send "Teams" "New mes
 
 bindsym $mod+g gaps inner current plus 5
 bindsym $mod+Shift+g gaps inner current minus 5
+bindsym $mod+Shift+u gaps horizontal current set 800
 
 bindsym $mod+a gaps outer current set 0; gaps inner current set 0
 bindsym $mod+Shift+a gaps outer current set 5; gaps inner current set 15
@@ -236,6 +238,9 @@ bindsym $mod+Shift+a gaps outer current set 5; gaps inner current set 15
 # Set inner/outer gaps
 gaps inner 15
 gaps outer 5
+
+# ULTRA WIDE
+# gaps horizontal 800
 
 # class                 border  bground text    indicator child_border
 client.focused          #bd93f9 #285577 #FFFFFF #81A1C1   #81A1C1

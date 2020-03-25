@@ -9,14 +9,14 @@
 
 [colors]
 ;background = ${xrdb:color0:#222}
-background = #99161616
-background-alt = #99161616
+background = #992e3440
+background-alt = #99434c5e
 ; foreground = ${xrdb:color7:#222}
-foreground = #ECEFF1
-foreground-alt = #FF5370
-primary = #FF5370
-secondary = #bd93f9
-alert = #bd2c40
+foreground = #eceff4
+foreground-alt = #88c0d0
+primary = #88c0d0
+secondary = #5e81ac
+alert = #bf616a
 ; background = ${xrdb:color0:#222}
 ; foreground = ${xrdb:color7:#222}
 ; foreground-alt = ${xrdb:color1:#222}
@@ -37,10 +37,14 @@ background = ${colors.background}
 foreground = ${colors.foreground}
 
 ;line-size = 3
-line-color = #f00
+;line-color = #f00
 
 padding-left = 0
 padding-right = 2
+
+; ULTRA WIDE
+; padding-left = 116
+; padding-right = 117
 
 module-margin-left = 1
 module-margin-right = 2
@@ -137,7 +141,7 @@ label-mode-background = ${colors.background}
 ; focused = Active workspace on focused monitor
 label-focused = %index%
 label-focused-foreground = ${colors.foreground-alt}
-label-focused-background = ${module/bspwm.label-focused-background}
+label-focused-background = ${colors.background-alt}
 label-focused-underline = ${module/bspwm.label-focused-underline}
 label-focused-padding = ${module/bspwm.label-focused-padding}
 
