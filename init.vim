@@ -41,7 +41,6 @@ Plug 'vim-airline/vim-airline-themes'
 " Colors
 Plug 'hzchirs/vim-material'
 Plug 'chriskempson/base16-vim'
-Plug 'arcticicestudio/nord-vim'
 Plug 'reedes/vim-colors-pencil'
 Plug 'dracula/vim'
 Plug 'whatyouhide/vim-gotham'
@@ -52,15 +51,12 @@ call plug#end()
 
 " AirLine
 let g:airline_powerline_fonts = 0
-let g:airline_theme='nord'
+let g:airline_theme='srcery'
 
 let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
 let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
 
 let g:fzf_command_prefix = 'Fzf'
-
-let g:material_terminal_italics = 1
-let g:material_style='oceanic'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                           "
@@ -73,15 +69,15 @@ set termguicolors
 set background=dark
 set guicursor=
 
-colorscheme nord
+colorscheme srcery
 
 "highlight EndOfBuffer guifg=grey
 "highlight NonText guifg=#353432
 highlight Comment gui=italic
-highlight Conditional gui=italic
-highlight Repeat gui=italic
-highlight Label gui=italic
-highlight Keyword gui=italic
+highlight Repeat gui=italic guifg=#EF2F27
+highlight Conditional gui=italic guifg=#EF2F27
+highlight Label gui=italic guifg=#EF2F27
+highlight Keyword gui=italic guifg=#EF2F27
 
 "highlight CursorLineNr ctermfg=1
 "highlight StatusLine guibg=NONE ctermfg=2 ctermbg=0
@@ -130,7 +126,7 @@ set number
 set relativenumber
 
 set concealcursor=niv
-set cursorline
+" set cursorline
 
 " make vimdiff not readonly
 set noro 
@@ -202,6 +198,8 @@ set splitright
 
 set noshowmode
 
+set wrap
+
 set listchars=tab:▸\ ,eol:¬,trail:·,extends:❯,precedes:❮,nbsp:+ " Define how list mode appears
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -253,6 +251,9 @@ nnoremap <leader>fi :call IdFind()<CR>
 
 nnoremap / /\v
 
+nnoremap Y "+y
+vnoremap Y "+y
+
 nnoremap <C-n> :cn<CR>
 nnoremap <C-p> :cp<CR>
 
@@ -300,20 +301,21 @@ omap af <Plug>(coc-funcobj-a)
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
-" Using floating windows of Neovim to start fzf
-let $FZF_DEFAULT_OPTS = '--color=bg+:#2e3440 --layout=reverse'
-let g:fzf_layout = { 'window': 'call CreateCenteredFloatingWindow()' } 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                           "
 "                        FUNCTIONS                          "
 "                                                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Using floating windows of Neovim to start fzf
+let $FZF_DEFAULT_OPTS = '--color=bg+:#1c1b19 --layout=reverse'
+let g:fzf_layout = { 'window': 'call CreateCenteredFloatingWindow()' } 
+
+
 " Creates a floating window with a most recent buffer to be used
 function! CreateCenteredFloatingWindow()
-    let width = float2nr(&columns * 0.6)
-    let height = float2nr(&lines * 0.6)
+    let width = float2nr(&columns * 0.8)
+    let height = float2nr(&lines * 0.8)
     let top = ((&lines - height) / 2) - 1
     let left = (&columns - width) / 2
     let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
@@ -323,7 +325,7 @@ function! CreateCenteredFloatingWindow()
     set winhl=Normal:Normal
     call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
     autocmd BufWipeout <buffer> call CleanupBuffer(s:buf)
-    tnoremap <buffer> <silent> <Esc> <C-\><C-n><CR>:call DeleteUnlistedBuffers()<CR>
+    "tnoremap <buffer> <silent> <Esc> <C-\><C-n><CR>:call DeleteUnlistedBuffers()<CR>
 endfunction
 
 function! ToggleTerm(cmd)
@@ -386,9 +388,7 @@ endfunction
 function! OnIdFindExit(id, data, event) dict
     exec setreg('"', trim(join(getline(1,'$'))))
     call DeleteUnlistedBuffers()
-    if a:data != 129
-        :normal p
-    endif
+    :normal p
 endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -398,6 +398,7 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 augroup autocommands
+    autocmd!
     " Restore last cursor position and marks on open
     au BufReadPost *
                 \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' 
@@ -442,6 +443,7 @@ augroup autocommands
     autocmd FileType markdown setlocal spell
     autocmd FileType vimwiki setlocal spell
     autocmd FileType translations setlocal spell
+    autocmd FileType gitcommit setlocal spell
 
     au BufEnter *.urdl nmap set ft=urdl
 
@@ -457,4 +459,7 @@ augroup autocommands
     au BufEnter *.java set errorformat=\ %#[%.%#]\ %#%f:%l:%v:%*\\d:%*\\d:\ %t%[%^:]%#:%m,
     \%A\ %#[%.%#]\ %f:%l:\ %m,%-Z\ %#[%.%#]\ %p^,%C\ %#[%.%#]\ %#%m,
     \%-G%.%#
+
+    " Auto reload init.vim
+    au BufWritePost */init.vim source $MYVIMRC
 augroup END

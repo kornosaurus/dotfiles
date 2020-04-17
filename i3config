@@ -56,7 +56,7 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+Shift+e exec ~/bin/launch-ranger  # Filebrowser
 # bindsym $mod+Shift+n exec alacritty --title ncmpcpp -e ncmpcpp # Music
 bindsym $mod+Shift+n exec alacritty -e spt # Music
-bindsym $mod+Shift+b exec firefox # Browser
+bindsym $mod+Shift+b exec google-chrome-stable # Browser
 
 # screenshot
 bindsym --release $mod+Shift+s "exec maim -s | xclip -selection clipboard -t image/png"
@@ -222,7 +222,7 @@ exec --no-startup-id dunst
 #############################
 for_window [window_type="notification"] kill
 for_window [title="ncmpcpp"] floating enabled
-for_window [class="(?i)teams" urgent="latest"] exec notify-send "Teams" "New message"
+# for_window [class="(?i)teams" urgent="latest"] exec notify-send "Teams" "New message"
 
 #############################
 ### settings for i3-gaps: ###
@@ -243,10 +243,10 @@ gaps outer 5
 # gaps horizontal 800
 
 # class                 border  bground text    indicator child_border
-client.focused          #bd93f9 #285577 #FFFFFF #81A1C1   #81A1C1
-client.focused_inactive #333333 #5F676A #FFFFFF #282a36   #282a36
-client.unfocused        #333333 #222222 #888888 #282a36   #282a36
-client.urgent           #2F343A #900000 #FFFFFF #900000   #900000
-client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
+client.focused          #0AAEB3 #0AAEB3 #D0BFA1 #0AAEB3   #0AAEB3
+client.focused_inactive #333333 #5F676A #D0BFA1 #282a36   #282a36
+client.unfocused        #333333 #222222 #D0BFA1 #282a36   #282a36
+client.urgent           #2F343A #900000 #D0BFA1 #900000   #900000
+client.placeholder      #000000 #0C0C0C #D0BFA1 #000000   #0C0C0C
 
 client.background       #FFFFFF

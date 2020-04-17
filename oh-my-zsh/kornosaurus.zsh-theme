@@ -1,5 +1,5 @@
 local ret_status="%(?:%{$fg[green]%}>>:%{$fg[red]%}>>)"
-PROMPT='[%{$fg_bold[red]%}%n%{$reset_color%}@%{$fg_bold[magenta]%}%m %{$fg_bold[cyan]%}%c%{$reset_color%}] ${ret_status}%{$reset_color%} '
+PROMPT='[%{$fg_bold[cyan]%}%n%{$reset_color%}@%{$fg_bold[red]%}%m %{$fg_bold[yellow]%}%c%{$reset_color%}] ${ret_status}%{$reset_color%} '
 RPROMPT='$(vi_mode_prompt_info)$(git_prompt_info)'
 
 MODE_INDICATOR="[%{$fg_bold[red]%}N%{$reset_color%}]"
