@@ -5,21 +5,21 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.local/share/nvim/plugged')
 " Text objects
-Plug 'tpope/vim-surround'
 Plug 'wellle/targets.vim'
 
 " Fzf
 Plug '/home/simonk/.fzf'
 Plug 'junegunn/fzf.vim'
 
-" IDE Features
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+" Language features
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'dansomething/vim-eclim'
 
 " Git
 Plug 'tpope/vim-fugitive'
 
-" Efficient coding
+" Efficiency
+Plug 'tpope/vim-surround'
 Plug 'SirVer/ultisnips'
 Plug 'mattn/emmet-vim'
 
@@ -27,34 +27,19 @@ Plug 'mattn/emmet-vim'
 Plug 'vimwiki/vimwiki'
 Plug 'junegunn/goyo.vim'
 
+" Other
+Plug 'skywind3000/asyncrun.vim'
+
 " Syntax
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 Plug 'ianks/vim-tsx'
-Plug 'calviken/vim-gdscript3'
 Plug 'mustache/vim-mustache-handlebars'
-
-" Statusbar
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'calviken/vim-gdscript3'
 
 " Colors
-Plug 'hzchirs/vim-material'
-Plug 'chriskempson/base16-vim'
-Plug 'reedes/vim-colors-pencil'
-Plug 'dracula/vim'
-Plug 'whatyouhide/vim-gotham'
-Plug 'liuchengxu/space-vim-dark'
 Plug 'srcery-colors/srcery-vim'
-Plug 'arcticicestudio/nord-vim'
 call plug#end()
-
-" AirLine
-let g:airline_powerline_fonts = 0
-let g:airline_theme='srcery'
-
-let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
-let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
 
 let g:fzf_command_prefix = 'Fzf'
 
@@ -67,7 +52,6 @@ let g:fzf_command_prefix = 'Fzf'
 syntax enable
 set termguicolors
 set background=dark
-set guicursor=
 
 colorscheme srcery
 
@@ -78,21 +62,7 @@ highlight Repeat gui=italic guifg=#EF2F27
 highlight Conditional gui=italic guifg=#EF2F27
 highlight Label gui=italic guifg=#EF2F27
 highlight Keyword gui=italic guifg=#EF2F27
-
-"highlight CursorLineNr ctermfg=1
-"highlight StatusLine guibg=NONE ctermfg=2 ctermbg=0
-"highlight Whitespace ctermbg=NONE ctermfg=grey guifg=#353432 guibg=NONE
-"highlight Normal guibg=NONE ctermbg=NONE
-"highlight NonText ctermbg=NONE guibg=NONE
-"highlight LineNr ctermbg=NONE guibg=NONE guifg=grey
-"highlight CursorLineNr ctermbg=NONE guibg=NONE
-"highlight SignColumn ctermbg=NONE guibg=NONE
-"highlight DiffChange ctermbg=NONE guibg=NONE guifg=#ebcb8b
-"highlight DiffDelete ctermbg=NONE guibg=NONE
-"highlight DiffAdd ctermbg=NONE guibg=NONE guifg=#a3be8c
-"highlight CocHighlightText guibg=#333333
-"highlight TabLine gui=NONE
-highlight Substitute gui=NONE guibg=#88c0d0
+highlight SignColumn ctermbg=NONE guibg=NONE
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -110,6 +80,7 @@ set foldlevelstart=20
 
 if executable('rg')
   set grepprg=rg\ --vimgrep
+  set grepformat^=%f:%l:%c:%m
 endif
 
 set completeopt-=preview
@@ -125,7 +96,6 @@ let g:netrw_banner = 0
 set number
 set relativenumber
 
-set concealcursor=niv
 " set cursorline
 
 " make vimdiff not readonly
@@ -202,6 +172,15 @@ set wrap
 
 set listchars=tab:▸\ ,eol:¬,trail:·,extends:❯,precedes:❮,nbsp:+ " Define how list mode appears
 
+
+set statusline=""
+set statusline+=\ %t
+set statusline+=%m
+set statusline+=\ [%{fugitive#head()}]
+set statusline+=%=
+set statusline+=\ %y
+set statusline+=\ [%l/%L]
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                           "
 "                         MAPPINGS                          "
@@ -211,6 +190,7 @@ command! Bd bp|bd #
 nnoremap <leader><CR> :noh<CR>
 
 nnoremap <leader><Tab> :b#<CR>
+nnoremap <leader>o :only<CR>
 nnoremap <leader>bd :Bd<CR>
 
 nnoremap <leader>sv :vsplit<CR>
@@ -221,6 +201,15 @@ noremap <silent> R :tabnext <CR>
 noremap <silent> E :tabprevious <CR>
 
 nnoremap <leader>/ :grep<space>
+
+nnoremap <leader>h :wincmd h<CR>
+nnoremap <leader>j :wincmd j<CR>
+nnoremap <leader>k :wincmd k<CR>
+nnoremap <leader>l :wincmd l<CR>
+
+" Move selection
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
 " fzf
 nnoremap <leader>fb :FzfBuffers<CR>
@@ -239,14 +228,10 @@ nnoremap <leader>fc :FzfCommits<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gd :Gdiffsplit!<CR>
-nnoremap gdh :diffget //2<CR>
-nnoremap gdl :diffget //3<CR>
+nnoremap <leader>gh :diffget //2<CR>
+nnoremap <leader>gl :diffget //3<CR>
 
-" lazygit
-nnoremap <leader>lg :call ToggleLazyGit()<CR>
-" ranger
-nnoremap <leader>e :call ToggleRanger()<CR>
-" idfind
+nnoremap <leader>e :call ToggleFileManager()<CR>
 nnoremap <leader>fi :call IdFind()<CR>
 
 nnoremap / /\v
@@ -279,11 +264,11 @@ nmap <silent>gt <Plug>(coc-type-definition)
 nmap <silent>gD <Plug>(coc-implementation)
 nmap <silent>gh :call CocAction('doHover')<CR>
 nmap <silent><C-h> :call CocActionAsync('showSignatureHelp')<CR>
-nmap <silent>go  :CocList outline<cr>
-nmap <silent>ga  :CocList diagnostics<cr>
-nmap <silent>gp  :CocListResume<CR>
-nmap <silent>gr <Plug>(coc-rename)
 imap <silent><C-h> <Esc>:call CocActionAsync('showSignatureHelp')<CR>a
+nmap <silent>go :CocList outline<cr>
+nmap <silent>ga :CocList diagnostics<cr>
+nmap <silent>gp :CocListResume<CR>
+nmap <silent>gr <Plug>(coc-rename)
 vmap <leader>ac  <Plug>(coc-codeaction-selected)
 nmap <leader>ac <Plug>(coc-codeaction)
 nmap <silent><leader>fr <Plug>(coc-references)
@@ -364,13 +349,13 @@ function! ToggleLazyGit()
     call ToggleTerm('lazygit')
 endfunction
 
-function! ToggleRanger()
+function! ToggleFileManager()
     let file = expand('%:h')
     call CreateCenteredFloatingWindow()
-    call termopen('nnn -p /tmp/chosenfile ' . file, { 'on_exit': function('OnRangerExit') })
+    call termopen('nnn -p /tmp/chosenfile ' . file, { 'on_exit': function('OnFileManagerExit') })
 endfunction
 
-function! OnRangerExit(id, code, event) dict
+function! OnFileManagerExit(id, code, event) dict
     call DeleteUnlistedBuffers()
     try
         if filereadable('/tmp/chosenfile')
@@ -426,10 +411,11 @@ augroup autocommands
     au FileType fzf set nonu nornu
 
     " filetypes
-    autocmd BufRead,BufNewFile *.sls set filetype=yaml
-    autocmd BufRead,BufNewFile *.trans set filetype=translations
+    au BufRead,BufNewFile *.sls set filetype=yaml
+    au BufRead,BufNewFile *.trans set filetype=translations
+    au BufRead,BufNewFile Jenkinsfile set ft=groovy
 
-    " indentation
+    " Indentation
     au BufEnter * setlocal expandtab
     au BufEnter * setlocal shiftwidth=4
     au BufEnter * setlocal tabstop=4
@@ -438,14 +424,14 @@ augroup autocommands
     au BufEnter *.sls setlocal tabstop=2
     au BufEnter *.yml setlocal shiftwidth=2
     au BufEnter *.yml setlocal tabstop=2
+    au BufEnter *.md setlocal shiftwidth=2
+    au BufEnter *.md setlocal tabstop=2
 
-    " spelling
-    autocmd FileType markdown setlocal spell
-    autocmd FileType vimwiki setlocal spell
-    autocmd FileType translations setlocal spell
-    autocmd FileType gitcommit setlocal spell
-
-    au BufEnter *.urdl nmap set ft=urdl
+    " Spelling
+    au FileType markdown setlocal spell
+    au FileType vimwiki setlocal spell
+    au FileType translations setlocal spell
+    au FileType gitcommit setlocal spell
 
     " autocomplete
     au BufEnter * inoremap <silent><expr><c-space> coc#refresh()
@@ -455,11 +441,12 @@ augroup autocommands
     au BufEnter *.java inoremap <silent><expr><C-n> pumvisible() ? "\<C-n>" : "\<C-x><C-u>"
     au BufEnter *.java inoremap <silent><expr><C-p> pumvisible() ? "\<C-n>" : "\<C-x><C-u>"
 
-    au BufEnter *.java set makeprg=/home/simonk/bin/work/ufbuild
-    au BufEnter *.java set errorformat=\ %#[%.%#]\ %#%f:%l:%v:%*\\d:%*\\d:\ %t%[%^:]%#:%m,
-    \%A\ %#[%.%#]\ %f:%l:\ %m,%-Z\ %#[%.%#]\ %p^,%C\ %#[%.%#]\ %#%m,
-    \%-G%.%#
+    " Errorformats
+    au BufEnter *.ts set errorformat=\ %#at\ %.%#(%f:%l:%c)
+    au BufEnter *.tsx set errorformat=\ %#at\ %.%#(%f:%l:%c)
 
     " Auto reload init.vim
     au BufWritePost */init.vim source $MYVIMRC
 augroup END
+
+source ~/.config/nvim/work.init.vim

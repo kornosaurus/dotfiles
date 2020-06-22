@@ -1,0 +1,2 @@
+#! /bin/bash
+echo "" | bluetoothctl | grep Device | sed -r 's/.*Device ([0-9A-Z:]*) ([A-Za-z0-9 ]*)/\1 - \2/' | rofi -dmenu | cut -d '-' -f1 | xargs echo "connect" | bluetoothctl > /dev/null

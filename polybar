@@ -48,6 +48,8 @@ font-2 = Siji:pixelsize=10;1
 modules-left = i3
 modules-center = mpd
 modules-right = volume xkeyboard memory cpu vpn wlan eth battery date
+; modules-right = site volume xkeyboard memory cpu vpn wlan eth battery date
+; modules-right = site xkeyboard memory cpu vpn wlan eth battery date
 
 ;wm-restack = bspwm
 wm-restack = i3
@@ -216,6 +218,11 @@ exec = ~/bin/polybar/vpn
 interval = 3.0
 format-prefix-foreground = ${colors.foreground-alt}
 format-prefix = " "
+
+[module/site]
+type = custom/script
+exec = /home/simonk/bin/work/ufgetactivesite
+interval = 3600.0
 
 [module/wlan]
 type = internal/network

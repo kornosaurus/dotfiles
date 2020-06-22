@@ -54,8 +54,7 @@ bindsym $sup+space exec ~/bin/toggle-kbmap
 bindsym $mod+Return exec alacritty
 
 bindsym $mod+Shift+e exec ~/bin/launch-ranger  # Filebrowser
-# bindsym $mod+Shift+n exec alacritty --title ncmpcpp -e ncmpcpp # Music
-bindsym $mod+Shift+n exec alacritty -e spt # Music
+bindsym $mod+Shift+n exec alacritty --title ncmpcpp -e ncmpcpp # Music
 bindsym $mod+Shift+b exec google-chrome-stable # Browser
 
 # screenshot
@@ -220,9 +219,10 @@ exec --no-startup-id dunst
 #############################
 ###      window rules     ###
 #############################
-for_window [window_type="notification"] kill
 for_window [title="ncmpcpp"] floating enabled
-# for_window [class="(?i)teams" urgent="latest"] exec notify-send "Teams" "New message"
+for_window [class="Godot"] floating enabled
+for_window [instance="Godot_Engine"] floating enabled
+# for_window [class="(?i)teams"] exec notify-send "Teams" "New message"
 
 #############################
 ### settings for i3-gaps: ###

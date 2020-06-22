@@ -2,15 +2,18 @@ export LC_ALL="en_US.UTF-8"
 export ANT_HOME="/home/simonk/Apps/apache-ant-1.10.3"
 export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 export N_PREFIX=$HOME/.apps/n
+export DENO_INSTALL="/home/simonk/.deno"
 
 # If you come from bash you might have to change your $PATH.
 export PATH=$N_PREFIX/bin:$HOME/bin:$HOME/bin/work/:/usr/local/bin:/opt/local/bin:$HOME/Apps/alacritty/target/release:$HOME/.cargo/bin:$PATH:$ANT_HOME/bin:/home/simonk/.local/bin:$HOME/go/bin
+export PATH="$DENO_INSTALL/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
 export EDITOR=nvim
 export BROWSER=firefox
+export TERM="xterm-256color"
 
 export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
@@ -105,7 +108,7 @@ if [ -e /usr/local/opt/fzf/shell/completion.zsh ]; then
   source /usr/local/opt/fzf/shell/completion.zsh
 fi
 
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!**/{build,.git,gen,coverage,node_modules}/**" 2> /dev/null'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!**/{build,.git,gen,gen-urdl,bin,coverage,node_modules}/**" 2> /dev/null'
 export FZF_CTRL_T_COMMAND='rg --hidden --files --null | xargs -0 dirname | uniq'
 
 export FZF_DEFAULT_OPTS="--height 40% --reverse"
