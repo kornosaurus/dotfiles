@@ -35,6 +35,7 @@ env:
   BROWSER: google-chrome
   EDITOR: nvim
   TERM: xterm-256color
+  NNN_USE_EDITOR: "1"
 font:
   normal:
     family: IBM Plex Mono
