@@ -1,2 +1,0 @@
-#! /bin/bash
-curl 'wttr.in/Gothenburg?0TQ' --silent | sed 's/^.\{15\}//g' | sed -n '2p' | sed 's/^//' | awk '{print $1 " " $2}'

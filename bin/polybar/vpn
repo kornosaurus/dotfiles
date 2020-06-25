@@ -1,2 +1,0 @@
-#/bin/sh
-nmcli -f NAME,TYPE con show --active | awk '$2=="vpn" {print $1}'

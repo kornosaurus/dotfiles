@@ -1,2 +1,0 @@
-#! /bin/bash
-hcitool con | sed -n 2,2p | sed 's/^\s*//g'

@@ -8,8 +8,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'wellle/targets.vim'
 
 " Fzf
-Plug '/home/simonk/.fzf'
-Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
 " Language features
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -40,8 +39,6 @@ Plug 'calviken/vim-gdscript3'
 " Colors
 Plug 'srcery-colors/srcery-vim'
 call plug#end()
-
-let g:fzf_command_prefix = 'Fzf'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                           "
@@ -211,18 +208,7 @@ nnoremap <leader>l :wincmd l<CR>
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
-" fzf
-nnoremap <leader>fb :FzfBuffers<CR>
-nnoremap <leader>ff :FzfFiles<CR>
-nnoremap <leader>fl :FzfLines<CR>
-nnoremap <leader>ft :FzfTags<cr>
-nnoremap <leader>fh :FzfHelptags<cr>
-nnoremap <leader>fm :FzfMarks<cr>
-nnoremap <leader>f: :FzfHistory:<cr>
-nnoremap <leader>f/ :FzfHistory/<cr>
-nnoremap <leader>fg :FzfGFiles<cr>
-nnoremap <leader>fs :FzfGFiles?<cr>
-nnoremap <leader>fc :FzfCommits<cr>
+nnoremap <leader>ff :FZF<CR>
 
 " fugitive
 nnoremap <leader>gs :Gstatus<cr>
