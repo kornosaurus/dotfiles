@@ -53,7 +53,7 @@ font:
     x: 0 
     y: 0
   # Laptop:
-  size: 10
+  size: 11
   # Desktop:
   # size: 8.5
   use_thin_strokes: false
