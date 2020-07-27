@@ -1,32 +1,34 @@
 background_opacity: 1
-# Colors (Srcery)
+
+# Colors (Ayu Dark)
 colors:
   # Default colors
   primary:
-    background: '0x1c1b19'
-    foreground: '0xfce8c3'
+    background: '0x0f1419'
+    foreground: '0xe6e1cf'
 
   # Normal colors
   normal:
-    black:   '0x1c1b19'
-    red:     '0xef2f27'
-    green:   '0x519f50'
-    yellow:  '0xfbb829'
-    blue:    '0x2c78bf'
-    magenta: '0xe02c6d'
-    cyan:    '0x0aaeb3'
-    white:   '0xd0bfa1'
+    black:   '0x000000'
+    red:     '0xf34a4a'
+    green:   '0xbae67e'
+    yellow:  '0xffee99'
+    blue:    '0x73d0ff'
+    magenta: '0xd4bfff'
+    cyan:    '0x83CEC6'
+    white:   '0xf2f2f2'
 
   # Bright colors
   bright:
-    black:   '0x918175'
-    red:     '0xf75341'
-    green:   '0x98bc37'
-    yellow:  '0xfed06e'
-    blue:    '0x68a8e4'
-    magenta: '0xff5c8f'
-    cyan:    '0x53fde9'
-    white:   '0xfce8c3'
+    black:   '0x737d87'
+    red:     '0xff3333'
+    green:   '0xc2d94c'
+    yellow:  '0xe7c547'
+    blue:    '0x59c2ff'
+    magenta: '0xb77ee0'
+    cyan:    '0x5ccfe6'
+    white:   '0xffffff'
+
 cursor_style: Block
 custom_cursor_colors: true
 draw_bold_text_with_bright_colors: false
@@ -38,14 +40,14 @@ env:
   NNN_USE_EDITOR: "1"
 font:
   normal:
-    family: IBM Plex Mono
+    family: monospace
     style: Regular
   bold:
-    family: IBM Plex Mono
+    family: monospace
     style: Bold
   italic:
-    family: IBM Plex Mono
-    style: Medium Italic
+    family: monospace
+    style: Medium Extended Italic
   glyph_offset:
     x: 0
     y: 0
@@ -53,7 +55,7 @@ font:
     x: 0 
     y: 0
   # Laptop:
-  size: 11
+  size: 11.5
   # Desktop:
   # size: 8.5
   use_thin_strokes: false

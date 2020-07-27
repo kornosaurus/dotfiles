@@ -9,10 +9,10 @@ Plug 'wellle/targets.vim'
 
 " Fzf
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 " Language features
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'dansomething/vim-eclim'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -37,7 +37,7 @@ Plug 'mustache/vim-mustache-handlebars'
 Plug 'calviken/vim-gdscript3'
 
 " Colors
-Plug 'srcery-colors/srcery-vim'
+Plug 'ayu-theme/ayu-vim'
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -49,17 +49,16 @@ call plug#end()
 syntax enable
 set termguicolors
 set background=dark
+let ayucolor="dark"
 
-colorscheme srcery
+colorscheme ayu
 
-"highlight EndOfBuffer guifg=grey
-"highlight NonText guifg=#353432
-highlight Comment gui=italic
-highlight Repeat gui=italic guifg=#EF2F27
-highlight Conditional gui=italic guifg=#EF2F27
-highlight Label gui=italic guifg=#EF2F27
-highlight Keyword gui=italic guifg=#EF2F27
 highlight SignColumn ctermbg=NONE guibg=NONE
+highlight DiffAdd guibg=NONE
+highlight DiffChange guibg=NONE
+highlight DiffDelete guibg=NONE guifg=#FF3333
+highlight GitGutterAdd guibg=NONE
+highlight Comment gui=italic
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -68,6 +67,7 @@ highlight SignColumn ctermbg=NONE guibg=NONE
 "                                                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+let g:fzf_command_prefix = 'Fzf'
 
 let g:vimwiki_list = [{'path': '~/Wiki/',
             \ 'syntax': 'markdown', 'ext': '.md'}]
@@ -93,7 +93,7 @@ let g:netrw_banner = 0
 set number
 set relativenumber
 
-" set cursorline
+set cursorline
 
 " make vimdiff not readonly
 set noro 
@@ -103,8 +103,6 @@ set diffopt+=vertical
 filetype plugin on
 filetype indent on
 
-" suppress the annoying 'match x of y', 'The only match' and 'Pattern not
-" found' messages
 set shortmess+=c
 
 set autoread
@@ -145,8 +143,8 @@ set magic
 set showmatch
 
 " Save undo state
-" set undodir=~/.vim/undodir
-" set undofile
+set undodir=~/.vim/undodir
+set undofile
 
 " Live substitute
 set inccommand=nosplit
@@ -167,13 +165,12 @@ set noshowmode
 
 set wrap
 
-set listchars=tab:▸\ ,eol:¬,trail:·,extends:❯,precedes:❮,nbsp:+ " Define how list mode appears
-
+" set listchars=tab:▸\ ,eol:¬,trail:·,extends:❯,precedes:❮,nbsp:+
 
 set statusline=""
 set statusline+=\ %t
 set statusline+=%m
-set statusline+=\ [%{fugitive#head()}]
+set statusline+=\ %{fugitive#statusline()}
 set statusline+=%=
 set statusline+=\ %y
 set statusline+=\ [%l/%L]
@@ -208,7 +205,9 @@ nnoremap <leader>l :wincmd l<CR>
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
-nnoremap <leader>ff :FZF<CR>
+nnoremap <leader>ff :FzfFiles<CR>
+nnoremap <leader>fb :FzfBuffers<CR>
+nnoremap <leader>fl :FzfLines<CR>
 
 " fugitive
 nnoremap <leader>gs :Gstatus<cr>
@@ -238,12 +237,21 @@ vnoremap * y/\V<C-r>=escape(@",'/\')<CR><CR>
 let g:vimwiki_table_mappings = 0
 
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
-let g:UltiSnipsExpandTrigger="<Tab>"
-let g:UltiSnipsJumpForwardTrigger="<Tab>"
-let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 
-let g:coc_snippet_next = '<Tab>'
-let g:coc_snippet_prev = '<S-Tab>'
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 nmap <silent>gd <Plug>(coc-definition)
 nmap <silent>gt <Plug>(coc-type-definition)
@@ -279,7 +287,7 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Using floating windows of Neovim to start fzf
-let $FZF_DEFAULT_OPTS = '--color=bg+:#1c1b19 --layout=reverse'
+let $FZF_DEFAULT_OPTS = '--layout=reverse'
 let g:fzf_layout = { 'window': 'call CreateCenteredFloatingWindow()' } 
 
 
@@ -296,7 +304,7 @@ function! CreateCenteredFloatingWindow()
     set winhl=Normal:Normal
     call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
     autocmd BufWipeout <buffer> call CleanupBuffer(s:buf)
-    "tnoremap <buffer> <silent> <Esc> <C-\><C-n><CR>:call DeleteUnlistedBuffers()<CR>
+    tnoremap <buffer> <silent> <Esc> <C-\><C-n>:call DeleteUnlistedBuffers()<CR>
 endfunction
 
 function! ToggleTerm(cmd)
@@ -311,12 +319,7 @@ endfunction
 function! DeleteUnlistedBuffers()
     for n in nvim_list_bufs()
         if ! buflisted(n)
-            let name = bufname(n)
-            if name == '[Scratch]' ||
-              \ matchend(name, ":bash") ||
-              \ matchend(name, ":lazygit")
-                call CleanupBuffer(n)
-            endif
+            call CleanupBuffer(n)
         endif
     endfor
 endfunction
@@ -378,7 +381,8 @@ augroup autocommands
     autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     " autocmd CursorHold * silent call CocActionAsync('highlight')
 
-    autocmd TermOpen * startinsert
+    autocmd TermOpen * startinsert " Terminal start in insertmode
+
     au BufEnter * nmap <silent>gd <Plug>(coc-definition)
     au BufEnter * nmap <silent>gD <Plug>(coc-implementation)
     au BufEnter * nmap <silent>gh :call CocAction('doHover')<CR>
