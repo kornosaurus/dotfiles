@@ -1,0 +1,16 @@
+#!/bin/bash
+
+current=`nmcli con show | awk '$3 == "vpn" && $4 != "--" {print $1}'`
+available=`nmcli con show | awk -v current="$current" '$3 == "vpn" && $1 != current { print $1 }'`
+
+selected=`printf '%s\n' "${available[@]}" | rofi -dmenu -p "VPN"`
+
+if [ -z "$selected" ]; then
+    exit 0
+fi
+
+if [ ! -z "$selected" ]; then
+    nmcli con down "$current"
+fi
+
+nmcli con up "$selected"

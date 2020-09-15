@@ -13,8 +13,12 @@ Plug 'junegunn/fzf.vim'
 
 " Language features
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
+Plug 'dansomething/vim-eclim', { 'for': 'java' }
+Plug 'nvim-treesitter/nvim-treesitter'
 
 " Git
+Plug 'stsewd/fzf-checkout.vim'
 Plug 'tpope/vim-fugitive'
 
 " Efficiency
@@ -28,16 +32,18 @@ Plug 'junegunn/goyo.vim'
 
 " Other
 Plug 'skywind3000/asyncrun.vim'
+Plug 'justinmk/vim-dirvish'
+Plug 'tpope/vim-dadbod'
+Plug 'tpope/vim-dispatch'
 
 " Syntax
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
-Plug 'ianks/vim-tsx'
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'calviken/vim-gdscript3'
 
 " Colors
 Plug 'ayu-theme/ayu-vim'
+Plug 'morhetz/gruvbox'
+Plug 'liuchengxu/space-vim-dark'
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -49,6 +55,7 @@ call plug#end()
 syntax enable
 set termguicolors
 set background=dark
+let g:gruvbox_contrast_dark="hard"
 let ayucolor="dark"
 
 colorscheme ayu
@@ -57,8 +64,17 @@ highlight SignColumn ctermbg=NONE guibg=NONE
 highlight DiffAdd guibg=NONE
 highlight DiffChange guibg=NONE
 highlight DiffDelete guibg=NONE guifg=#FF3333
-highlight GitGutterAdd guibg=NONE
+highlight Error guibg=NONE
 highlight Comment gui=italic
+highlight StatusLine guibg=NONE gui=NONE
+highlight Type gui=bold
+" highlight link Operator GruvboxFg1
+function! SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -66,8 +82,19 @@ highlight Comment gui=italic
 "                         OPTIONS                           "
 "                                                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let $FZF_DEFAULT_OPTS = '--layout=reverse'
 
 let g:fzf_command_prefix = 'Fzf'
+let g:fzf_preview_window = ''
+let g:fzf_layout = { 'window': { 'width': 0.6, 'height': 0.8 } }
+
+let g:coc_fzf_opts = []
+
+let g:fzf_branch_actions = {
+            \ 'create': {'keymap': 'alt-n'},
+            \}
+
+let g:EclimJavaCompleteCaseSensitive = 1
 
 let g:vimwiki_list = [{'path': '~/Wiki/',
             \ 'syntax': 'markdown', 'ext': '.md'}]
@@ -104,6 +131,8 @@ filetype plugin on
 filetype indent on
 
 set shortmess+=c
+
+set conceallevel=0
 
 set autoread
 
@@ -165,13 +194,16 @@ set noshowmode
 
 set wrap
 
-" set listchars=tab:▸\ ,eol:¬,trail:·,extends:❯,precedes:❮,nbsp:+
+" set lcs=tab:▸\ ,eol:↴,trail:·
+set lcs=tab:▸\ ,trail:·
+set list
 
 set statusline=""
 set statusline+=\ %t
 set statusline+=%m
 set statusline+=\ %{fugitive#statusline()}
 set statusline+=%=
+set statusline+=[%{coc#status()}%{get(b:,'coc_current_function','')}]
 set statusline+=\ %y
 set statusline+=\ [%l/%L]
 
@@ -184,22 +216,9 @@ command! Bd bp|bd #
 nnoremap <leader><CR> :noh<CR>
 
 nnoremap <leader><Tab> :b#<CR>
-nnoremap <leader>o :only<CR>
 nnoremap <leader>bd :Bd<CR>
 
-nnoremap <leader>sv :vsplit<CR>
-nnoremap <leader>sh :split<CR>
-
-noremap <silent> <leader>tn :tabnew <CR>
-noremap <silent> R :tabnext <CR>
-noremap <silent> E :tabprevious <CR>
-
 nnoremap <leader>/ :grep<space>
-
-nnoremap <leader>h :wincmd h<CR>
-nnoremap <leader>j :wincmd j<CR>
-nnoremap <leader>k :wincmd k<CR>
-nnoremap <leader>l :wincmd l<CR>
 
 " Move selection
 vnoremap J :m '>+1<CR>gv=gv
@@ -209,14 +228,16 @@ nnoremap <leader>ff :FzfFiles<CR>
 nnoremap <leader>fb :FzfBuffers<CR>
 nnoremap <leader>fl :FzfLines<CR>
 
-" fugitive
+" git
 nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gc :FzfGBranches<cr>
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gd :Gdiffsplit!<CR>
-nnoremap <leader>gh :diffget //2<CR>
-nnoremap <leader>gl :diffget //3<CR>
+nnoremap <leader>gl :Git log -100<CR>
+nnoremap <leader>dh :diffget //2<CR>
+nnoremap <leader>dl :diffget //3<CR>
 
-nnoremap <leader>e :call ToggleFileManager()<CR>
+nnoremap <leader>e :Dirvish %<CR>
 nnoremap <leader>fi :call IdFind()<CR>
 
 nnoremap / /\v
@@ -237,133 +258,46 @@ vnoremap * y/\V<C-r>=escape(@",'/\')<CR><CR>
 let g:vimwiki_table_mappings = 0
 
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
+let g:UltiSnipsExpandTrigger="<c-j>"
 
-" Use <C-l> for trigger snippet expand.
-imap <C-l> <Plug>(coc-snippets-expand)
-
-" Use <C-j> for select text for visual placeholder of snippet.
-vmap <C-j> <Plug>(coc-snippets-select)
-
-" Use <C-j> for jump to next placeholder, it's default of coc.nvim
-let g:coc_snippet_next = '<c-j>'
-
-" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-let g:coc_snippet_prev = '<c-k>'
-
-" Use <C-j> for both expand and jump (make expand higher priority.)
-imap <C-j> <Plug>(coc-snippets-expand-jump)
-
+" go to
 nmap <silent>gd <Plug>(coc-definition)
+nmap <silent>gr <Plug>(coc-references)
 nmap <silent>gt <Plug>(coc-type-definition)
-nmap <silent>gD <Plug>(coc-implementation)
+nmap <silent>gi <Plug>(coc-implementation)
+nmap <silent>[g <Plug>(coc-diagnostic-prev)
+nmap <silent>]g <Plug>(coc-diagnostic-next)
+
+" show
 nmap <silent>gh :call CocAction('doHover')<CR>
 nmap <silent><C-h> :call CocActionAsync('showSignatureHelp')<CR>
 imap <silent><C-h> <Esc>:call CocActionAsync('showSignatureHelp')<CR>a
-nmap <silent>go :CocList outline<cr>
-nmap <silent>ga :CocList diagnostics<cr>
-nmap <silent>gp :CocListResume<CR>
-nmap <silent>gr <Plug>(coc-rename)
-vmap <leader>ac  <Plug>(coc-codeaction-selected)
-nmap <leader>ac <Plug>(coc-codeaction)
-nmap <silent><leader>fr <Plug>(coc-references)
-nmap <silent>[c <Plug>(coc-diagnostic-prev)
-nmap <silent>]c <Plug>(coc-diagnostic-next)
-nmap <silent><leader>qf <Plug>(coc-fix-current)
 
-" Introduce function text object
-" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-xmap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap if <Plug>(coc-funcobj-i)
-omap af <Plug>(coc-funcobj-a)
+" list
+nmap <silent><leader>o :CocFzfList outline<cr>
+nmap <silent><leader>d :CocFzfList diagnostics<cr>
+nmap <silent><leader>r :CocFzfListResume<CR>
 
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+" actions
+nmap <leader>rn <Plug>(coc-rename)
+vmap <leader>ca <Plug>(coc-codeaction-selected)
+nmap <leader>ca <Plug>(coc-codeaction)
+nmap <leader>qf <Plug>(coc-fix-current)
+
+nnoremap <leader>- :Scratch<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                           "
-"                        FUNCTIONS                          "
+"                         COMMANDS                          "
 "                                                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Using floating windows of Neovim to start fzf
-let $FZF_DEFAULT_OPTS = '--layout=reverse'
-let g:fzf_layout = { 'window': 'call CreateCenteredFloatingWindow()' } 
+command! ArduinoCompile execute "AsyncRun -raw arduino-cli compile -b arduino:avr:uno" <bar> copen 10 <bar> wincmd p
+command! ArduinoUpload execute "AsyncRun -raw arduino-cli upload -b arduino:avr:uno -p /dev/ttyACM0" <bar> copen 10 <bar> wincmd p
+command! -nargs=1 ArduinoMonitor split <bar> resize -10 <bar> execute "term screen /dev/ttyACM0 <args>" <bar> wincmd p <ESC>
 
-
-" Creates a floating window with a most recent buffer to be used
-function! CreateCenteredFloatingWindow()
-    let width = float2nr(&columns * 0.8)
-    let height = float2nr(&lines * 0.8)
-    let top = ((&lines - height) / 2) - 1
-    let left = (&columns - width) / 2
-    let opts = {'relative': 'editor', 'row': top, 'col': left, 'width': width, 'height': height, 'style': 'minimal'}
-
-    let s:buf = nvim_create_buf(v:false, v:true)
-    call nvim_open_win(s:buf, v:true, opts)
-    set winhl=Normal:Normal
-    call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
-    autocmd BufWipeout <buffer> call CleanupBuffer(s:buf)
-    tnoremap <buffer> <silent> <Esc> <C-\><C-n>:call DeleteUnlistedBuffers()<CR>
-endfunction
-
-function! ToggleTerm(cmd)
-    if empty(bufname(a:cmd))
-        call CreateCenteredFloatingWindow()
-        call termopen(a:cmd, { 'on_exit': function('OnTermExit') })
-    else
-        call DeleteUnlistedBuffers()
-    endif
-endfunction
-
-function! DeleteUnlistedBuffers()
-    for n in nvim_list_bufs()
-        if ! buflisted(n)
-            call CleanupBuffer(n)
-        endif
-    endfor
-endfunction
-
-function! CleanupBuffer(buf)
-    if bufexists(a:buf)
-        silent execute 'bwipeout! '.a:buf
-    endif
-endfunction
-
-function! OnTermExit(job_id, code, event) dict
-    call DeleteUnlistedBuffers()
-endfunction
-
-function! ToggleLazyGit()
-    call ToggleTerm('lazygit')
-endfunction
-
-function! ToggleFileManager()
-    let file = expand('%:h')
-    call CreateCenteredFloatingWindow()
-    call termopen('nnn -p /tmp/chosenfile ' . file, { 'on_exit': function('OnFileManagerExit') })
-endfunction
-
-function! OnFileManagerExit(id, code, event) dict
-    call DeleteUnlistedBuffers()
-    try
-        if filereadable('/tmp/chosenfile')
-            exec 'edit ' . readfile('/tmp/chosenfile')[0]
-            call system('echo '' > /tmp/chosenfile')
-        endif
-    endtry
-endfunction
-
-function! IdFind()
-    call CreateCenteredFloatingWindow()
-    call termopen('idfind', { 'on_exit': function('OnIdFindExit') })
-endfunction
-
-function! OnIdFindExit(id, data, event) dict
-    exec setreg('"', trim(join(getline(1,'$'))))
-    call DeleteUnlistedBuffers()
-    :normal p
-endfunction
+" Open scratch buffer
+command! Scratch enew | setlocal buftype=nofile | setlocal bufhidden=hide | setlocal noswapfile
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                           "
@@ -382,21 +316,6 @@ augroup autocommands
     " autocmd CursorHold * silent call CocActionAsync('highlight')
 
     autocmd TermOpen * startinsert " Terminal start in insertmode
-
-    au BufEnter * nmap <silent>gd <Plug>(coc-definition)
-    au BufEnter * nmap <silent>gD <Plug>(coc-implementation)
-    au BufEnter * nmap <silent>gh :call CocAction('doHover')<CR>
-    au BufEnter * nmap <silent>gr <Plug>(coc-rename)
-    au BufEnter * nmap <silent><leader>fr <Plug>(coc-references)
-
-    au BufEnter *.java nmap gd :JavaSearch -a edit<CR>
-    au BufEnter *.java nmap gD :JavaSearch -x implementors -a edit<CR>
-    au BufEnter *.java nmap gs :JavaSearch -a vsplit<CR>
-    au BufEnter *.java nmap gi :JavaImport<CR>
-    au BufEnter *.java nmap gh :JavaDocPreview<CR>
-    au BufEnter *.java nmap gr :JavaRename 
-
-    au BufEnter *.java nmap <leader>fr :JavaSearch -x references<CR>
 
     au FileType fzf set nonu nornu
 
@@ -423,20 +342,37 @@ augroup autocommands
     au FileType translations setlocal spell
     au FileType gitcommit setlocal spell
 
-    " autocomplete
-    au BufEnter * inoremap <silent><expr><c-space> coc#refresh()
-    au BufEnter *.java inoremap <silent><c-space> <C-x><C-u>
-    au BufEnter * inoremap <silent><expr><C-n> pumvisible() ? "\<C-n>" : coc#refresh()
-    au BufEnter * inoremap <silent><expr><C-p> pumvisible() ? "\<C-p>" : coc#refresh()
-    au BufEnter *.java inoremap <silent><expr><C-n> pumvisible() ? "\<C-n>" : "\<C-x><C-u>"
-    au BufEnter *.java inoremap <silent><expr><C-p> pumvisible() ? "\<C-n>" : "\<C-x><C-u>"
+    " java
+    au FileType java inoremap <buffer><silent><c-space> <C-x><C-u>
+    au FileType java inoremap <buffer><silent><expr><C-n> pumvisible() ? "\<C-n>" : "\<C-x><C-u>"
+    au FileType java inoremap <buffer><silent><expr><C-p> pumvisible() ? "\<C-n>" : "\<C-x><C-u>"
+    au FileType java nnoremap <buffer><leader>fr :JavaSearch -x references<CR>
+    au FileType java nnoremap <buffer>gd :JavaSearch -a edit<CR>
+    au FileType java nnoremap <buffer>gD :JavaSearch -x implementors -a edit<CR>
+    au FileType java nnoremap <buffer>gs :JavaSearch -a vsplit<CR>
+    au FileType java nnoremap <buffer>gi :JavaImport<CR>
+    au FileType java nnoremap <buffer>gh :JavaDocPreview<CR>
+    au FileType java nnoremap <buffer>gr :JavaRename 
+    au FileType java nnoremap <leader>ca :JavaCorrect<CR>
+
 
     " Errorformats
-    au BufEnter *.ts set errorformat=\ %#at\ %.%#(%f:%l:%c)
-    au BufEnter *.tsx set errorformat=\ %#at\ %.%#(%f:%l:%c)
+    au BufEnter *.ts setlocal errorformat=\ %#at\ %.%#(%f:%l:%c)
+    au BufEnter *.tsx setlocal errorformat=\ %#at\ %.%#(%f:%l:%c)
 
     " Auto reload init.vim
     au BufWritePost */init.vim source $MYVIMRC
+
+    " autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("Search", 300)
 augroup END
 
 source ~/.config/nvim/work.init.vim
+
+" Tree sitter
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+    highlight = {
+      enable = true,
+    }
+}
+EOF

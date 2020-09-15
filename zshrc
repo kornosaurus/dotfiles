@@ -4,7 +4,7 @@ export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 export N_PREFIX=$HOME/.apps/n
 
 # If you come from bash you might have to change your $PATH.
-export PATH=$PATH:$N_PREFIX/bin:$HOME/.bin:$HOME/.bin/work/:$HOME/Apps/alacritty/target/release:$HOME/.cargo/bin:$PATH:$ANT_HOME/bin
+export PATH=$PATH:$N_PREFIX/bin:$HOME/.bin:$HOME/.bin/work/:$HOME/Apps/alacritty/target/release:$HOME/.cargo/bin:$PATH:$ANT_HOME/bin:$HOME/Applications/arduino-1.8.13/bin
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -27,7 +27,7 @@ ZSH_THEME="kornosaurus"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git yarn zsh-autosuggestions fzf)
+plugins=(git yarn fzf)
 
 source $ZSH/oh-my-zsh.sh
 
