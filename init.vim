@@ -32,7 +32,7 @@ Plug 'junegunn/goyo.vim'
 
 " Other
 Plug 'skywind3000/asyncrun.vim'
-Plug 'justinmk/vim-dirvish'
+Plug 'voldikss/vim-floaterm'
 Plug 'tpope/vim-dadbod'
 Plug 'tpope/vim-dispatch'
 
@@ -42,8 +42,6 @@ Plug 'calviken/vim-gdscript3'
 
 " Colors
 Plug 'ayu-theme/ayu-vim'
-Plug 'morhetz/gruvbox'
-Plug 'liuchengxu/space-vim-dark'
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -68,36 +66,32 @@ highlight Error guibg=NONE
 highlight Comment gui=italic
 highlight StatusLine guibg=NONE gui=NONE
 highlight Type gui=bold
-" highlight link Operator GruvboxFg1
-function! SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                           "
 "                         OPTIONS                           "
 "                                                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:coc_global_extensions=[ 'coc-tsserver', 'coc-git', 'coc-tslint', 'coc-json', 'coc-css', 'coc-pairs' ]
+
 let $FZF_DEFAULT_OPTS = '--layout=reverse'
 
 let g:fzf_command_prefix = 'Fzf'
 let g:fzf_preview_window = ''
 let g:fzf_layout = { 'window': { 'width': 0.6, 'height': 0.8 } }
-
-let g:coc_fzf_opts = []
-
 let g:fzf_branch_actions = {
             \ 'create': {'keymap': 'alt-n'},
             \}
 
+let g:coc_fzf_opts = []
+
+let g:floaterm_autoclose=2
+let g:floaterm_title=""
+let g:floaterm_height=0.8
+
 let g:EclimJavaCompleteCaseSensitive = 1
 
-let g:vimwiki_list = [{'path': '~/Wiki/',
-            \ 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/Wiki/', 'syntax': 'markdown', 'ext': '.md'}]
 
 set foldmethod=syntax
 set foldlevelstart=20
@@ -195,7 +189,7 @@ set noshowmode
 set wrap
 
 " set lcs=tab:▸\ ,eol:↴,trail:·
-set lcs=tab:▸\ ,trail:·
+set lcs=tab:\ \ ,trail:·
 set list
 
 set statusline=""
@@ -237,8 +231,9 @@ nnoremap <leader>gl :Git log -100<CR>
 nnoremap <leader>dh :diffget //2<CR>
 nnoremap <leader>dl :diffget //3<CR>
 
-nnoremap <leader>e :Dirvish %<CR>
-nnoremap <leader>fi :call IdFind()<CR>
+nnoremap <leader>e :FloatermNew nnn<CR>
+nnoremap <leader>lg :FloatermNew lazygit<CR>
+nnoremap <leader>fi :FloatermNew idfind<CR>
 
 nnoremap / /\v
 
@@ -258,7 +253,9 @@ vnoremap * y/\V<C-r>=escape(@",'/\')<CR><CR>
 let g:vimwiki_table_mappings = 0
 
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
-let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
 
 " go to
 nmap <silent>gd <Plug>(coc-definition)
@@ -286,6 +283,12 @@ nmap <leader>qf <Plug>(coc-fix-current)
 
 nnoremap <leader>- :Scratch<CR>
 
+" repl
+nnoremap ro :Repl 
+nnoremap rr :FloatermSend<CR>
+vnoremap rr :FloatermSend<CR>
+nnoremap rR ggVG:FloatermSend<CR><C-o>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                           "
 "                         COMMANDS                          "
@@ -298,6 +301,9 @@ command! -nargs=1 ArduinoMonitor split <bar> resize -10 <bar> execute "term scre
 
 " Open scratch buffer
 command! Scratch enew | setlocal buftype=nofile | setlocal bufhidden=hide | setlocal noswapfile
+
+" Repl
+command! -nargs=1 Repl execute "FloatermNew --name=repl --width=0.3 --position=right --wintype=normal <args>" <bar> wincmd p <bar> call feedkeys("\<ESC>")
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                           "
@@ -355,10 +361,6 @@ augroup autocommands
     au FileType java nnoremap <buffer>gr :JavaRename 
     au FileType java nnoremap <leader>ca :JavaCorrect<CR>
 
-
-    " Errorformats
-    au BufEnter *.ts setlocal errorformat=\ %#at\ %.%#(%f:%l:%c)
-    au BufEnter *.tsx setlocal errorformat=\ %#at\ %.%#(%f:%l:%c)
 
     " Auto reload init.vim
     au BufWritePost */init.vim source $MYVIMRC
