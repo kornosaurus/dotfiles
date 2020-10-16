@@ -1,0 +1,16 @@
+{
+    "tsserver.enableJavascript": true,
+    "signature.target": "float",
+    "suggest.autoTrigger": "none",
+    "diagnostic.errorSign": "⛔️",
+    "languageserver": {
+        "godot": {
+          "host": "127.0.0.1",
+          "filetypes": ["gd", "gdscript3"],
+          "port": 6008
+        }
+    },
+    "git.signOffset": 9,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true
+}
