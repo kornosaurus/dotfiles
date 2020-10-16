@@ -35,6 +35,7 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'voldikss/vim-floaterm'
 Plug 'tpope/vim-dadbod'
 Plug 'tpope/vim-dispatch'
+Plug 'mhinz/vim-startify'
 
 " Syntax
 Plug 'mustache/vim-mustache-handlebars'
@@ -93,8 +94,9 @@ let g:EclimJavaCompleteCaseSensitive = 1
 
 let g:vimwiki_list = [{'path': '~/Wiki/', 'syntax': 'markdown', 'ext': '.md'}]
 
-set foldmethod=syntax
-set foldlevelstart=20
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+set foldlevelstart=99
 
 if executable('rg')
   set grepprg=rg\ --vimgrep
@@ -140,6 +142,7 @@ set so=7
 set emoji
 set wildmenu
 set wildoptions=pum
+set pumheight=20
 set pumblend=10
 set winblend=10
 
@@ -352,20 +355,18 @@ augroup autocommands
     au FileType java inoremap <buffer><silent><c-space> <C-x><C-u>
     au FileType java inoremap <buffer><silent><expr><C-n> pumvisible() ? "\<C-n>" : "\<C-x><C-u>"
     au FileType java inoremap <buffer><silent><expr><C-p> pumvisible() ? "\<C-n>" : "\<C-x><C-u>"
-    au FileType java nnoremap <buffer><leader>fr :JavaSearch -x references<CR>
+    au FileType java nnoremap <buffer>gr :JavaSearch -x references<CR>
     au FileType java nnoremap <buffer>gd :JavaSearch -a edit<CR>
     au FileType java nnoremap <buffer>gD :JavaSearch -x implementors -a edit<CR>
     au FileType java nnoremap <buffer>gs :JavaSearch -a vsplit<CR>
     au FileType java nnoremap <buffer>gi :JavaImport<CR>
     au FileType java nnoremap <buffer>gh :JavaDocPreview<CR>
-    au FileType java nnoremap <buffer>gr :JavaRename 
+    au FileType java nnoremap <leader>rn :JavaRename 
     au FileType java nnoremap <leader>ca :JavaCorrect<CR>
 
 
     " Auto reload init.vim
     au BufWritePost */init.vim source $MYVIMRC
-
-    " autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("Search", 300)
 augroup END
 
 source ~/.config/nvim/work.init.vim

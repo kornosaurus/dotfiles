@@ -2,6 +2,7 @@ export LC_ALL="en_US.UTF-8"
 export ANT_HOME="/home/simonk/Apps/apache-ant-1.10.3"
 export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 export N_PREFIX=$HOME/.apps/n
+export _JAVA_AWT_WM_NONREPARENTING=1
 
 # If you come from bash you might have to change your $PATH.
 export PATH=$PATH:$N_PREFIX/bin:$HOME/.bin:$HOME/.bin/work/:$HOME/Apps/alacritty/target/release:$HOME/.cargo/bin:$PATH:$ANT_HOME/bin:$HOME/Applications/arduino-1.8.13/bin
@@ -63,21 +64,21 @@ export LC_CTYPE=en_US.UTF-8
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # vim mode
-# bindkey -v
-# export KEYTIMEOUT=1
+bindkey -v
+export KEYTIMEOUT=1
 
 # Better searching in command mode
-# bindkey -M vicmd '?' history-incremental-search-backward
-# bindkey -M vicmd '/' history-incremental-search-forward
-# 
-# # Beginning search with arrow keys
-# bindkey "^[OA" up-line-or-beginning-search
-# bindkey "^[OB" down-line-or-beginning-search
-# bindkey -M vicmd "k" up-line-or-beginning-search
-# bindkey -M vicmd "j" down-line-or-beginning-search
-# 
-# # edit command in vim
-# bindkey "^e" edit-command-line
+bindkey -M vicmd '?' history-incremental-search-backward
+bindkey -M vicmd '/' history-incremental-search-forward
+
+# Beginning search with arrow keys
+bindkey "^[OA" up-line-or-beginning-search
+bindkey "^[OB" down-line-or-beginning-search
+bindkey -M vicmd "k" up-line-or-beginning-search
+bindkey -M vicmd "j" down-line-or-beginning-search
+
+# edit command in vim
+bindkey "^e" edit-command-line
 
 # Aliases
 alias lg='lazygit'

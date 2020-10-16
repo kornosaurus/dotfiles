@@ -62,7 +62,6 @@ colors:
 cursor_style: Block
 custom_cursor_colors: true
 draw_bold_text_with_bright_colors: false
-dynamic_title: true
 env:
   BROWSER: google-chrome
   EDITOR: nvim
@@ -85,7 +84,7 @@ font:
     x: 0 
     y: 0
   # Laptop:
-  size: 13.5
+  size: 11
   # Desktop:
   # size: 8.5
   use_thin_strokes: false
@@ -107,10 +106,11 @@ selection:
   semantic_escape_chars: ",\u2502`|:\"' ()[]{}<>"
 shell:
   program: /bin/zsh
-visual_bell:
+bell:
   animation: EaseOutExpo
   duration: 0
 window:
+  dynamic_title: true
   decorations: full
   dimensions:
     columns: 80
@@ -171,14 +171,39 @@ key_bindings:
   - { key: W,      mods: Shift,         mode: Vi, action: WordRight               }
   - { key: E,      mods: Shift,         mode: Vi, action: WordRightEnd            }
   - { key: Key5,   mods: Shift,         mode: Vi, action: Bracket                 }
+  - { key: Slash,                       mode: Vi, action: SearchForward           }
+  - { key: Slash,  mods: Shift,         mode: Vi, action: SearchBackward          }
+  - { key: N,                           mode: Vi, action: SearchNext              }
+  - { key: N,      mods: Shift,         mode: Vi, action: SearchPrevious          }
 
-  # (Windows, Linux, and BSD only)
+    # (Windows, Linux, and BSD only)
   - { key: V,        mods: Control|Shift,           action: Paste            }
   - { key: C,        mods: Control|Shift,           action: Copy             }
+  - { key: F,        mods: Control|Shift,           action: SearchForward    }
+  - { key: B,        mods: Control|Shift,           action: SearchBackward   }
   - { key: C,        mods: Control|Shift, mode: Vi, action: ClearSelection   }
   - { key: Insert,   mods: Shift,                   action: PasteSelection   }
   - { key: Key0,     mods: Control,                 action: ResetFontSize    }
   - { key: Equals,   mods: Control,                 action: IncreaseFontSize }
-  - { key: Add,      mods: Control,                 action: IncreaseFontSize }
-  - { key: Subtract, mods: Control,                 action: DecreaseFontSize }
+  - { key: Plus,     mods: Control,                 action: IncreaseFontSize }
   - { key: Minus,    mods: Control,                 action: DecreaseFontSize }
+  - { key: Minus,    mods: Control,                 action: DecreaseFontSize }
+
+    # (macOS only)
+  - { key: K,      mods: Command, mode: ~Vi, chars: "\x0c"            }
+  - { key: Key0,   mods: Command,            action: ResetFontSize    }
+  - { key: Equals, mods: Command,            action: IncreaseFontSize }
+  - { key: Plus,   mods: Command,            action: IncreaseFontSize }
+  - { key: Minus,  mods: Command,            action: DecreaseFontSize }
+  - { key: K,      mods: Command,            action: ClearHistory     }
+  - { key: V,      mods: Command,            action: Paste            }
+  - { key: C,      mods: Command,            action: Copy             }
+  - { key: C,      mods: Command, mode: Vi,  action: ClearSelection   }
+  - { key: H,      mods: Command,            action: Hide             }
+  - { key: M,      mods: Command,            action: Minimize         }
+  - { key: Q,      mods: Command,            action: Quit             }
+  - { key: W,      mods: Command,            action: Quit             }
+  - { key: N,      mods: Command,            action: SpawnNewInstance }
+  - { key: F,      mods: Command|Control,    action: ToggleFullscreen }
+  - { key: F,      mods: Command,            action: SearchForward    }
+  - { key: B,      mods: Command,            action: SearchBackward   }
