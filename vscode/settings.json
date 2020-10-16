@@ -1,0 +1,58 @@
+{
+    "window.menuBarVisibility": "toggle",
+    "editor.suggestSelection": "first",
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "window.zoomLevel": 1,
+    "vim.cursorStylePerMode.insert": "line",
+    "vim.cursorStylePerMode.normal": "block",
+    "vim.enableNeovim": true,
+    "vim.leader": " ",
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": ["<leader>", "f", "f"],
+            "commands": [
+                "workbench.action.quickOpen"
+            ]
+        },
+        {
+            "before": ["g", "r"],
+            "commands": [
+                "editor.action.goToReferences"
+            ]
+        },
+        {
+            "before": ["g", "i"],
+            "commands": [
+                "editor.action.goToImplementation"
+            ]
+        },
+        {
+            "before": ["<leader>", "q", "f"],
+            "commands": [
+                "editor.action.quickFix"
+            ]
+        }
+    ],
+    "editor.fontFamily": "monospace",
+    "keyboard.dispatch": "keyCode",
+    "editor.suggestOnTriggerCharacters": false,
+    "editor.autoClosingQuotes": "never",
+    "editor.autoClosingBrackets": "never",
+    "editor.quickSuggestions": {
+        "other": false,
+        "comments": false,
+        "strings": false
+    },
+    "workbench.colorTheme": "Ayu Dark",
+    "workbench.editor.enablePreview": false,
+    "editor.minimap.enabled": false,
+    "editor.lineNumbers": "relative",
+    "workbench.editor.showTabs": false,
+    "editor.renderWhitespace": "trailing",
+    "workbench.startupEditor": "newUntitledFile"
+}
