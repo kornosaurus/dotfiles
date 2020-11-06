@@ -1,0 +1,11 @@
+feh --no-fehbg --bg-fill /home/simonk/Wallpapers/wallhaven-96w8e8.png
+
+xset r rate 280 30
+setxkbmap us
+setxkbmap -option caps:escape
+
+slstatus &
+nm-applet &
+compton &
+
+exec dwm
