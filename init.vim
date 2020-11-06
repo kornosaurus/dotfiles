@@ -1,8 +1,13 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                                           "
-"                         PLUG                              "
-"                                                           "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"    ________  ___  __
+"   |\   ____\|\  \|\  \
+"   \ \  \___|\ \  \/  /|_
+"    \ \_____  \ \   ___  \
+"     \|____|\  \ \  \\ \  \
+"       ____\_\  \ \__\\ \__\
+"      |\_________\|__| \|__|
+"      \|_________|
+
+" {{{ Plug
 call plug#begin('~/.local/share/nvim/plugged')
 " Text objects
 Plug 'wellle/targets.vim'
@@ -44,13 +49,9 @@ Plug 'calviken/vim-gdscript3'
 " Colors
 Plug 'ayu-theme/ayu-vim'
 call plug#end()
+" }}}
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                                           "
-"                       COLORS                              "
-"                                                           "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
+" {{{ Colors
 syntax enable
 set termguicolors
 set background=dark
@@ -67,13 +68,23 @@ highlight Error guibg=NONE
 highlight Comment gui=italic
 highlight StatusLine guibg=NONE gui=NONE
 highlight Type gui=bold
+" }}}
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                                           "
-"                         OPTIONS                           "
-"                                                           "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:coc_global_extensions=[ 'coc-tsserver', 'coc-git', 'coc-tslint', 'coc-json', 'coc-css', 'coc-pairs' ]
+" {{{ Options
+let g:coc_global_extensions=[ 'coc-tsserver', 'coc-git', 'coc-tslint', 'coc-json', 'coc-css' ]
+
+let g:startify_change_to_vcs_root = 1
+let g:startify_custom_header = [
+            \ '    ________  ___  __       ',
+            \ '   |\   ____\|\  \|\  \     ',
+            \ '   \ \  \___|\ \  \/  /|_   ',
+            \ '    \ \_____  \ \   ___  \  ',
+            \ '     \|____|\  \ \  \\ \  \ ',
+            \ '       ____\_\  \ \__\\ \__\',
+            \ '      |\_________\|__| \|__|',
+            \ '      \|_________|          '
+            \ ]
+
 
 let $FZF_DEFAULT_OPTS = '--layout=reverse'
 
@@ -203,12 +214,9 @@ set statusline+=%=
 set statusline+=[%{coc#status()}%{get(b:,'coc_current_function','')}]
 set statusline+=\ %y
 set statusline+=\ [%l/%L]
+" }}}
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                                           "
-"                         MAPPINGS                          "
-"                                                           "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{ Mappings
 command! Bd bp|bd #
 nnoremap <leader><CR> :noh<CR>
 
@@ -292,12 +300,12 @@ nnoremap rr :FloatermSend<CR>
 vnoremap rr :FloatermSend<CR>
 nnoremap rR ggVG:FloatermSend<CR><C-o>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                                           "
-"                         COMMANDS                          "
-"                                                           "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
 
+" }}}
+
+" {{{ Commands
 command! ArduinoCompile execute "AsyncRun -raw arduino-cli compile -b arduino:avr:uno" <bar> copen 10 <bar> wincmd p
 command! ArduinoUpload execute "AsyncRun -raw arduino-cli upload -b arduino:avr:uno -p /dev/ttyACM0" <bar> copen 10 <bar> wincmd p
 command! -nargs=1 ArduinoMonitor split <bar> resize -10 <bar> execute "term screen /dev/ttyACM0 <args>" <bar> wincmd p <ESC>
@@ -307,13 +315,9 @@ command! Scratch enew | setlocal buftype=nofile | setlocal bufhidden=hide | setl
 
 " Repl
 command! -nargs=1 Repl execute "FloatermNew --name=repl --width=0.3 --position=right --wintype=normal <args>" <bar> wincmd p <bar> call feedkeys("\<ESC>")
+" }}}
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                                                           "
-"                         AUTOCMDS                          "
-"                                                           "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
+" {{{ Autocommands
 augroup autocommands
     autocmd!
     " Restore last cursor position and marks on open
@@ -327,6 +331,9 @@ augroup autocommands
     autocmd TermOpen * startinsert " Terminal start in insertmode
 
     au FileType fzf set nonu nornu
+
+    au FileType vim set foldmethod=marker
+    au FileType vim set foldlevel=0
 
     " filetypes
     au BufRead,BufNewFile *.sls set filetype=yaml
@@ -379,3 +386,4 @@ require'nvim-treesitter.configs'.setup {
     }
 }
 EOF
+" }}}

@@ -1,0 +1,2 @@
+#! /bin/bash
+git log $1 -50 --oneline | fzf -m --preview 'echo {} | cut -d" " -f1 | xargs git show' | awk '{ print $1 }' | xargs git cherry-pick
