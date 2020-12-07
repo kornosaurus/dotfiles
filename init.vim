@@ -23,7 +23,6 @@ Plug 'dansomething/vim-eclim', { 'for': 'java' }
 Plug 'nvim-treesitter/nvim-treesitter'
 
 " Git
-Plug 'stsewd/fzf-checkout.vim'
 Plug 'tpope/vim-fugitive'
 
 " Efficiency
@@ -105,8 +104,7 @@ let g:EclimJavaCompleteCaseSensitive = 1
 
 let g:vimwiki_list = [{'path': '~/Wiki/', 'syntax': 'markdown', 'ext': '.md'}]
 
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
+set foldmethod=marker
 set foldlevelstart=99
 
 if executable('rg')
@@ -209,7 +207,7 @@ set list
 set statusline=""
 set statusline+=\ %t
 set statusline+=%m
-set statusline+=\ %{fugitive#statusline()}
+set statusline+=\ [%{get(g:,'coc_git_status','')}]
 set statusline+=%=
 set statusline+=[%{coc#status()}%{get(b:,'coc_current_function','')}]
 set statusline+=\ %y
@@ -235,7 +233,6 @@ nnoremap <leader>fl :FzfLines<CR>
 
 " git
 nnoremap <leader>gs :Gstatus<cr>
-nnoremap <leader>gc :FzfGBranches<cr>
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gd :Gdiffsplit!<CR>
 nnoremap <leader>gl :Git log -100<CR>
@@ -332,7 +329,6 @@ augroup autocommands
 
     au FileType fzf set nonu nornu
 
-    au FileType vim set foldmethod=marker
     au FileType vim set foldlevel=0
 
     " filetypes

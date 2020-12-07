@@ -113,8 +113,8 @@ window:
   dynamic_title: true
   decorations: full
   dimensions:
-    columns: 80
-    lines: 24
+    columns: 90
+    lines: 30
   padding:
     x: 0
     y: 2
