@@ -9,9 +9,6 @@
 
 " {{{ Plug
 call plug#begin('~/.local/share/nvim/plugged')
-" Text objects
-Plug 'wellle/targets.vim'
-
 " Fzf
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -19,7 +16,6 @@ Plug 'junegunn/fzf.vim'
 " Language features
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
-Plug 'dansomething/vim-eclim', { 'for': 'java' }
 Plug 'nvim-treesitter/nvim-treesitter'
 
 " Git
@@ -32,18 +28,10 @@ Plug 'mattn/emmet-vim'
 
 " Note taking
 Plug 'vimwiki/vimwiki'
-Plug 'junegunn/goyo.vim'
 
 " Other
 Plug 'skywind3000/asyncrun.vim'
 Plug 'voldikss/vim-floaterm'
-Plug 'tpope/vim-dadbod'
-Plug 'tpope/vim-dispatch'
-Plug 'mhinz/vim-startify'
-
-" Syntax
-Plug 'mustache/vim-mustache-handlebars'
-Plug 'calviken/vim-gdscript3'
 
 " Colors
 Plug 'ayu-theme/ayu-vim'
@@ -70,7 +58,7 @@ highlight Type gui=bold
 " }}}
 
 " {{{ Options
-let g:coc_global_extensions=[ 'coc-tsserver', 'coc-git', 'coc-tslint', 'coc-json', 'coc-css' ]
+let g:coc_global_extensions=[ 'coc-tsserver', 'coc-git', 'coc-json', 'coc-css' ]
 
 let g:startify_change_to_vcs_root = 1
 let g:startify_custom_header = [
@@ -251,8 +239,8 @@ vnoremap Y "+y
 nnoremap <C-n> :cn<CR>
 nnoremap <C-p> :cp<CR>
 
-inoremap <silent><expr><C-n> pumvisible() ? "\<C-n>" : coc#refresh()
-inoremap <silent><expr><C-p> pumvisible() ? "\<C-p>" : coc#refresh()
+inoremap <expr><C-n> pumvisible() ? "\<C-n>" : coc#refresh()
+inoremap <expr><C-p> pumvisible() ? "\<C-p>" : coc#refresh()
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 inoremap <silent><expr><c-space> coc#refresh()
 
