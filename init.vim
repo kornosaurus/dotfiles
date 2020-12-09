@@ -28,6 +28,7 @@ Plug 'mattn/emmet-vim'
 
 " Note taking
 Plug 'vimwiki/vimwiki'
+Plug 'junegunn/goyo.vim'
 
 " Other
 Plug 'skywind3000/asyncrun.vim'
