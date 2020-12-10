@@ -113,4 +113,3 @@ export FZF_DEFAULT_OPTS="--height 40% --reverse"
 [ -f ~/.apps/z/z.sh ] && source ~/.apps/z/z.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.profile ] && source ~/.profile
-source /home/simonk/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

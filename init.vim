@@ -249,7 +249,7 @@ vnoremap * y/\V<C-r>=escape(@",'/\')<CR><CR>
 
 let g:vimwiki_table_mappings = 0
 
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/UltiSnips']
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
@@ -360,8 +360,6 @@ augroup autocommands
     " Auto reload init.vim
     au BufWritePost */init.vim source $MYVIMRC
 augroup END
-
-source ~/.config/nvim/work.init.vim
 
 " Tree sitter
 lua <<EOF
