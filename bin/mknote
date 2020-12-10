@@ -1,2 +1,2 @@
 #! /bin/bash
-alacritty -t Note -e nvim --cmd 'let g:startify_disable_at_vimenter = 1' +VimwikiMakeDiaryNote
+alacritty -t Note -e nvim +VimwikiMakeDiaryNote --cmd 'redraw'
