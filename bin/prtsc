@@ -1,2 +1,0 @@
-#!/bin/bash
-maim -s --hidecursor | xclip -selection clipboard -t image/png
