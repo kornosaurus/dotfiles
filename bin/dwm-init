@@ -8,5 +8,6 @@ setxkbmap -option caps:escape
 slstatus &
 nm-applet &
 compton &
+nitrogen --restore &
 
 exec dwm
