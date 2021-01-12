@@ -1,8 +1,0 @@
-#!/bin/bash
-a=`mpc --format '' | rg 'playing' -o`
-
-if [ "$a" = "playing" ]; then
-    mpc pause > /dev/null
-else 
-    mpc play > /dev/null
-fi

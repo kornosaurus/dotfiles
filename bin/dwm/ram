@@ -1,0 +1,3 @@
+#! /bin/bash
+
+free -m | awk 'FNR==2{ printf("%.0f%%\n", $3 / $2 * 100) }'

@@ -1,0 +1,5 @@
+#! /bin/bash
+while true; do
+    xsetroot -name " $(~/.bin/dwm/ram) | $(~/.bin/dwm/wifi) | $(~/.bin/dwm/battery) |  $(date +'%H:%M')"
+    sleep 2
+done
