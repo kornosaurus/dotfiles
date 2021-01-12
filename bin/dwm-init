@@ -3,6 +3,7 @@ xset r rate 200 50
 setxkbmap us
 setxkbmap -option caps:escape
 
+dunst &
 slstatus &
 nm-applet &
 compton &
