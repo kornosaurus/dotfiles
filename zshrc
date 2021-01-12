@@ -61,6 +61,9 @@ alias lg='lazygit'
 alias v='nvr -s'
 alias xclip='xclip -selection c'
 
+alias ls='ls --color=auto'
+alias ll='ls -lah --color=auto'
+
 export LC_ALL="en_US.UTF-8"
 export LC_COLLATE="en_US.UTF-8"
 export LC_MESSAGES="en_US.UTF-8"
