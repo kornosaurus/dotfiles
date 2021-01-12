@@ -1,0 +1,4 @@
+#! /bin/bash
+wifi=$(iwgetid | cut -d'"' -f 2)
+
+echo " $wifi"

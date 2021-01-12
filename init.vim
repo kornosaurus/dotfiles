@@ -17,6 +17,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
 Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'OmniSharp/omnisharp-vim'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -343,7 +344,9 @@ augroup autocommands
     au FileType translations setlocal spell
     au FileType gitcommit setlocal spell
 
-    " java
+    " csharp
+    au FileType cs nnoremap <silent>gd :OmniSharpGotoDefinition<CR>
+    au FileType cs nnoremap <silent>gr :OmniSharpFindUsages<CR>
     au FileType java inoremap <buffer><silent><c-space> <C-x><C-u>
     au FileType java inoremap <buffer><silent><expr><C-n> pumvisible() ? "\<C-n>" : "\<C-x><C-u>"
     au FileType java inoremap <buffer><silent><expr><C-p> pumvisible() ? "\<C-n>" : "\<C-x><C-u>"
