@@ -1,5 +1,5 @@
 #! /bin/bash
 while true; do
-    xsetroot -name " $(~/.bin/dwm/ram) | $(~/.bin/dwm/wifi) | $(~/.bin/dwm/battery) |  $(date +'%H:%M')"
+    xsetroot -name "󰌌 $(setxkbmap -query | awk '{ if(NR==3)print $2 }') | 󰘚 $(~/.bin/dwm/ram) | $(~/.bin/dwm/vol) | $(~/.bin/dwm/wifi) | $(~/.bin/dwm/battery) | 󰥔 $(date +'%H:%M')"
     sleep 2
 done

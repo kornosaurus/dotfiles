@@ -1,5 +1,4 @@
 export LC_ALL="en_US.UTF-8"
-export ANT_HOME="/home/simonk/Apps/apache-ant-1.10.3"
 export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 export N_PREFIX=$HOME/.apps/n
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -94,4 +93,4 @@ export FZF_DEFAULT_OPTS="--height 40% --reverse"
 
 [ -f ~/.apps/z/z.sh ] && source ~/.apps/z/z.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/.profile ] && source ~/.profile
+[ -f ~/.zsh_aliases ] && source ~/.zsh_aliases

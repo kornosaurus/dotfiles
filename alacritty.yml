@@ -83,7 +83,7 @@ font:
   offset:
     x: 0 
     y: 0
-  size: 11
+  size: 12
   use_thin_strokes: false
 hide_cursor_when_typing: false
 live_config_reload: true

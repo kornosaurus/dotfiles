@@ -347,17 +347,7 @@ augroup autocommands
     " csharp
     au FileType cs nnoremap <silent>gd :OmniSharpGotoDefinition<CR>
     au FileType cs nnoremap <silent>gr :OmniSharpFindUsages<CR>
-    au FileType java inoremap <buffer><silent><c-space> <C-x><C-u>
-    au FileType java inoremap <buffer><silent><expr><C-n> pumvisible() ? "\<C-n>" : "\<C-x><C-u>"
-    au FileType java inoremap <buffer><silent><expr><C-p> pumvisible() ? "\<C-n>" : "\<C-x><C-u>"
-    au FileType java nnoremap <buffer>gr :JavaSearch -x references<CR>
-    au FileType java nnoremap <buffer>gd :JavaSearch -a edit<CR>
-    au FileType java nnoremap <buffer>gD :JavaSearch -x implementors -a edit<CR>
-    au FileType java nnoremap <buffer>gs :JavaSearch -a vsplit<CR>
-    au FileType java nnoremap <buffer>gi :JavaImport<CR>
-    au FileType java nnoremap <buffer>gh :JavaDocPreview<CR>
-    au FileType java nnoremap <leader>rn :JavaRename 
-    au FileType java nnoremap <leader>ca :JavaCorrect<CR>
+    au FileType cs nnoremap <silent>gh :OmniSharpDocumentation<CR>
 
 
     " Auto reload init.vim

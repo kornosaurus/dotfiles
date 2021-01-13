@@ -1,0 +1,11 @@
+#! /bin/bash
+vol=$(amixer get Master | awk 'FNR==5{print $4}' | sed 's/\[\(.*\)%\]/\1/')
+icon="󰖁"
+
+if [ $vol -gt 50 ]; then
+    icon="󰕾"
+elif [ $vol -gt 0 ]; then
+    icon="󰖀"
+fi
+
+echo "$icon $vol%"

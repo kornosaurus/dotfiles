@@ -4,9 +4,52 @@ status="$(</sys/class/power_supply/BAT0/status)"
 
 capacity="$(</sys/class/power_supply/BAT0/capacity)"
 if [ $status == "Discharging" ]; then
-    icon=""
+    if [ $capacity -ge 90 ]; then
+        icon="󰁹"
+    elif [ $capacity -ge 80 ]; then
+        icon="󰂂"
+    elif [ $capacity -ge 70 ]; then
+        icon="󰂁"
+    elif [ $capacity -ge 60 ]; then
+        icon="󰂀"
+    elif [ $capacity -ge 50 ]; then
+        icon="󰁿"
+    elif [ $capacity -ge 40 ]; then
+        icon="󰁾"
+    elif [ $capacity -ge 30 ]; then
+        icon="󰁽"
+    elif [ $capacity -ge 20 ]; then
+        icon="󰁼"
+    elif [ $capacity -ge 10 ]; then
+        icon="󰁻"
+    elif [ $capacity -ge 0 ]; then
+        icon="󰁺"
+    fi
+elif [ $status == "Charging" ]; then
+    if [ $capacity -ge 90 ]; then
+        icon="󰂅"
+    elif [ $capacity -ge 80 ]; then
+        icon="󰂋"
+    elif [ $capacity -ge 70 ]; then
+        icon="󰂊"
+    elif [ $capacity -ge 60 ]; then
+        icon="󰢞"
+    elif [ $capacity -ge 50 ]; then
+        icon="󰂉"
+    elif [ $capacity -ge 40 ]; then
+        icon="󰢝"
+    elif [ $capacity -ge 30 ]; then
+        icon="󰂈"
+    elif [ $capacity -ge 20 ]; then
+        icon="󰂇"
+    elif [ $capacity -ge 10 ]; then
+        icon="󰂆"
+    elif [ $capacity -ge 0 ]; then
+        icon="󰢜"
+    fi
 else
-    icon=""
+    echo "󰚥"
+    exit
 fi
 
 echo "$icon $capacity%"
