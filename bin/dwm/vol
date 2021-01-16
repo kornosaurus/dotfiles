@@ -1,5 +1,5 @@
 #! /bin/bash
-vol=$(amixer get Master | awk 'FNR==5{print $4}' | sed 's/\[\(.*\)%\]/\1/')
+vol=$(/home/simon/.bin/vol --get)
 icon="󰖁"
 
 if [ $vol -gt 50 ]; then

@@ -29,35 +29,60 @@ background_opacity: 1
 #     magenta: '#d3869b'
 #     cyan:    '#8ec07c'
 #     white:   '#ebdbb2'
+#
+# Colors (Ayu Mirage)
+colors:
+  primary:
+    background: '0x212733'
+    foreground: '0xd0cec3'
+  normal:
+    black:   '0x212733'
+    red:     '0xea5965'
+    green:   '0xade46b'
+    yellow:  '0xfec254'
+    blue:    '0x2d91d0'
+    magenta: '0xc9aeff'
+    cyan:    '0x86e2bf'
+    white:   '0xbbbbbb'
+  bright:
+    black:   '0x555555'
+    red:     '0xea5965'
+    green:   '0xc1e436'
+    yellow:  '0xfed96d'
+    blue:    '0x5555ff'
+    magenta: '0xff55ff'
+    cyan:    '0x99ffda'
+    white:   '0xffffff'
+
 
 # Colors (Ayu Dark)
-colors:
-  # Default colors
-  primary:
-    background: '0x0f1419'
-    foreground: '0xe6e1cf'
-
-  # Normal colors
-  normal:
-    black:   '0x000000'
-    red:     '0xf34a4a'
-    green:   '0xbae67e'
-    yellow:  '0xffee99'
-    blue:    '0x73d0ff'
-    magenta: '0xd4bfff'
-    cyan:    '0x83CEC6'
-    white:   '0xf2f2f2'
-
-  # Bright colors
-  bright:
-    black:   '0x737d87'
-    red:     '0xff3333'
-    green:   '0xc2d94c'
-    yellow:  '0xe7c547'
-    blue:    '0x59c2ff'
-    magenta: '0xb77ee0'
-    cyan:    '0x5ccfe6'
-    white:   '0xffffff'
+#colors:
+#  # Default colors
+#  primary:
+#    background: '0x0f1419'
+#    foreground: '0xe6e1cf'
+#
+#  # Normal colors
+#  normal:
+#    black:   '0x000000'
+#    red:     '0xf34a4a'
+#    green:   '0xbae67e'
+#    yellow:  '0xffee99'
+#    blue:    '0x73d0ff'
+#    magenta: '0xd4bfff'
+#    cyan:    '0x83CEC6'
+#    white:   '0xf2f2f2'
+#
+#  # Bright colors
+#  bright:
+#    black:   '0x737d87'
+#    red:     '0xff3333'
+#    green:   '0xc2d94c'
+#    yellow:  '0xe7c547'
+#    blue:    '0x59c2ff'
+#    magenta: '0xb77ee0'
+#    cyan:    '0x5ccfe6'
+#    white:   '0xffffff'
 
 cursor_style: Block
 custom_cursor_colors: true

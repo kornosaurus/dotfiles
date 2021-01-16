@@ -45,7 +45,7 @@ syntax enable
 set termguicolors
 set background=dark
 let g:gruvbox_contrast_dark="hard"
-let ayucolor="dark"
+let ayucolor="mirage"
 
 colorscheme ayu
 
@@ -62,27 +62,11 @@ highlight Type gui=bold
 " {{{ Options
 let g:coc_global_extensions=[ 'coc-tsserver', 'coc-git', 'coc-json', 'coc-css' ]
 
-let g:startify_change_to_vcs_root = 1
-let g:startify_custom_header = [
-            \ '    ________  ___  __       ',
-            \ '   |\   ____\|\  \|\  \     ',
-            \ '   \ \  \___|\ \  \/  /|_   ',
-            \ '    \ \_____  \ \   ___  \  ',
-            \ '     \|____|\  \ \  \\ \  \ ',
-            \ '       ____\_\  \ \__\\ \__\',
-            \ '      |\_________\|__| \|__|',
-            \ '      \|_________|          '
-            \ ]
-
-
 let $FZF_DEFAULT_OPTS = '--layout=reverse'
 
 let g:fzf_command_prefix = 'Fzf'
 let g:fzf_preview_window = ''
 let g:fzf_layout = { 'window': { 'width': 0.6, 'height': 0.8 } }
-let g:fzf_branch_actions = {
-            \ 'create': {'keymap': 'alt-n'},
-            \}
 
 let g:coc_fzf_opts = []
 
@@ -116,6 +100,8 @@ set number
 set relativenumber
 
 set cursorline
+
+set spelllang=en,sv
 
 " make vimdiff not readonly
 set noro 
@@ -237,6 +223,8 @@ nnoremap / /\v
 
 nnoremap Y "+y
 vnoremap Y "+y
+nnoremap P "0p
+vnoremap P "0p
 
 nnoremap <C-n> :cn<CR>
 nnoremap <C-p> :cp<CR>
