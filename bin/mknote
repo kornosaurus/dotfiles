@@ -1,2 +1,2 @@
 #! /bin/bash
-alacritty -t Note -e nvim +VimwikiMakeDiaryNote --cmd 'redraw'
+alacritty --title Note  -e nvim +VimwikiMakeDiaryNote --cmd 'redraw'

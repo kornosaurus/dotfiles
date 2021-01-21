@@ -1,0 +1,29 @@
+[global]
+    geometry = "300x5-8+27"
+    frame_color = "#e6e1cf"
+    transparency = 0
+    separator_height = 2
+    padding = 8
+    horizontal_padding = 8
+    frame_width = 2
+    separator_color = frame
+    font = Noto Mono 9
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+
+[urgency_low]
+    background = "#0f1419"
+    foreground = "#e6e1cf"
+    timeout = 10
+
+[urgency_normal]
+    background = "#0f1419"
+    foreground = "#e6e1cf"
+    timeout = 10
+
+[urgency_critical]
+    background = "#0f1419"
+    foreground = "#e6e1cf"
+    timeout = 0
+

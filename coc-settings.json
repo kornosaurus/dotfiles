@@ -2,7 +2,9 @@
     "tsserver.enableJavascript": true,
     "signature.target": "float",
     "suggest.autoTrigger": "none",
-    "diagnostic.errorSign": "⛔️",
+    "diagnostic.errorSign": "󰅙",
+    "diagnostic.warningSign": "󰀦",
+    "diagnostic.infoSign": "󰀦",
     "languageserver": {
         "godot": {
           "host": "127.0.0.1",

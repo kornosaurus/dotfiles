@@ -30,29 +30,34 @@ background_opacity: 1
 #     cyan:    '#8ec07c'
 #     white:   '#ebdbb2'
 #
-# Colors (Ayu Mirage)
+
+# Space Duck
 colors:
+  # Default colors
   primary:
-    background: '0x212733'
-    foreground: '0xd0cec3'
+    background: '#0f111b'
+    foreground: '#ecf0c1'
+  # Normal colors
   normal:
-    black:   '0x212733'
-    red:     '0xea5965'
-    green:   '0xade46b'
-    yellow:  '0xfec254'
-    blue:    '0x2d91d0'
-    magenta: '0xc9aeff'
-    cyan:    '0x86e2bf'
-    white:   '0xbbbbbb'
+    black:   '#000000'
+    red:     '#e33400'
+    green:   '#5ccc96'
+    yellow:  '#b3a1e6'
+    blue:    '#00a3cc'
+    magenta: '#f2ce00'
+    cyan:    '#7a5ccc'
+    white:   '#686f9a'
+
+  # Bright colors
   bright:
-    black:   '0x555555'
-    red:     '0xea5965'
-    green:   '0xc1e436'
-    yellow:  '0xfed96d'
-    blue:    '0x5555ff'
-    magenta: '0xff55ff'
-    cyan:    '0x99ffda'
-    white:   '0xffffff'
+    black:   '#686f9a'
+    red:     '#e33400'
+    green:   '#5ccc96'
+    yellow:  '#b3a1e6'
+    blue:    '#00a3cc'
+    magenta: '#f2ce00'
+    cyan:    '#7a5ccc'
+    white:   '#f0f1ce'
 
 
 # Colors (Ayu Dark)
@@ -101,14 +106,17 @@ font:
     style: Bold
   italic:
     family: Iosevka Term SS09
-    style: Medium Extended Italic
+    style: Italic
   glyph_offset:
     x: 0
     y: 0
   offset:
     x: 0 
     y: 0
+  # Desktop
   size: 12
+  # Laptop
+  # size: 10.5
   use_thin_strokes: false
 hide_cursor_when_typing: false
 live_config_reload: true

@@ -15,15 +15,16 @@ Plug 'junegunn/fzf.vim'
 
 " Language features
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'OmniSharp/omnisharp-vim'
+Plug 'puremourning/vimspector'
 
 " Git
 Plug 'tpope/vim-fugitive'
 
 " Efficiency
 Plug 'tpope/vim-surround'
+Plug 'rstacruz/vim-closer'
 Plug 'SirVer/ultisnips'
 Plug 'mattn/emmet-vim'
 
@@ -37,6 +38,7 @@ Plug 'voldikss/vim-floaterm'
 
 " Colors
 Plug 'ayu-theme/ayu-vim'
+Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
 call plug#end()
 " }}}
 
@@ -44,10 +46,13 @@ call plug#end()
 syntax enable
 set termguicolors
 set background=dark
-let g:gruvbox_contrast_dark="hard"
-let ayucolor="mirage"
 
-colorscheme ayu
+colorscheme spaceduck
+
+" spaceduck additions
+highlight NonText guifg=#1b1c36
+highlight StatusLineNC guifg=#1b1c36 guibg=#0f111b
+highlight VertSplit guifg=#1b1c36 guibg=#0f111b
 
 highlight SignColumn ctermbg=NONE guibg=NONE
 highlight DiffAdd guibg=NONE
@@ -60,6 +65,8 @@ highlight Type gui=bold
 " }}}
 
 " {{{ Options
+let g:OmniSharp_highlighting = 0
+let g:coc_enable_locationlist = 0
 let g:coc_global_extensions=[ 'coc-tsserver', 'coc-git', 'coc-json', 'coc-css' ]
 
 let $FZF_DEFAULT_OPTS = '--layout=reverse'
@@ -99,7 +106,9 @@ let g:netrw_banner = 0
 set number
 set relativenumber
 
-set cursorline
+" set cursorline
+
+set guicursor=
 
 set spelllang=en,sv
 
@@ -199,10 +208,6 @@ nnoremap <leader>bd :Bd<CR>
 
 nnoremap <leader>/ :grep<space>
 
-" Move selection
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
-
 nnoremap <leader>ff :FzfFiles<CR>
 nnoremap <leader>fb :FzfBuffers<CR>
 nnoremap <leader>fl :FzfLines<CR>
@@ -223,15 +228,13 @@ nnoremap / /\v
 
 nnoremap Y "+y
 vnoremap Y "+y
-nnoremap P "0p
-vnoremap P "0p
 
 nnoremap <C-n> :cn<CR>
 nnoremap <C-p> :cp<CR>
 
 inoremap <expr><C-n> pumvisible() ? "\<C-n>" : coc#refresh()
 inoremap <expr><C-p> pumvisible() ? "\<C-p>" : coc#refresh()
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 inoremap <silent><expr><c-space> coc#refresh()
 
 vnoremap * y/\V<C-r>=escape(@",'/\')<CR><CR>
@@ -270,13 +273,27 @@ nmap <leader>qf <Plug>(coc-fix-current)
 nnoremap <leader>- :Scratch<CR>
 
 " repl
-nnoremap ro :Repl 
-nnoremap rr :FloatermSend<CR>
-vnoremap rr :FloatermSend<CR>
-nnoremap rR ggVG:FloatermSend<CR><C-o>
+nnoremap <leader>ro :Repl 
+nnoremap <leader>rr :FloatermSend<CR>
+vnoremap <leader>rr :FloatermSend<CR>
+nnoremap <leader>rR ggVG:FloatermSend<CR><C-o>
 
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
+cnoremap <C-k> <Up>
+cnoremap <C-j> <Down>
+
+" Vimspector
+nmap <leader>dc <Plug>VimspectorContinue
+nmap <leader>ds <Plug>VimspectorStop
+nmap <leader>dr <Plug>VimspectorRestart
+nmap <leader>dR <Plug>VimspectorReset
+nmap <leader>dp <Plug>VimspectorPause
+nmap <leader>db <Plug>VimspectorToggleBreakpoint
+nmap <leader>dB <Plug>VimspectorToggleConditionalBreakpoint
+nmap <F10> <Plug>VimspectorStepOver
+nmap <F11> <Plug>VimspectorStepInto
+nmap <F12> <Plug>VimspectorStepOut
+nmap <leader><F10> <Plug>VimspectorRunToCursor
+"
 
 " }}}
 
@@ -308,6 +325,9 @@ augroup autocommands
     au FileType fzf set nonu nornu
 
     au FileType vim set foldlevel=0
+
+    " Coc
+    au User CocLocationsChange call setqflist(g:coc_jump_locations) | copen 10
 
     " filetypes
     au BufRead,BufNewFile *.sls set filetype=yaml
@@ -341,7 +361,9 @@ augroup autocommands
     " Auto reload init.vim
     au BufWritePost */init.vim source $MYVIMRC
 augroup END
+" }}}
 
+" {{{ LUA
 " Tree sitter
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
