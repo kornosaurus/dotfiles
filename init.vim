@@ -35,6 +35,8 @@ Plug 'junegunn/goyo.vim'
 " Other
 Plug 'skywind3000/asyncrun.vim'
 Plug 'voldikss/vim-floaterm'
+Plug 'Yggdroot/indentLine'
+Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'lua'}
 
 " Colors
 Plug 'ayu-theme/ayu-vim'
@@ -74,8 +76,12 @@ let $FZF_DEFAULT_OPTS = '--layout=reverse'
 let g:fzf_command_prefix = 'Fzf'
 let g:fzf_preview_window = ''
 let g:fzf_layout = { 'window': { 'width': 0.6, 'height': 0.8 } }
-
-let g:coc_fzf_opts = []
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit',
+  \ 'ctrl-p': ':r !echo',
+  \ }
 
 let g:floaterm_autoclose=2
 let g:floaterm_title=""
@@ -85,12 +91,15 @@ let g:EclimJavaCompleteCaseSensitive = 1
 
 let g:vimwiki_list = [{'path': '~/Wiki/', 'syntax': 'markdown', 'ext': '.md'}]
 
+let g:indentLine_char = '▏'
+let g:indent_blankline_char = '▏'
+
 set foldmethod=marker
 set foldlevelstart=99
 
 if executable('rg')
-  set grepprg=rg\ --vimgrep
-  set grepformat^=%f:%l:%c:%m
+    set grepprg=rg\ --vimgrep
+    set grepformat^=%f:%l:%c:%m
 endif
 
 set completeopt-=preview
@@ -106,7 +115,7 @@ let g:netrw_banner = 0
 set number
 set relativenumber
 
-" set cursorline
+set cursorline
 
 set guicursor=
 
@@ -149,7 +158,7 @@ set hid
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 
-set hlsearch
+set nohlsearch
 set expandtab
 set nobackup
 set noswapfile
@@ -183,7 +192,7 @@ set splitright
 
 set noshowmode
 
-set wrap
+set nowrap
 
 " set lcs=tab:▸\ ,eol:↴,trail:·
 set lcs=tab:\ \ ,trail:·
@@ -201,7 +210,6 @@ set statusline+=\ [%l/%L]
 
 " {{{ Mappings
 command! Bd bp|bd #
-nnoremap <leader><CR> :noh<CR>
 
 nnoremap <leader><Tab> :b#<CR>
 nnoremap <leader>bd :Bd<CR>
@@ -211,6 +219,7 @@ nnoremap <leader>/ :grep<space>
 nnoremap <leader>ff :FzfFiles<CR>
 nnoremap <leader>fb :FzfBuffers<CR>
 nnoremap <leader>fl :FzfLines<CR>
+
 
 " git
 nnoremap <leader>gs :Gstatus<cr>
@@ -285,7 +294,7 @@ cnoremap <C-j> <Down>
 nmap <leader>dc <Plug>VimspectorContinue
 nmap <leader>ds <Plug>VimspectorStop
 nmap <leader>dr <Plug>VimspectorRestart
-nmap <leader>dR <Plug>VimspectorReset
+nmap <leader>dR :VimspectorReset<CR>
 nmap <leader>dp <Plug>VimspectorPause
 nmap <leader>db <Plug>VimspectorToggleBreakpoint
 nmap <leader>dB <Plug>VimspectorToggleConditionalBreakpoint
@@ -369,6 +378,9 @@ lua <<EOF
 require'nvim-treesitter.configs'.setup {
     highlight = {
       enable = true,
+    },
+    indent = {
+        enable = true,
     }
 }
 EOF
