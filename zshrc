@@ -4,9 +4,11 @@ export N_PREFIX=$HOME/.apps/n
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
 export DOCKER_BUILDKIT=1
+export GOPATH=$HOME/.go
 
 # If you come from bash you might have to change your $PATH.
-export PATH=$PATH:$N_PREFIX/bin:$HOME/.bin:$HOME/.bin/work/:$HOME/Apps/alacritty/target/release:$HOME/.cargo/bin:$PATH:$ANT_HOME/bin:$HOME/Applications/arduino-1.8.13/bin
+export PATH=$PATH:$N_PREFIX/bin:$HOME/.bin:$HOME/.bin/work/:$HOME/Apps/alacritty/target/release:$HOME/.cargo/bin:$PATH:$ANT_HOME/bin:$HOME/Applications/arduino-1.8.13/bin:/usr/local/go/bin:$GOPATH/bin
+
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh

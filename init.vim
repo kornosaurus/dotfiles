@@ -10,23 +10,28 @@
 " {{{ Plug
 call plug#begin('~/.local/share/nvim/plugged')
 " Fzf
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 " Language features
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'OmniSharp/omnisharp-vim'
-Plug 'puremourning/vimspector'
+" Plug 'puremourning/vimspector'
 
 " Git
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 
 " Efficiency
 Plug 'tpope/vim-surround'
 Plug 'rstacruz/vim-closer'
 Plug 'SirVer/ultisnips'
 Plug 'mattn/emmet-vim'
+Plug 'terrortylor/nvim-comment'
 
 " Note taking
 Plug 'vimwiki/vimwiki'
@@ -35,7 +40,6 @@ Plug 'junegunn/goyo.vim'
 " Other
 Plug 'skywind3000/asyncrun.vim'
 Plug 'voldikss/vim-floaterm'
-Plug 'Yggdroot/indentLine'
 Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'lua'}
 
 " Colors
@@ -54,6 +58,7 @@ colorscheme spaceduck
 " spaceduck additions
 highlight NonText guifg=#1b1c36
 highlight StatusLineNC guifg=#1b1c36 guibg=#0f111b
+highlight StatusLine guifg=#1b1c36 guibg=#ecf0c1
 highlight VertSplit guifg=#1b1c36 guibg=#0f111b
 
 highlight SignColumn ctermbg=NONE guibg=NONE
@@ -62,32 +67,25 @@ highlight DiffChange guibg=NONE
 highlight DiffDelete guibg=NONE guifg=#FF3333
 highlight Error guibg=NONE
 highlight Comment gui=italic
-highlight StatusLine guibg=NONE gui=NONE
 highlight Type gui=bold
 " }}}
 
 " {{{ Options
-let g:OmniSharp_highlighting = 0
-let g:coc_enable_locationlist = 0
-let g:coc_global_extensions=[ 'coc-tsserver', 'coc-git', 'coc-json', 'coc-css' ]
-
-let $FZF_DEFAULT_OPTS = '--layout=reverse'
-
-let g:fzf_command_prefix = 'Fzf'
-let g:fzf_preview_window = ''
-let g:fzf_layout = { 'window': { 'width': 0.6, 'height': 0.8 } }
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit',
-  \ 'ctrl-p': ':r !echo',
-  \ }
+let g:vimsyn_embed = 'lPr'
+let g:completion_enable_auto_popup = 0
+let g:completion_enable_snippet = 'UltiSnips'
+let g:completion_matching_ignore_case=0
+let g:completion_confirm_key = "\<C-y>"
+let g:completion_auto_change_source = 1
+let g:completion_chain_complete_list = [
+    \{'complete_items': ['lsp']},
+    \{'mode': '<c-p>'},
+    \{'mode': '<c-n>'},
+\]
 
 let g:floaterm_autoclose=2
 let g:floaterm_title=""
 let g:floaterm_height=0.8
-
-let g:EclimJavaCompleteCaseSensitive = 1
 
 let g:vimwiki_list = [{'path': '~/Wiki/', 'syntax': 'markdown', 'ext': '.md'}]
 
@@ -102,7 +100,7 @@ if executable('rg')
     set grepformat^=%f:%l:%c:%m
 endif
 
-set completeopt-=preview
+set completeopt=menuone,noinsert,noselect
 
 set signcolumn=yes
 
@@ -115,7 +113,7 @@ let g:netrw_banner = 0
 set number
 set relativenumber
 
-set cursorline
+" set cursorline
 
 set guicursor=
 
@@ -130,8 +128,6 @@ filetype plugin on
 filetype indent on
 
 set shortmess+=c
-
-set conceallevel=0
 
 set autoread
 
@@ -198,14 +194,29 @@ set nowrap
 set lcs=tab:\ \ ,trail:·
 set list
 
+function GitBranch()
+    let branch = FugitiveHead()
+
+    if !empty(branch)
+        return "󰘬 " . branch
+    endif
+    return ""
+    " return \ 󰘬\ %{GitBranch()}
+endfunction
+
+function Unsaved()
+    if &mod == 1
+        return " 󰜄 "
+    endif
+    return ""
+endfunction
+
 set statusline=""
-set statusline+=\ %t
-set statusline+=%m
-set statusline+=\ [%{get(g:,'coc_git_status','')}]
+set statusline+=%f
+set statusline+=%{Unsaved()}
 set statusline+=%=
-set statusline+=[%{coc#status()}%{get(b:,'coc_current_function','')}]
-set statusline+=\ %y
-set statusline+=\ [%l/%L]
+set statusline+=\ %{GitBranch()}
+set statusline+=\ %l/%L
 " }}}
 
 " {{{ Mappings
@@ -216,10 +227,14 @@ nnoremap <leader>bd :Bd<CR>
 
 nnoremap <leader>/ :grep<space>
 
-nnoremap <leader>ff :FzfFiles<CR>
-nnoremap <leader>fb :FzfBuffers<CR>
-nnoremap <leader>fl :FzfLines<CR>
+" nnoremap <leader>ff :FzfFiles<CR>
+" nnoremap <leader>fb :FzfBuffers<CR>
+" nnoremap <leader>fl :FzfLines<CR>
 
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <leader>ft <cmd>lua require('telescope.builtin').treesitter()<cr>
 
 " git
 nnoremap <leader>gs :Gstatus<cr>
@@ -229,7 +244,7 @@ nnoremap <leader>gl :Git log -100<CR>
 nnoremap <leader>dh :diffget //2<CR>
 nnoremap <leader>dl :diffget //3<CR>
 
-nnoremap <leader>e :FloatermNew nnn<CR>
+nnoremap <leader>e :FloatermNew vifm<CR>
 nnoremap <leader>lg :FloatermNew lazygit<CR>
 nnoremap <leader>fi :FloatermNew idfind<CR>
 
@@ -241,10 +256,8 @@ vnoremap Y "+y
 nnoremap <C-n> :cn<CR>
 nnoremap <C-p> :cp<CR>
 
-inoremap <expr><C-n> pumvisible() ? "\<C-n>" : coc#refresh()
-inoremap <expr><C-p> pumvisible() ? "\<C-p>" : coc#refresh()
-" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <silent><expr><c-space> coc#refresh()
+imap <silent> <C-n> <Plug>(completion_trigger)
+imap <silent> <C-p> <Plug>(completion_trigger)
 
 vnoremap * y/\V<C-r>=escape(@",'/\')<CR><CR>
 
@@ -254,30 +267,6 @@ let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/nvim/UltiSnips']
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
-
-" go to
-nmap <silent>gd <Plug>(coc-definition)
-nmap <silent>gr <Plug>(coc-references)
-nmap <silent>gt <Plug>(coc-type-definition)
-nmap <silent>gi <Plug>(coc-implementation)
-nmap <silent>[g <Plug>(coc-diagnostic-prev)
-nmap <silent>]g <Plug>(coc-diagnostic-next)
-
-" show
-nmap <silent>gh :call CocAction('doHover')<CR>
-nmap <silent><C-h> :call CocActionAsync('showSignatureHelp')<CR>
-imap <silent><C-h> <Esc>:call CocActionAsync('showSignatureHelp')<CR>a
-
-" list
-nmap <silent><leader>o :CocFzfList outline<cr>
-nmap <silent><leader>d :CocFzfList diagnostics<cr>
-nmap <silent><leader>r :CocFzfListResume<CR>
-
-" actions
-nmap <leader>rn <Plug>(coc-rename)
-vmap <leader>ca <Plug>(coc-codeaction-selected)
-nmap <leader>ca <Plug>(coc-codeaction)
-nmap <leader>qf <Plug>(coc-fix-current)
 
 nnoremap <leader>- :Scratch<CR>
 
@@ -291,17 +280,17 @@ cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
 
 " Vimspector
-nmap <leader>dc <Plug>VimspectorContinue
-nmap <leader>ds <Plug>VimspectorStop
-nmap <leader>dr <Plug>VimspectorRestart
-nmap <leader>dR :VimspectorReset<CR>
-nmap <leader>dp <Plug>VimspectorPause
-nmap <leader>db <Plug>VimspectorToggleBreakpoint
-nmap <leader>dB <Plug>VimspectorToggleConditionalBreakpoint
-nmap <F10> <Plug>VimspectorStepOver
-nmap <F11> <Plug>VimspectorStepInto
-nmap <F12> <Plug>VimspectorStepOut
-nmap <leader><F10> <Plug>VimspectorRunToCursor
+"nmap <leader>dc <Plug>VimspectorContinue
+"nmap <leader>ds <Plug>VimspectorStop
+"nmap <leader>dr <Plug>VimspectorRestart
+"nmap <leader>dR :VimspectorReset<CR>
+"nmap <leader>dp <Plug>VimspectorPause
+"nmap <leader>db <Plug>VimspectorToggleBreakpoint
+"nmap <leader>dB <Plug>VimspectorToggleConditionalBreakpoint
+"nmap <F10> <Plug>VimspectorStepOver
+"nmap <F11> <Plug>VimspectorStepInto
+"nmap <F12> <Plug>VimspectorStepOut
+"nmap <leader><F10> <Plug>VimspectorRunToCursor
 "
 
 " }}}
@@ -326,8 +315,6 @@ augroup autocommands
                 \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' 
                 \ |   exe "normal! g`\""
                 \ | endif
-    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-    " autocmd CursorHold * silent call CocActionAsync('highlight')
 
     autocmd TermOpen * startinsert " Terminal start in insertmode
 
@@ -335,8 +322,7 @@ augroup autocommands
 
     au FileType vim set foldlevel=0
 
-    " Coc
-    au User CocLocationsChange call setqflist(g:coc_jump_locations) | copen 10
+    autocmd BufEnter * lua require'completion'.on_attach()
 
     " filetypes
     au BufRead,BufNewFile *.sls set filetype=yaml
@@ -361,11 +347,6 @@ augroup autocommands
     au FileType translations setlocal spell
     au FileType gitcommit setlocal spell
 
-    " csharp
-    au FileType cs nnoremap <silent>gd :OmniSharpGotoDefinition<CR>
-    au FileType cs nnoremap <silent>gr :OmniSharpFindUsages<CR>
-    au FileType cs nnoremap <silent>gh :OmniSharpDocumentation<CR>
-
 
     " Auto reload init.vim
     au BufWritePost */init.vim source $MYVIMRC
@@ -375,13 +356,85 @@ augroup END
 " {{{ LUA
 " Tree sitter
 lua <<EOF
+require('nvim_comment').setup()
+
 require'nvim-treesitter.configs'.setup {
     highlight = {
       enable = true,
-    },
-    indent = {
-        enable = true,
     }
 }
+
+local nvim_lsp = require('lspconfig')
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  require'completion'.on_attach()
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'gh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('i', '<C-h>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('v', '<space>ca', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<space>d', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+
+  -- Set some keybinds conditional on server capabilities
+  if client.resolved_capabilities.document_formatting then
+    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  elseif client.resolved_capabilities.document_range_formatting then
+    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  end
+
+  -- Set autocommands conditional on server_capabilities
+  if client.resolved_capabilities.document_highlight then
+    vim.api.nvim_exec([[
+      hi LspReferenceRead guibg=#16172d
+      hi LspReferenceText guibg=#16172d
+      hi LspReferenceWrite guibg=#16172d
+      augroup lsp_document_highlight
+        autocmd!
+        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+      augroup END
+    ]], false)
+  end
+end
+
+-- Use a loop to conveniently both setup defined servers 
+-- and map buffer local keybindings when the language server attaches
+local servers = { "tsserver" }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup { on_attach = on_attach }
+end
+
+local pid = vim.fn.getpid()
+local omnisharp_bin = "/home/simon/Programs/omnisharp/run"
+require'lspconfig'.omnisharp.setup{
+    on_attach = on_attach,
+    cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
+}
+
+require "lspconfig".efm.setup {
+    settings = {
+        rootMarkers = {".eslintrc.json"},
+        languages = {}
+    }
+}
+
 EOF
 " }}}

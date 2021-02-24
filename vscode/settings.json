@@ -55,4 +55,5 @@
     "workbench.editor.showTabs": false,
     "editor.renderWhitespace": "trailing",
     "workbench.startupEditor": "newUntitledFile"
+    "typescript.validate.enable": false
 }

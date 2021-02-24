@@ -3,4 +3,4 @@ if [ -z $1 ]; then
     echo 'usage: update-wttr <file>'
     exit 0
 fi
-curl 'wttr.in/?0FTQq&format=%t' > "$1"
+curl 'wttr.in/Gothenburg?0FTQq&format=%t' > "$1"
