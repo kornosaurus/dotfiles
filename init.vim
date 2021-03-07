@@ -40,7 +40,7 @@ Plug 'junegunn/goyo.vim'
 " Other
 Plug 'skywind3000/asyncrun.vim'
 Plug 'voldikss/vim-floaterm'
-Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'lua'}
+" Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'lua'}
 
 " Colors
 Plug 'ayu-theme/ayu-vim'
@@ -89,8 +89,8 @@ let g:floaterm_height=0.8
 
 let g:vimwiki_list = [{'path': '~/Wiki/', 'syntax': 'markdown', 'ext': '.md'}]
 
-let g:indentLine_char = '▏'
-let g:indent_blankline_char = '▏'
+" let g:indentLine_char = '▏'
+" let g:indent_blankline_char = '▏'
 
 set foldmethod=marker
 set foldlevelstart=99
@@ -113,7 +113,7 @@ let g:netrw_banner = 0
 set number
 set relativenumber
 
-" set cursorline
+set cursorline
 
 set guicursor=
 
@@ -234,7 +234,6 @@ nnoremap <leader>/ :grep<space>
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
-nnoremap <leader>ft <cmd>lua require('telescope.builtin').treesitter()<cr>
 
 " git
 nnoremap <leader>gs :Gstatus<cr>
@@ -429,10 +428,37 @@ require'lspconfig'.omnisharp.setup{
     cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
 }
 
+local eslint = {
+    lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+    lintIgnoreExitCode = true,
+    lintStdin = true,
+    lintFormats = {"%f:%l:%c: %m"},
+    formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
+    formatStdin = true
+}
+
 require "lspconfig".efm.setup {
     settings = {
         rootMarkers = {".eslintrc.json"},
-        languages = {}
+        languages = {
+            typescript = {eslint},
+            javascript = {eslint},
+            typescriptreact = {eslint},
+            javascriptreact = {eslint},
+        },
+        filetypes = {
+            "javascript",
+            "javascriptreact",
+            "typescript",
+            "typescriptreact"
+        }
+    }
+}
+
+-- telescope
+require('telescope').setup{
+    defaults = {
+        file_previewer = require'telescope.previewers'.vim_buffer_cat.new
     }
 }
 

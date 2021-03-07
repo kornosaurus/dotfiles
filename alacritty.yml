@@ -114,7 +114,7 @@ font:
     x: 0 
     y: 0
   # Desktop
-  size: 14
+  size: 12
   # Laptop
   # size: 10.5
   use_thin_strokes: false
