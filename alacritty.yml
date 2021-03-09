@@ -1,93 +1,33 @@
 background_opacity: 1
 
-# Colors (Gruvbox dark)
-# colors:
-#   # Default colors
-#   primary:
-#     # hard contrast: background = '#1d2021'
-#     background: '#1d2021'
-#     # soft contrast: background = '#32302f'
-#     foreground: '#ebdbb2'
-# 
-#   # Normal colors
-#   normal:
-#     black:   '#282828'
-#     red:     '#cc241d'
-#     green:   '#98971a'
-#     yellow:  '#d79921'
-#     blue:    '#458588'
-#     magenta: '#b16286'
-#     cyan:    '#689d6a'
-#     white:   '#a89984'
-# 
-#   # Bright colors
-#   bright:
-#     black:   '#928374'
-#     red:     '#fb4934' green:   '#b8bb26'
-#     yellow:  '#fabd2f'
-#     blue:    '#83a598'
-#     magenta: '#d3869b'
-#     cyan:    '#8ec07c'
-#     white:   '#ebdbb2'
-#
-
-# Space Duck
+# Colors (Ayu Dark)
 colors:
   # Default colors
   primary:
-    background: '#0f111b'
-    foreground: '#ecf0c1'
+    background: '#0A0E14'
+    foreground: '#B3B1AD'
+
   # Normal colors
   normal:
-    black:   '#000000'
-    red:     '#e33400'
-    green:   '#5ccc96'
-    yellow:  '#b3a1e6'
-    blue:    '#00a3cc'
-    magenta: '#f2ce00'
-    cyan:    '#7a5ccc'
-    white:   '#686f9a'
+    black: '#01060E'
+    red: '#EA6C73'
+    green: '#91B362'
+    yellow: '#F9AF4F'
+    blue: '#53BDFA'
+    magenta: '#FAE994'
+    cyan: '#90E1C6'
+    white: '#C7C7C7'
 
   # Bright colors
   bright:
-    black:   '#686f9a'
-    red:     '#e33400'
-    green:   '#5ccc96'
-    yellow:  '#b3a1e6'
-    blue:    '#00a3cc'
-    magenta: '#f2ce00'
-    cyan:    '#7a5ccc'
-    white:   '#f0f1ce'
-
-
-# Colors (Ayu Dark)
-#colors:
-#  # Default colors
-#  primary:
-#    background: '0x0f1419'
-#    foreground: '0xe6e1cf'
-#
-#  # Normal colors
-#  normal:
-#    black:   '0x000000'
-#    red:     '0xf34a4a'
-#    green:   '0xbae67e'
-#    yellow:  '0xffee99'
-#    blue:    '0x73d0ff'
-#    magenta: '0xd4bfff'
-#    cyan:    '0x83CEC6'
-#    white:   '0xf2f2f2'
-#
-#  # Bright colors
-#  bright:
-#    black:   '0x737d87'
-#    red:     '0xff3333'
-#    green:   '0xc2d94c'
-#    yellow:  '0xe7c547'
-#    blue:    '0x59c2ff'
-#    magenta: '0xb77ee0'
-#    cyan:    '0x5ccfe6'
-#    white:   '0xffffff'
+    black: '#686868'
+    red: '#F07178'
+    green: '#C2D94C'
+    yellow: '#FFB454'
+    blue: '#59C2FF'
+    magenta: '#FFEE99'
+    cyan: '#95E6CB'
+    white: '#FFFFFF'
 
 cursor_style: Block
 custom_cursor_colors: true

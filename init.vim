@@ -40,26 +40,19 @@ Plug 'junegunn/goyo.vim'
 " Other
 Plug 'skywind3000/asyncrun.vim'
 Plug 'voldikss/vim-floaterm'
-" Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'lua'}
 
 " Colors
 Plug 'ayu-theme/ayu-vim'
-Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
 call plug#end()
 " }}}
 
 " {{{ Colors
 syntax enable
 set termguicolors
+let ayucolor="dark"
 set background=dark
 
-colorscheme spaceduck
-
-" spaceduck additions
-highlight NonText guifg=#1b1c36
-highlight StatusLineNC guifg=#1b1c36 guibg=#0f111b
-highlight StatusLine guifg=#1b1c36 guibg=#ecf0c1
-highlight VertSplit guifg=#1b1c36 guibg=#0f111b
+colorscheme ayu
 
 highlight SignColumn ctermbg=NONE guibg=NONE
 highlight DiffAdd guibg=NONE
@@ -77,20 +70,17 @@ let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_matching_ignore_case=0
 let g:completion_confirm_key = "\<C-y>"
 let g:completion_auto_change_source = 1
-let g:completion_chain_complete_list = [
-    \{'complete_items': ['lsp']},
-    \{'mode': '<c-p>'},
-    \{'mode': '<c-n>'},
-\]
+" let g:completion_chain_complete_list = [
+"     \{'complete_items': ['lsp']},
+"     \{'mode': '<c-p>'},
+"     \{'mode': '<c-n>'},
+" \]
 
 let g:floaterm_autoclose=2
 let g:floaterm_title=""
 let g:floaterm_height=0.8
 
 let g:vimwiki_list = [{'path': '~/Wiki/', 'syntax': 'markdown', 'ext': '.md'}]
-
-" let g:indentLine_char = '▏'
-" let g:indent_blankline_char = '▏'
 
 set foldmethod=marker
 set foldlevelstart=99
@@ -233,6 +223,7 @@ nnoremap <leader>/ :grep<space>
 
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
 " git
@@ -278,6 +269,8 @@ nnoremap <leader>rR ggVG:FloatermSend<CR><C-o>
 cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
 
+nnoremap <leader>rt :Test %<CR>
+
 " Vimspector
 "nmap <leader>dc <Plug>VimspectorContinue
 "nmap <leader>ds <Plug>VimspectorStop
@@ -298,6 +291,7 @@ cnoremap <C-j> <Down>
 command! ArduinoCompile execute "AsyncRun -raw arduino-cli compile -b arduino:avr:uno" <bar> copen 10 <bar> wincmd p
 command! ArduinoUpload execute "AsyncRun -raw arduino-cli upload -b arduino:avr:uno -p /dev/ttyACM0" <bar> copen 10 <bar> wincmd p
 command! -nargs=1 ArduinoMonitor split <bar> resize -10 <bar> execute "term screen /dev/ttyACM0 <args>" <bar> wincmd p <ESC>
+command! -nargs=* Test execute "AsyncRun npm run test -- -i <args>" <bar> copen 10 <bar> wincmd p
 
 " Open scratch buffer
 command! Scratch enew | setlocal buftype=nofile | setlocal bufhidden=hide | setlocal noswapfile
@@ -359,7 +353,10 @@ require('nvim_comment').setup()
 
 require'nvim-treesitter.configs'.setup {
     highlight = {
-      enable = true,
+        enable = true,
+    },
+    indent = {
+        enable = true,
     }
 }
 
@@ -387,10 +384,10 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('v', '<space>ca', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>d', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '<space>dd', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '<space>dq', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
   -- Set some keybinds conditional on server capabilities
   if client.resolved_capabilities.document_formatting then
@@ -421,13 +418,6 @@ for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }
 end
 
-local pid = vim.fn.getpid()
-local omnisharp_bin = "/home/simon/Programs/omnisharp/run"
-require'lspconfig'.omnisharp.setup{
-    on_attach = on_attach,
-    cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
-}
-
 local eslint = {
     lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
     lintIgnoreExitCode = true,
@@ -437,7 +427,7 @@ local eslint = {
     formatStdin = true
 }
 
-require "lspconfig".efm.setup {
+require'lspconfig'.efm.setup {
     settings = {
         rootMarkers = {".eslintrc.json"},
         languages = {
@@ -453,6 +443,14 @@ require "lspconfig".efm.setup {
             "typescriptreact"
         }
     }
+}
+
+
+local pid = vim.fn.getpid()
+local omnisharp_bin = "/home/simon/Programs/omnisharp/run"
+require'lspconfig'.omnisharp.setup {
+    on_attach = on_attach,
+    cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
 }
 
 -- telescope
