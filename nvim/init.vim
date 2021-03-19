@@ -7,70 +7,16 @@
 "      |\_________\|__| \|__|
 "      \|_________|
 
-" {{{ Plug
-call plug#begin('~/.local/share/nvim/plugged')
-" Fzf
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plug 'junegunn/fzf.vim'
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-
-" Language features
-Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-compe'
-Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'sbdchd/neoformat'
-
-" Git
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-
-" Efficiency
-Plug 'tpope/vim-surround'
-Plug 'rstacruz/vim-closer'
-Plug 'SirVer/ultisnips'
-Plug 'mattn/emmet-vim'
-Plug 'terrortylor/nvim-comment'
-
-" Note taking
-Plug 'vimwiki/vimwiki'
-Plug 'junegunn/goyo.vim'
-
-" Other
-Plug 'skywind3000/asyncrun.vim'
-Plug 'voldikss/vim-floaterm'
-
-" Colors
-Plug 'ayu-theme/ayu-vim'
-Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
-Plug 'bluz71/vim-nightfly-guicolors'
-call plug#end()
-" }}}
+lua << EOF
+require('init') -- TODO: Remove when configuration is fully moved to lua
+EOF
 
 " {{{ Colors
-syntax enable
-set termguicolors
-set background=dark
-
-colorscheme nightfly
-
-" spaceduck
-" highlight VertSplit    guibg=#0f111b guifg=#1b1c36
-" highlight StatusLineNC guifg=#0f111b
-" highlight StatusLine   guifg=#0f111b
-
-" nightify
 highlight StatusLine   guibg=#001323
 highlight StatusLineNC guibg=#00111f
 
-highlight SignColumn ctermbg=NONE guibg=NONE
-highlight DiffAdd guibg=NONE
-highlight DiffChange guibg=NONE
-highlight DiffDelete guibg=NONE guifg=#FF3333
-highlight Error guibg=NONE
-highlight Comment gui=italic
 highlight Type gui=bold
+highlight SignColumn ctermbg=NONE guibg=NONE
 " }}}
 
 " {{{ Options
@@ -210,7 +156,7 @@ set statusline=""
 set statusline+=%f
 set statusline+=%{Unsaved()}
 set statusline+=%=
-set statusline+=\ %{GitBranch()}
+" set statusline+=\ %{GitBranch()}
 set statusline+=\ %l/%L
 " }}}
 
@@ -335,32 +281,12 @@ augroup autocommands
     au BufRead,BufNewFile *.trans set filetype=translations
     au BufRead,BufNewFile Jenkinsfile set ft=groovy
 
-    " Indentation
-    au BufEnter * setlocal expandtab
-    au BufEnter * setlocal shiftwidth=4
-    au BufEnter * setlocal tabstop=4
-    au BufEnter *.java setlocal noexpandtab
-    au BufEnter *.sls setlocal shiftwidth=2
-    au BufEnter *.sls setlocal tabstop=2
-    au BufEnter *.yml setlocal shiftwidth=2
-    au BufEnter *.yml setlocal tabstop=2
-    au BufEnter *.md setlocal shiftwidth=2
-    au BufEnter *.md setlocal tabstop=2
-
     " Spelling
     au FileType markdown setlocal spell
     au FileType vimwiki setlocal spell
     au FileType translations setlocal spell
     au FileType gitcommit setlocal spell
 
-    " Auto reload init.vim
-    au BufWritePost */init.vim source $MYVIMRC
-
-    au BufWrite,BufEnter,InsertLeave * lua vim.lsp.diagnostic.set_loclist({open_loclist = false})
 
 augroup END
 " }}}
-
-lua << EOF
-require('init') -- TODO: Remove when configuration is fully moved to lua
-EOF
