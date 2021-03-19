@@ -18,9 +18,9 @@ Plug 'nvim-telescope/telescope.nvim'
 
 " Language features
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
+Plug 'hrsh7th/nvim-compe'
 Plug 'nvim-treesitter/nvim-treesitter'
-" Plug 'puremourning/vimspector'
+Plug 'sbdchd/neoformat'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -43,16 +43,26 @@ Plug 'voldikss/vim-floaterm'
 
 " Colors
 Plug 'ayu-theme/ayu-vim'
+Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
+Plug 'bluz71/vim-nightfly-guicolors'
 call plug#end()
 " }}}
 
 " {{{ Colors
 syntax enable
 set termguicolors
-let ayucolor="dark"
 set background=dark
 
-colorscheme ayu
+colorscheme nightfly
+
+" spaceduck
+" highlight VertSplit    guibg=#0f111b guifg=#1b1c36
+" highlight StatusLineNC guifg=#0f111b
+" highlight StatusLine   guifg=#0f111b
+
+" nightify
+highlight StatusLine   guibg=#001323
+highlight StatusLineNC guibg=#00111f
 
 highlight SignColumn ctermbg=NONE guibg=NONE
 highlight DiffAdd guibg=NONE
@@ -65,16 +75,15 @@ highlight Type gui=bold
 
 " {{{ Options
 let g:vimsyn_embed = 'lPr'
-let g:completion_enable_auto_popup = 0
-let g:completion_enable_snippet = 'UltiSnips'
-let g:completion_matching_ignore_case=0
-let g:completion_confirm_key = "\<C-y>"
-let g:completion_auto_change_source = 1
-" let g:completion_chain_complete_list = [
-"     \{'complete_items': ['lsp']},
-"     \{'mode': '<c-p>'},
-"     \{'mode': '<c-n>'},
-" \]
+
+let g:compe = {}
+let g:compe.autocomplete = v:false
+let g:compe.enabled = v:true
+let g:compe.source = {
+\ 'path': v:true,
+\ 'buffer': v:true,
+\ 'nvim_lsp': v:true,
+\ }
 
 let g:floaterm_autoclose=2
 let g:floaterm_title=""
@@ -100,10 +109,7 @@ set nowrap
 
 let g:netrw_banner = 0
 
-set number
-set relativenumber
-
-set cursorline
+" set cursorline
 
 set guicursor=
 
@@ -191,7 +197,6 @@ function GitBranch()
         return "󰘬 " . branch
     endif
     return ""
-    " return \ 󰘬\ %{GitBranch()}
 endfunction
 
 function Unsaved()
@@ -243,11 +248,18 @@ nnoremap / /\v
 nnoremap Y "+y
 vnoremap Y "+y
 
-nnoremap <C-n> :cn<CR>
-nnoremap <C-p> :cp<CR>
+nnoremap <C-q> :copen<CR>
+nnoremap <C-n> :cnext<CR>
+nnoremap <C-p> :cprev<CR>
+nnoremap <leader>q :lopen<CR>
+nnoremap <leader>n :lnext<CR>
+nnoremap <leader>p :lprev<CR>
 
-imap <silent> <C-n> <Plug>(completion_trigger)
-imap <silent> <C-p> <Plug>(completion_trigger)
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <C-y>     compe#confirm('<CR>')
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 
 vnoremap * y/\V<C-r>=escape(@",'/\')<CR><CR>
 
@@ -270,6 +282,7 @@ cnoremap <C-k> <Up>
 cnoremap <C-j> <Down>
 
 nnoremap <leader>rt :Test %<CR>
+nnoremap <leader>rl :Lint<CR>
 
 " Vimspector
 "nmap <leader>dc <Plug>VimspectorContinue
@@ -291,7 +304,9 @@ nnoremap <leader>rt :Test %<CR>
 command! ArduinoCompile execute "AsyncRun -raw arduino-cli compile -b arduino:avr:uno" <bar> copen 10 <bar> wincmd p
 command! ArduinoUpload execute "AsyncRun -raw arduino-cli upload -b arduino:avr:uno -p /dev/ttyACM0" <bar> copen 10 <bar> wincmd p
 command! -nargs=1 ArduinoMonitor split <bar> resize -10 <bar> execute "term screen /dev/ttyACM0 <args>" <bar> wincmd p <ESC>
+
 command! -nargs=* Test execute "AsyncRun npm run test -- -i <args>" <bar> copen 10 <bar> wincmd p
+command! Lint execute "AsyncRun eslint_d %" <bar> copen 10 <bar> wincmd p
 
 " Open scratch buffer
 command! Scratch enew | setlocal buftype=nofile | setlocal bufhidden=hide | setlocal noswapfile
@@ -314,8 +329,6 @@ augroup autocommands
     au FileType fzf set nonu nornu
 
     au FileType vim set foldlevel=0
-
-    autocmd BufEnter * lua require'completion'.on_attach()
 
     " filetypes
     au BufRead,BufNewFile *.sls set filetype=yaml
@@ -340,125 +353,14 @@ augroup autocommands
     au FileType translations setlocal spell
     au FileType gitcommit setlocal spell
 
-
     " Auto reload init.vim
     au BufWritePost */init.vim source $MYVIMRC
+
+    au BufWrite,BufEnter,InsertLeave * lua vim.lsp.diagnostic.set_loclist({open_loclist = false})
+
 augroup END
 " }}}
 
-" {{{ LUA
-" Tree sitter
-lua <<EOF
-require('nvim_comment').setup()
-
-require'nvim-treesitter.configs'.setup {
-    highlight = {
-        enable = true,
-    },
-    indent = {
-        enable = true,
-    }
-}
-
-local nvim_lsp = require('lspconfig')
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  -- buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  require'completion'.on_attach()
-
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('i', '<C-h>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('v', '<space>ca', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>dd', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>dq', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-
-  -- Set some keybinds conditional on server capabilities
-  if client.resolved_capabilities.document_formatting then
-    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  elseif client.resolved_capabilities.document_range_formatting then
-    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  end
-
-  -- Set autocommands conditional on server_capabilities
-  if client.resolved_capabilities.document_highlight then
-    vim.api.nvim_exec([[
-      hi LspReferenceRead guibg=#16172d
-      hi LspReferenceText guibg=#16172d
-      hi LspReferenceWrite guibg=#16172d
-      augroup lsp_document_highlight
-        autocmd!
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-    ]], false)
-  end
-end
-
--- Use a loop to conveniently both setup defined servers 
--- and map buffer local keybindings when the language server attaches
-local servers = { "tsserver" }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup { on_attach = on_attach }
-end
-
-local eslint = {
-    lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
-    lintIgnoreExitCode = true,
-    lintStdin = true,
-    lintFormats = {"%f:%l:%c: %m"},
-    formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
-    formatStdin = true
-}
-
-require'lspconfig'.efm.setup {
-    settings = {
-        rootMarkers = {".eslintrc.json"},
-        languages = {
-            typescript = {eslint},
-            javascript = {eslint},
-            typescriptreact = {eslint},
-            javascriptreact = {eslint},
-        },
-        filetypes = {
-            "javascript",
-            "javascriptreact",
-            "typescript",
-            "typescriptreact"
-        }
-    }
-}
-
-
-local pid = vim.fn.getpid()
-local omnisharp_bin = "/home/simon/Programs/omnisharp/run"
-require'lspconfig'.omnisharp.setup {
-    on_attach = on_attach,
-    cmd = { omnisharp_bin, "--languageserver" , "--hostPID", tostring(pid) };
-}
-
--- telescope
-require('telescope').setup{
-    defaults = {
-        file_previewer = require'telescope.previewers'.vim_buffer_cat.new
-    }
-}
-
+lua << EOF
+require('init') -- TODO: Remove when configuration is fully moved to lua
 EOF
-" }}}
