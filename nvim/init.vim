@@ -20,8 +20,6 @@ highlight SignColumn ctermbg=NONE guibg=NONE
 " }}}
 
 " {{{ Options
-let g:vimsyn_embed = 'lPr'
-
 let g:compe = {}
 let g:compe.autocomplete = v:false
 let g:compe.enabled = v:true
@@ -30,12 +28,6 @@ let g:compe.source = {
 \ 'buffer': v:true,
 \ 'nvim_lsp': v:true,
 \ }
-
-let g:floaterm_autoclose=2
-let g:floaterm_title=""
-let g:floaterm_height=0.8
-
-let g:vimwiki_list = [{'path': '~/Wiki/', 'syntax': 'markdown', 'ext': '.md'}]
 
 function GitBranch()
     let branch = FugitiveHead()

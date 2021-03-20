@@ -5,9 +5,7 @@ local blend = 10
 vim.o.syntax = "on"
 vim.o.background = "dark"
 vim.o.termguicolors = true
-vim.cmd [[
-    silent! colorscheme nightfly
-]]
+vim.cmd [[ silent! colorscheme nightfly ]]
 
 vim.o.grepprg = "rg --vimgrep"
 vim.o.grepformat = "%f:%l:%c:%m"
@@ -30,6 +28,7 @@ vim.o.splitright = true
 vim.o.showmode = false
 vim.o.listchars = "tab:  ,trail:·"
 vim.o.guicursor = ""
+vim.o.mouse = "a"
 
 -- window-local options
 vim.wo.number = true
