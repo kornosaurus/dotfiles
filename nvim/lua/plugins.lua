@@ -41,6 +41,19 @@ require('nvim-treesitter.configs').setup {
     }
 }
 
+require'compe'.setup {
+	enabled = true;
+	autocomplete = false;
+
+	source = {
+		path = true;
+		buffer = true;
+		calc = true;
+		nvim_lsp = true;
+		nvim_lua = true;
+	};
+}
+
 -- Plugin Options
 vim.api.nvim_set_var('floaterm_opener', 'edit')
 vim.api.nvim_set_var('floaterm_autoclose', 2)

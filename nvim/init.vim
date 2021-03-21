@@ -7,10 +7,6 @@
 "      |\_________\|__| \|__|
 "      \|_________|
 
-lua << EOF
-require('init') -- TODO: Remove when configuration is fully moved to lua
-EOF
-
 " {{{ Colors
 highlight StatusLine   guibg=#001323
 highlight StatusLineNC guibg=#00111f
@@ -20,14 +16,6 @@ highlight SignColumn ctermbg=NONE guibg=NONE
 " }}}
 
 " {{{ Options
-let g:compe = {}
-let g:compe.autocomplete = v:false
-let g:compe.enabled = v:true
-let g:compe.source = {
-\ 'path': v:true,
-\ 'buffer': v:true,
-\ 'nvim_lsp': v:true,
-\ }
 
 function GitBranch()
     let branch = FugitiveHead()
