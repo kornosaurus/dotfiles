@@ -42,7 +42,7 @@ require('nvim-treesitter.configs').setup {
     }
 }
 
-require'compe'.setup {
+require('compe').setup {
     enabled = true;
     autocomplete = false;
 
