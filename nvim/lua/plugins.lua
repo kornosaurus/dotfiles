@@ -2,10 +2,9 @@ vim.cmd [[packadd packer.nvim]]
 
 require('packer').startup(function(use)
     use {'wbthomason/packer.nvim', opt = true}
-    use {
-        'nvim-telescope/telescope.nvim',
-        requires = {'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'}
-    }
+
+    use 'junegunn/fzf'
+    use 'junegunn/fzf.vim'
 
     use 'neovim/nvim-lspconfig'
     use 'hrsh7th/nvim-compe'
@@ -16,7 +15,6 @@ require('packer').startup(function(use)
     use 'airblade/vim-gitgutter'
 
     use 'tpope/vim-surround'
-    use 'rstacruz/vim-closer'
     use 'SirVer/ultisnips'
     use 'mattn/emmet-vim'
     use 'terrortylor/nvim-comment'
@@ -51,7 +49,8 @@ require'compe'.setup {
     source = {
         path = true;
         buffer = true;
-        calc = true;
+        calc = false;
+	vsnip = false;
         nvim_lsp = true;
         nvim_lua = true;
     };

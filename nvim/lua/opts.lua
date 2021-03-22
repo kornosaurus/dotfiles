@@ -39,6 +39,14 @@ vim.wo.winblend = blend
 vim.wo.list = true
 
 -- buffer-local options
+-- FIXME: when https://github.com/neovim/neovim/pull/13479 is merged, use vim.opt
+vim.o.spelllang = "en,sv"
+vim.o.expandtab = true
+vim.o.swapfile = false
+vim.o.undofile = true
+vim.o.shiftwidth = indent
+vim.o.tabstop = indent
+vim.o.smartindent = true
 vim.bo.spelllang = "en,sv"
 vim.bo.expandtab = true
 vim.bo.swapfile = false

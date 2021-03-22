@@ -7,10 +7,6 @@
 "      |\_________\|__| \|__|
 "      \|_________|
 
-lua << EOF
-require('init') -- FIXME: Remove when rest of config is moved to lua
-EOF
-
 " {{{ Colors
 highlight StatusLine   guibg=#001323
 highlight StatusLineNC guibg=#00111f
@@ -57,11 +53,6 @@ nnoremap <leader>/ :grep<space>
 " nnoremap <leader>fb :FzfBuffers<CR>
 " nnoremap <leader>fl :FzfLines<CR>
 
-nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
-
 " git
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gb :Gblame<cr>
@@ -70,9 +61,7 @@ nnoremap <leader>gl :Git log -100<CR>
 nnoremap <leader>dh :diffget //2<CR>
 nnoremap <leader>dl :diffget //3<CR>
 
-nnoremap <leader>e :FloatermNew vifm<CR>
 nnoremap <leader>lg :FloatermNew lazygit<CR>
-nnoremap <leader>fi :FloatermNew idfind<CR>
 
 nnoremap / /\v
 
@@ -85,12 +74,6 @@ nnoremap <C-p> :cprev<CR>
 nnoremap <leader>q :lopen<CR>
 nnoremap <leader>n :lnext<CR>
 nnoremap <leader>p :lprev<CR>
-
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <C-y>     compe#confirm('<CR>')
-inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 
 vnoremap * y/\V<C-r>=escape(@",'/\')<CR><CR>
 
@@ -161,3 +144,7 @@ augroup autocommands
 
 augroup END
 " }}}
+
+lua << EOF
+require('init') -- FIXME: Remove when rest of config is moved to lua
+EOF

@@ -16,7 +16,13 @@ map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 map('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 map('v', '<leader>ca', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
 
-map('n', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<cr>', opts)
-map('n', '<leader>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>', opts)
-map('n', '<leader>fg', '<cmd>lua require("telescope.builtin").live_grep()<cr>', opts)
-map('n', '<leader>fh', '<cmd>lua require("telescope.builtin").help_tags()<cr>', opts)
+map('n', '<leader><Tab>', ':b#<CR>', opts)
+
+map('n', '<leader>ff', ':Files<CR>', opts)
+map('n', '<leader>fb', ':Buffers<CR>', opts)
+
+map('n', '<leader>e', ':FloatermNew vifm<CR>', opts)
+
+map('i', '<C-space>', 'compe#complete()', { noremap=true, silent=true, expr=true })
+map('i', '<CR>', 'compe#confirm("<CR>")', { noremap=true, silent=true, expr=true })
+map('i', '<C-e>', 'compe#close("<C-e>")', { noremap=true, silent=true, expr=true })
