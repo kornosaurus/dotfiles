@@ -15,3 +15,8 @@ map('n', '<leader>dd', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>'
 map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
 map('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 map('v', '<leader>ca', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
+
+map('n', '<leader>ff', '<cmd>lua require("telescope.builtin").find_files()<cr>', opts)
+map('n', '<leader>fb', '<cmd>lua require("telescope.builtin").buffers()<cr>', opts)
+map('n', '<leader>fg', '<cmd>lua require("telescope.builtin").live_grep()<cr>', opts)
+map('n', '<leader>fh', '<cmd>lua require("telescope.builtin").help_tags()<cr>', opts)

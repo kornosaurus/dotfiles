@@ -7,6 +7,10 @@
 "      |\_________\|__| \|__|
 "      \|_________|
 
+lua << EOF
+require('init') -- FIXME: Remove when rest of config is moved to lua
+EOF
+
 " {{{ Colors
 highlight StatusLine   guibg=#001323
 highlight StatusLineNC guibg=#00111f
@@ -110,20 +114,6 @@ cnoremap <C-j> <Down>
 
 nnoremap <leader>rt :Test %<CR>
 nnoremap <leader>rl :Lint<CR>
-
-" Vimspector
-"nmap <leader>dc <Plug>VimspectorContinue
-"nmap <leader>ds <Plug>VimspectorStop
-"nmap <leader>dr <Plug>VimspectorRestart
-"nmap <leader>dR :VimspectorReset<CR>
-"nmap <leader>dp <Plug>VimspectorPause
-"nmap <leader>db <Plug>VimspectorToggleBreakpoint
-"nmap <leader>dB <Plug>VimspectorToggleConditionalBreakpoint
-"nmap <F10> <Plug>VimspectorStepOver
-"nmap <F11> <Plug>VimspectorStepInto
-"nmap <F12> <Plug>VimspectorStepOut
-"nmap <leader><F10> <Plug>VimspectorRunToCursor
-"
 
 " }}}
 
