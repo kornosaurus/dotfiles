@@ -57,9 +57,14 @@ require('compe').setup {
 }
 
 -- Plugin Options
-vim.api.nvim_set_var('floaterm_opener', 'edit')
-vim.api.nvim_set_var('floaterm_autoclose', 2)
-vim.api.nvim_set_var('floaterm_title', '')
-vim.api.nvim_set_var('floaterm_height', 0.8)
+vim.g.floaterm_opener = 'edit'
+vim.g.floaterm_autoclose = 2
+vim.g.floaterm_title = ''
+vim.g.floaterm_height = 0.8
 
-vim.api.nvim_set_var('vimwiki_list', {{ ['path'] = '~/Wiki', ['syntax'] = 'markdown', ['ext'] = '.md' }})
+vim.g.vimwiki_list = {{ path = '~/Wiki', syntax = 'markdown', ext = '.md' }}
+
+vim.g.UltiSnipsSnippetDirectories={ os.getenv('HOME') .. '/.config/nvim/UltiSnips' }
+vim.g.UltiSnipsExpandTrigger="<tab>"
+vim.g.UltiSnipsJumpForwardTrigger="<tab>"
+vim.g.UltiSnipsJumpBackwardTrigger="<S-tab>"
