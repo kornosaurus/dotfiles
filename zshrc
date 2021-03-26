@@ -61,11 +61,12 @@ bindkey "^e" edit-command-line
 
 # Aliases
 alias lg='lazygit'
-alias v='nvr -s'
 alias xclip='xclip -selection c'
 
 alias ls='ls --color=auto'
 alias ll='ls -lah --color=auto'
+
+alias v='nvim'
 
 export LC_ALL="en_US.UTF-8"
 export LC_COLLATE="en_US.UTF-8"

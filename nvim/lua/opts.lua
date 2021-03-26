@@ -5,17 +5,6 @@ local blend = 10
 vim.o.syntax = 'on'
 vim.o.background = 'dark'
 vim.o.termguicolors = true
--- TODO: Fix highlights, no work
-vim.cmd [[
-    silent! colorscheme nightfly 
-
-    highlight StatusLine   guibg=#001323
-    highlight StatusLineNC guibg=#00111f
-
-    highlight Type gui=bold
-    highlight SignColumn ctermbg=NONE guibg=NONE
-]]
-
 vim.o.grepprg = 'rg --vimgrep'
 vim.o.grepformat = '%f:%l:%c:%m'
 vim.o.completeopt = 'menuone,noinsert,noselect'

@@ -1,5 +1,5 @@
 require('plugins')
-require('opts')
 require('maps')
 require('lsp')
 require('statusline')
+require('opts')

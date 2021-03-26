@@ -1,37 +1,52 @@
-vim.cmd [[packadd packer.nvim]]
-
 require('packer').startup(function(use)
-    use {'wbthomason/packer.nvim', opt = true}
+    use {
+        'bluz71/vim-nightfly-guicolors',
+        config = function()
+            vim.cmd [[colorscheme nightfly]]
+        end
+    }
+
+    use 'wbthomason/packer.nvim'
 
     use 'junegunn/fzf'
     use 'junegunn/fzf.vim'
 
-    use 'neovim/nvim-lspconfig'
+    use {
+        'neovim/nvim-lspconfig'
+    }
     use 'hrsh7th/nvim-compe'
     use 'nvim-treesitter/nvim-treesitter'
     use 'sbdchd/neoformat'
 
     use 'tpope/vim-fugitive'
-    use 'airblade/vim-gitgutter'
+    use {
+        'lewis6991/gitsigns.nvim',
+        requires = {
+            'nvim-lua/plenary.nvim'
+        }
+    }
 
     use 'tpope/vim-surround'
     use 'SirVer/ultisnips'
     use 'mattn/emmet-vim'
-    use 'terrortylor/nvim-comment'
 
     use 'vimwiki/vimwiki'
     use 'junegunn/goyo.vim'
 
     use 'skywind3000/asyncrun.vim'
     use 'voldikss/vim-floaterm'
-
-    use 'ayu-theme/ayu-vim'
-    use 'pineapplegiant/spaceduck'
-    use 'bluz71/vim-nightfly-guicolors'
 end)
 
 -- Plugin Setup
-require('nvim_comment').setup()
+require('gitsigns').setup {
+    signs = {
+        add = {hl = 'GitSignsAdd', text = '▎'},
+        change = {hl = 'GitSignsChange', text = '▎'},
+        delete = {hl = 'GitSignsDelete', text = '◢'},
+        topdelete = {hl = 'GitSignsDelete', text = '◥'},
+        changedelete = {hl = 'GitSignsChangeDelete', text = '▌'},
+    }
+}
 
 require('nvim-treesitter.configs').setup {
     highlight = {
