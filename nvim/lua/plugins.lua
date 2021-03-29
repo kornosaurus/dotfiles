@@ -1,3 +1,13 @@
+local execute = vim.api.nvim_command
+local fn = vim.fn
+
+local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
+
+if fn.empty(fn.glob(install_path)) > 0 then
+  execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
+  execute 'packadd packer.nvim'
+end
+
 require('packer').startup(function(use)
     use {
         'bluz71/vim-nightfly-guicolors',
@@ -11,9 +21,7 @@ require('packer').startup(function(use)
     use 'junegunn/fzf'
     use 'junegunn/fzf.vim'
 
-    use {
-        'neovim/nvim-lspconfig'
-    }
+    use 'neovim/nvim-lspconfig'
     use 'hrsh7th/nvim-compe'
     use 'nvim-treesitter/nvim-treesitter'
     use 'sbdchd/neoformat'
