@@ -12,7 +12,7 @@ require('packer').startup(function(use)
     use {
         'bluz71/vim-nightfly-guicolors',
         config = function()
-            vim.cmd [[colorscheme nightfly]]
+            vim.o.colorscheme = "nightfly"
         end
     }
 
