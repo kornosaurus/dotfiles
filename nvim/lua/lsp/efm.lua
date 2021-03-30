@@ -1,10 +1,15 @@
 local eslint = {
-    lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+    lintCommand = "eslint_d -f visualstudio --stdin --stdin-filename ${INPUT}",
     lintStdin = true,
-    lintFormats = {"%f:%l:%c: %m"},
+    lintFormats = {"%f(%l,%c): %trror %m", "%f(%l,%c): %tarning %m"},
     lintIgnoreExitCode = true,
     formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
     formatStdin = true
+}
+
+local prettier = {
+  formatCommand = "./node_modules/.bin/prettier --stdin-filepath=${INPUT}",
+  formatStdin = true
 }
 
 require"lspconfig".efm.setup {
@@ -18,10 +23,12 @@ require"lspconfig".efm.setup {
     settings = {
         rootMarkers = {".eslintrc.json"},
         languages = {
-            javascript = {eslint},
-            javascriptreact = {eslint},
-            typescript = {eslint},
-            typescriptreact = {eslint},
+            javascript = {prettier, eslint},
+            javascriptreact = {prettier, eslint},
+            ["javascript.jsx"] = {prettier, eslint},
+            typescript = {prettier, eslint},
+            ["typescript.tsx"] = {prettier, eslint},
+            typescriptreact = {prettier, eslint},
         }
     }
 }

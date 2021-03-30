@@ -12,7 +12,7 @@ require('packer').startup(function(use)
     use {
         'bluz71/vim-nightfly-guicolors',
         config = function()
-            vim.o.colorscheme = "nightfly"
+            vim.cmd [[colorscheme nightfly]]
         end
     }
 
@@ -22,9 +22,9 @@ require('packer').startup(function(use)
     use 'junegunn/fzf.vim'
 
     use 'neovim/nvim-lspconfig'
+    use 'glepnir/lspsaga.nvim'
     use 'hrsh7th/nvim-compe'
     use 'nvim-treesitter/nvim-treesitter'
-    use 'sbdchd/neoformat'
 
     use 'tpope/vim-fugitive'
     use {
@@ -78,6 +78,8 @@ require('compe').setup {
         nvim_lua = true;
     };
 }
+
+require('lspsaga').init_lsp_saga()
 
 -- Plugin Options
 vim.g.floaterm_opener = 'edit'

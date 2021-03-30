@@ -50,13 +50,13 @@ env:
   NNN_USE_EDITOR: "1"
 font:
   normal:
-    family: Iosevka Term SS09
+    family: Iosevka Term
     style: Medium
   bold:
-    family: Iosevka Term SS09
+    family: Iosevka Term
     style: Heavy
   italic:
-    family: Iosevka Term SS09
+    family: Iosevka Term
     style: Medium Italic
   glyph_offset:
     x: 0

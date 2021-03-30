@@ -3,23 +3,28 @@ local opts = { noremap=true, silent=true }
 
 vim.g.mapleader = ' '
 
-map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-map('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+map('n', 'gh', "<cmd>lua require('lspsaga.hover').render_hover_doc()<CR>", opts)
 map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-map('i', '<C-h>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-map('n', '<leader>dq', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-map('n', '<leader>dd', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-map('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-map('v', '<leader>ca', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
+map('n', 'gf', "<cmd>lua require'lspsaga.provider'.lsp_finder()<CR>", opts)
+map('n', '<leader>ca', "<cmd>lua require('lspsaga.codeaction').code_action()<CR>", opts)
+map('v', '<leader>ca', ":<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>", opts)
+map('i', '<C-h>', "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>", opts)
+
+-- scroll down/up hover doc or scroll in definition preview
+map('n', '<C-f>', "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>", opts)
+map('n', '<C-b>', "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>", opts)
+
+map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+map('n', 'gD', "<cmd>lua require'lspsaga.provider'.preview_definition()<CR>", opts)
+map('n', '<leader>rn', "<cmd>lua require('lspsaga.rename').rename()<CR>", opts)
+
+map('n', '<leader>p', "<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>", opts)
+map('n', '<leader>n', "<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>", opts)
+map('n', '<leader>dd', "<cmd>lua require('lspsaga.diagnostic').show_line_diagnostics()<CR>", opts)
+
 map('n', '<C-q>', ':copen<CR>', opts)
 map('n', '<C-n>', ':cnext<CR>', opts)
 map('n', '<C-p>', ':cprev<CR>', opts)
-map('n', '<leader>q', ':lopen<CR>', opts)
-map('n', '<leader>n', ':lnext<CR>', opts)
-map('n', '<leader>p', ':lprev<CR>', opts)
 map('n', '<leader><Tab>', ':b#<CR>', opts)
 map('n', '<leader>ff', ':Files<CR>', opts)
 map('n', '<leader>fb', ':Buffers<CR>', opts)
