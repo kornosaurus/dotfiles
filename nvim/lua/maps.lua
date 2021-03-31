@@ -29,6 +29,10 @@ map('n', '<leader><Tab>', ':b#<CR>', opts)
 map('n', '<leader>ff', ':Files<CR>', opts)
 map('n', '<leader>fb', ':Buffers<CR>', opts)
 map('n', '<leader>e', ':FloatermNew vifm<CR>', opts)
+map('n', '<leader>t', ':FloatermNew<CR>', opts)
+map('n', '<A-d>', ':FloatermToggle<CR>', opts)
+map('t', '<A-d>', '<C-\\><C-n>:FloatermToggle<CR>', opts)
+
 map('i', '<C-space>', 'compe#complete()', { noremap=true, silent=true, expr=true })
 map('i', '<CR>', 'compe#confirm("<CR>")', { noremap=true, silent=true, expr=true })
 map('i', '<C-e>', 'compe#close("<C-e>")', { noremap=true, silent=true, expr=true })
@@ -45,6 +49,13 @@ map('n', '<leader>/', ':grep ', { noremap=true })
 map('n', '<leader>lg', ':FloatermNew lazygit<CR>', opts)
 map('n', '<leader>rt', ':Test %<CR>', opts)
 map('n', '<leader>rl', ':Lint<CR>', opts)
+
+-- Expand or jump
+map('i', '<Tab>', '<Plug>(vsnip-expand-or-jump)', { expr=true })
+map('i', '<Tab>', 'vsnip#available(1) ? "<Plug>(vsnip-expand-or-jump)" : "<Tab>"', { expr=true })
+map('s', '<Tab>', 'vsnip#available(1) ? "<Plug>(vsnip-expand-or-jump)" : "<Tab>"', { expr=true })
+map('i', '<S-Tab>', 'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<S-Tab>"', { expr=true })
+map('s', '<S-Tab>', 'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<S-Tab>"', { expr=true })
 
 -- TEMP
 vim.cmd [[ autocmd TermOpen * startinsert ]]

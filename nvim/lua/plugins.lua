@@ -23,8 +23,8 @@ require('packer').startup(function(use)
 
     use 'neovim/nvim-lspconfig'
     use 'glepnir/lspsaga.nvim'
-    use 'hrsh7th/nvim-compe'
     use 'nvim-treesitter/nvim-treesitter'
+    use 'hrsh7th/nvim-compe'
 
     use 'tpope/vim-fugitive'
     use {
@@ -35,14 +35,25 @@ require('packer').startup(function(use)
     }
 
     use 'tpope/vim-surround'
-    use 'SirVer/ultisnips'
+    use {
+    'hrsh7th/vim-vsnip',
+        requires = {
+            'hrsh7th/vim-vsnip-integ',
+            'rafamadriz/friendly-snippets'
+        }
+    }
     use 'mattn/emmet-vim'
 
     use 'vimwiki/vimwiki'
     use 'junegunn/goyo.vim'
 
     use 'skywind3000/asyncrun.vim'
-    use 'voldikss/vim-floaterm'
+    use {
+        'voldikss/vim-floaterm',
+        config = function()
+            vim.cmd [[ hi link FloatermBorder Normal ]]
+        end
+    }
 end)
 
 -- Plugin Setup
@@ -73,7 +84,7 @@ require('compe').setup {
         path = true;
         buffer = true;
         calc = false;
-	vsnip = false;
+        vsnip = true;
         nvim_lsp = true;
         nvim_lua = true;
     };
@@ -89,7 +100,7 @@ vim.g.floaterm_height = 0.8
 
 vim.g.vimwiki_list = {{ path = '~/Wiki', syntax = 'markdown', ext = '.md' }}
 
-vim.g.UltiSnipsSnippetDirectories={ os.getenv('HOME') .. '/.config/nvim/UltiSnips' }
-vim.g.UltiSnipsExpandTrigger="<tab>"
-vim.g.UltiSnipsJumpForwardTrigger="<tab>"
-vim.g.UltiSnipsJumpBackwardTrigger="<S-tab>"
+vim.g.vsnip_filetypes = {
+    javascriptreact = {'javascript'},
+    typescriptreact = {'typescript'}
+}
