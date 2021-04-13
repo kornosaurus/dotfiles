@@ -25,6 +25,7 @@ vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.showmode = false
 vim.o.listchars = 'tab:  ,trail:·'
+vim.o.fillchars = 'vert:│,eob: '
 vim.o.guicursor = ''
 vim.o.mouse = 'a'
 

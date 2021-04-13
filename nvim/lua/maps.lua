@@ -50,13 +50,6 @@ map('n', '<leader>lg', ':FloatermNew lazygit<CR>', opts)
 map('n', '<leader>rt', ':Test %<CR>', opts)
 map('n', '<leader>rl', ':Lint<CR>', opts)
 
--- Expand or jump
-map('i', '<Tab>', '<Plug>(vsnip-expand-or-jump)', { expr=true })
-map('i', '<Tab>', 'vsnip#available(1) ? "<Plug>(vsnip-expand-or-jump)" : "<Tab>"', { expr=true })
-map('s', '<Tab>', 'vsnip#available(1) ? "<Plug>(vsnip-expand-or-jump)" : "<Tab>"', { expr=true })
-map('i', '<S-Tab>', 'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<S-Tab>"', { expr=true })
-map('s', '<S-Tab>', 'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<S-Tab>"', { expr=true })
-
 -- TEMP
 vim.cmd [[ autocmd TermOpen * startinsert ]]
 vim.cmd [[ autocmd FileType fzf set nonu nornu ]]
