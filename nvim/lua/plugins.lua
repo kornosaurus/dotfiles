@@ -19,13 +19,14 @@ require('packer').startup(function(use)
             vim.cmd [[highlight VertSplit    guibg=#080808 guifg=#1c1c1c]]
         end
     }
-
+    use 'kevinhwang91/nvim-bqf'
     use 'wbthomason/packer.nvim'
-
-    use 'junegunn/fzf'
-    use 'junegunn/fzf.vim'
-
+    use {
+        'nvim-telescope/telescope.nvim',
+        requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+    }
     use 'neovim/nvim-lspconfig'
+    use 'ray-x/lsp_signature.nvim'
     use {
         'glepnir/lspsaga.nvim',
         config = function()
@@ -56,7 +57,7 @@ require('packer').startup(function(use)
                     quit = '<C-c>', exec = '<CR>'
                 },
                 definition_preview_icon = '  ',
-                border_style = 1,
+                border_style = "single",
                 rename_prompt_prefix = '➤',
                 server_filetype_map = {}
             }
@@ -64,18 +65,15 @@ require('packer').startup(function(use)
     }
     use 'nvim-treesitter/nvim-treesitter'
     use 'hrsh7th/nvim-compe'
-
-    use 'tpope/vim-fugitive'
     use {
         'lewis6991/gitsigns.nvim',
         requires = {
             'nvim-lua/plenary.nvim'
         }
     }
-
+    use 'steelsojka/pears.nvim'
     use 'tpope/vim-surround'
     use 'SirVer/ultisnips'
-    use 'mattn/emmet-vim'
     use {
         'glepnir/galaxyline.nvim',
         branch = 'main',
@@ -84,14 +82,9 @@ require('packer').startup(function(use)
         end,
         requires = {'kyazdani42/nvim-web-devicons', opt = true}
     }
-    use {
-        'lukas-reineke/indent-blankline.nvim',
-        branch = 'lua'
-    }
-
     use 'vimwiki/vimwiki'
-    use 'junegunn/goyo.vim'
-
+    use 'mhinz/vim-startify'
+    use 'tpope/vim-fugitive'
     use 'skywind3000/asyncrun.vim'
     use {
         'voldikss/vim-floaterm',
@@ -102,6 +95,8 @@ require('packer').startup(function(use)
 end)
 
 -- Plugin Setup
+require('pears').setup()
+
 require('gitsigns').setup {
     signs = {
         add = {hl = 'GitSignsAdd', text = '▎'},
@@ -135,6 +130,10 @@ require('compe').setup {
     };
 }
 
+require('bqf').setup {
+    auto_resize_height = false,
+}
+
 -- Plugin Options
 vim.g.floaterm_opener = 'edit'
 vim.g.floaterm_autoclose = 2
@@ -143,14 +142,10 @@ vim.g.floaterm_height = 0.8
 
 vim.g.vimwiki_list = {{ path = '~/Wiki', syntax = 'markdown', ext = '.md' }}
 
-vim.g.vsnip_filetypes = {
-    javascriptreact = {'javascript'},
-    typescriptreact = {'typescript'}
-}
-
 vim.g.UltiSnipsSnippetDirectories={ os.getenv('HOME') .. '/.config/nvim/UltiSnips' }
 vim.g.UltiSnipsExpandTrigger="<tab>"
 vim.g.UltiSnipsJumpForwardTrigger="<tab>"
 vim.g.UltiSnipsJumpBackwardTrigger="<S-tab>"
 
-vim.g.indent_blankline_char = '▏'
+vim.g.startify_custom_header = {}
+vim.g.startify_change_to_dir = 0

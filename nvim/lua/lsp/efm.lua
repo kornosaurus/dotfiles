@@ -12,6 +12,16 @@ local prettier = {
   formatStdin = true
 }
 
+local shellsheck = {
+    lintCommand = 'shellcheck -f gcc -x',
+    lintSource = 'shellcheck',
+    lintFormats = {
+      '%f:%l:%c: %trror: %m',
+      '%f:%l:%c: %tarning: %m',
+      '%f:%l:%c: %tote: %m',
+    }
+}
+
 require"lspconfig".efm.setup {
     init_options = { documentFormatting = true },
     filetypes = {
@@ -19,9 +29,10 @@ require"lspconfig".efm.setup {
         "javascriptreact",
         "typescript",
         "typescriptreact",
+        "sh",
     },
     settings = {
-        rootMarkers = {".eslintrc.json"},
+        rootMarkers = {".eslintrc.json", ".git/"},
         languages = {
             javascript = {prettier, eslint},
             javascriptreact = {prettier, eslint},
@@ -29,6 +40,7 @@ require"lspconfig".efm.setup {
             typescript = {prettier, eslint},
             ["typescript.tsx"] = {prettier, eslint},
             typescriptreact = {prettier, eslint},
+            sh = { shellsheck }
         }
     }
 }

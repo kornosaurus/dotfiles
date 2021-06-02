@@ -8,7 +8,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
     }
 }
 
-require'lspconfig'.tsserver.setup {
+require('lspconfig').rls.setup {
     capabilities = capabilities,
     on_attach = function()
         require "lsp_signature".on_attach({
@@ -18,4 +18,11 @@ require'lspconfig'.tsserver.setup {
             }
         })
     end,
+    settings = {
+        rust = {
+            unstable_features = true,
+            build_on_save = false,
+            all_features = true,
+        },
+    },
 }

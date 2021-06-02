@@ -2,7 +2,7 @@ local gl = require('galaxyline')
 local utils = require('utils')
 
 local gls = gl.section
-gl.short_line_list = { 'defx', 'packager', 'vista' }
+gl.short_line_list = { 'packager' }
 
 -- Colors
 local colors = {
@@ -32,6 +32,7 @@ local mode_color = function()
         n = colors.cyan,
         i = colors.green,
         c = colors.orange,
+        t = colors.orange,
         S = colors.magenta,
         s = colors.magenta,
         V = colors.magenta,
@@ -57,6 +58,7 @@ gls.left[2] = {
                 n = 'NORMAL',
                 i = 'INSERT',
                 c = 'COMMAND',
+                t = 'TERMINAL',
                 S = 'SELECT',
                 s = 'SELECT',
                 V = 'VISUAL',

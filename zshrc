@@ -5,6 +5,7 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
 export DOCKER_BUILDKIT=1
 export GOPATH=$HOME/.go
+export TERM="xterm-256color"
 
 # If you come from bash you might have to change your $PATH.
 export PATH=$PATH:$N_PREFIX/bin:$HOME/.bin:$HOME/.bin/work/:$HOME/Apps/alacritty/target/release:$HOME/.cargo/bin:$PATH:$ANT_HOME/bin:$HOME/Applications/arduino-1.8.13/bin:/usr/local/go/bin:$GOPATH/bin
@@ -21,6 +22,9 @@ export TERM="xterm-256color"
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 
 export REVIEW_BASE=master
+gfiles() {
+    git diff --name-only $1 $(git merge-base $1 $REVIEW_BASE)
+}
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -82,16 +86,20 @@ export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 # title
 export ZSH_THEME_TERM_TITLE_IDLE="%1/"
 
+if [ -e $HOME/Programs/z ]; then
+    source $HOME/Programs/z/z.sh
+fi
+
 # Use fzf!
 if [ -e /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
   source /usr/share/doc/fzf/examples/key-bindings.zsh
   source /usr/share/doc/fzf/examples/completion.zsh
 fi
 
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!**/{build,.git,gen,gen-urdl,bin,coverage,node_modules}/**" 2> /dev/null'
+export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_CTRL_T_COMMAND='rg --hidden --files --null | xargs -0 dirname | uniq'
 
-export FZF_DEFAULT_OPTS="--height 40% --reverse"
+export FZF_DEFAULT_OPTS='--height 40% --reverse'
 
 [ -f ~/.apps/z/z.sh ] && source ~/.apps/z/z.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
