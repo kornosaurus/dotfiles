@@ -4,9 +4,7 @@ setxkbmap us
 setxkbmap -option caps:escape
 
 dunst &
-slstatus &
 nm-applet &
-# compton & # FIXME: remove transparency for borders
 nitrogen --restore &
 ~/.bin/dwm/bar &
 

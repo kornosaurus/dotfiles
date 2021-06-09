@@ -10,12 +10,4 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 
 require'lspconfig'.tsserver.setup {
     capabilities = capabilities,
-    on_attach = function()
-        require "lsp_signature".on_attach({
-            bind = true,
-            handler_opts = {
-                border = "single"
-            }
-        })
-    end,
 }

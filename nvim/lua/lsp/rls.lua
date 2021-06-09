@@ -10,14 +10,6 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 
 require('lspconfig').rls.setup {
     capabilities = capabilities,
-    on_attach = function()
-        require "lsp_signature".on_attach({
-            bind = true,
-            handler_opts = {
-                border = "single"
-            }
-        })
-    end,
     settings = {
         rust = {
             unstable_features = true,

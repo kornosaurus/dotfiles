@@ -26,7 +26,6 @@ opt.splitright = true
 opt.showmode = false
 opt.listchars = 'tab:  ,trail:·'
 opt.fillchars = 'vert:│,eob: '
-opt.guicursor = ''
 opt.mouse = 'a'
 opt.guifont = 'Iosevka Nerd Font:h15'
 opt.number = true

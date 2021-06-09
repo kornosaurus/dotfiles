@@ -1,6 +1,5 @@
 export LC_ALL="en_US.UTF-8"
 export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
-export N_PREFIX=$HOME/.apps/n
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
 export DOCKER_BUILDKIT=1
@@ -14,12 +13,8 @@ export PATH=$PATH:$N_PREFIX/bin:$HOME/.bin:$HOME/.bin/work/:$HOME/Apps/alacritty
 export ZSH=~/.oh-my-zsh
 
 export EDITOR=nvim
-export BROWSER=google-chrome
+export BROWSER=firefox
 export TERM="xterm-256color"
-
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 
 export REVIEW_BASE=master
 gfiles() {
@@ -71,6 +66,7 @@ alias ls='ls --color=auto'
 alias ll='ls -lah --color=auto'
 
 alias v='nvim'
+alias oni='~/Programs/Onivim2-x86_64-master.AppImage'
 
 export LC_ALL="en_US.UTF-8"
 export LC_COLLATE="en_US.UTF-8"
@@ -98,9 +94,7 @@ fi
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_CTRL_T_COMMAND='rg --hidden --files --null | xargs -0 dirname | uniq'
-
 export FZF_DEFAULT_OPTS='--height 40% --reverse'
 
-[ -f ~/.apps/z/z.sh ] && source ~/.apps/z/z.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zsh_aliases ] && source ~/.zsh_aliases

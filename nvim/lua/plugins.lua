@@ -10,23 +10,19 @@ end
 
 require('packer').startup(function(use)
     use {
-        'bluz71/vim-moonfly-colors',
+        'folke/tokyonight.nvim',
         config = function()
-            vim.cmd [[colorscheme moonfly]]
-            vim.cmd [[highlight StatusLineNC gui=underline guibg=#080808 guifg=#1c1c1c]]
-            vim.cmd [[highlight StatusLine   guibg=#080808 guifg=#080808]]
-            vim.cmd [[highlight SignColumnNC guibg=#080808 guifg=#1c1c1c]]
-            vim.cmd [[highlight VertSplit    guibg=#080808 guifg=#1c1c1c]]
+            vim.g.tokyonight_style = "storm"
+            vim.cmd [[colorscheme tokyonight]]
         end
     }
     use 'kevinhwang91/nvim-bqf'
     use 'wbthomason/packer.nvim'
     use {
         'nvim-telescope/telescope.nvim',
-        requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+        requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}, {'nvim-telescope/telescope-fzy-native.nvim'}}
     }
     use 'neovim/nvim-lspconfig'
-    use 'ray-x/lsp_signature.nvim'
     use {
         'glepnir/lspsaga.nvim',
         config = function()
@@ -40,7 +36,7 @@ require('packer').startup(function(use)
                 code_action_icon = ' ',
                 code_action_prompt = {
                     enable = true,
-                    sign = true,
+                    sign = false,
                     sign_priority = 20,
                     virtual_text = true,
                 },
@@ -73,14 +69,19 @@ require('packer').startup(function(use)
     }
     use 'steelsojka/pears.nvim'
     use 'tpope/vim-surround'
-    use 'SirVer/ultisnips'
+    use 'sirver/UltiSnips'
     use {
-        'glepnir/galaxyline.nvim',
-        branch = 'main',
+        'hoob3rt/lualine.nvim',
+        requires = {'kyazdani42/nvim-web-devicons'},
         config = function()
-            require('statusline')
-        end,
-        requires = {'kyazdani42/nvim-web-devicons', opt = true}
+            require('lualine').setup {
+                options = {
+                    theme = 'tokyonight',
+                    section_separators = '',
+                    component_separators = ''
+                }
+            }
+        end
     }
     use 'vimwiki/vimwiki'
     use 'mhinz/vim-startify'
@@ -133,6 +134,8 @@ require('compe').setup {
 require('bqf').setup {
     auto_resize_height = false,
 }
+
+require('telescope').load_extension('fzy_native')
 
 -- Plugin Options
 vim.g.floaterm_opener = 'edit'
