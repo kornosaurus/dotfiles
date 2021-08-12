@@ -8,6 +8,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 
 require('lsp/sumneko')
 require('lsp/omnisharp')
+-- require('lsp/denols')
 require('lsp/tsserver')
 require('lsp/efm')
 require('lsp/css')

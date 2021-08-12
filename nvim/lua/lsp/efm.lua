@@ -3,12 +3,10 @@ local eslint = {
     lintStdin = true,
     lintFormats = {"%f(%l,%c): %trror %m", "%f(%l,%c): %tarning %m"},
     lintIgnoreExitCode = true,
-    formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
-    formatStdin = true
 }
 
 local prettier = {
-  formatCommand = "./node_modules/.bin/prettier --stdin-filepath=${INPUT}",
+  formatCommand = "prettierd ${INPUT}",
   formatStdin = true
 }
 
@@ -23,7 +21,7 @@ local shellsheck = {
 }
 
 require"lspconfig".efm.setup {
-    init_options = { documentFormatting = true },
+    init_options = { documentFormatting = true, codeAction = true },
     filetypes = {
         "javascript",
         "javascriptreact",
@@ -34,13 +32,20 @@ require"lspconfig".efm.setup {
     settings = {
         rootMarkers = {".eslintrc.json", ".git/"},
         languages = {
-            javascript = {prettier, eslint},
-            javascriptreact = {prettier, eslint},
-            ["javascript.jsx"] = {prettier, eslint},
-            typescript = {prettier, eslint},
-            ["typescript.tsx"] = {prettier, eslint},
-            typescriptreact = {prettier, eslint},
+            javascript = {eslint, prettier},
+            javascriptreact = {eslint, prettier},
+            ["javascript.jsx"] = {eslint, prettier},
+            typescript = {eslint, prettier},
+            ["typescript.tsx"] = {eslint, prettier},
+            typescriptreact = {eslint, prettier},
             sh = { shellsheck }
+        }
+    },
+    commands = {
+        Format = {
+            function()
+                vim.lsp.buf.formatting()
+            end
         }
     }
 }

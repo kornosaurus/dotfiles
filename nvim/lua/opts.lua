@@ -1,4 +1,5 @@
 local opt = vim.opt
+local cmd = vim.cmd
 local indent = 4
 local blend = 10
 
@@ -19,6 +20,7 @@ opt.ignorecase = true
 opt.smartcase = true
 opt.incsearch = true
 opt.lazyredraw = true
+opt.cursorline = false
 opt.undodir = os.getenv('HOME') .. '/.cache/undodir'
 opt.inccommand = 'nosplit'
 opt.splitbelow = true
@@ -27,7 +29,6 @@ opt.showmode = false
 opt.listchars = 'tab:  ,trail:·'
 opt.fillchars = 'vert:│,eob: '
 opt.mouse = 'a'
-opt.guifont = 'Iosevka Nerd Font:h15'
 opt.number = true
 opt.relativenumber = true
 opt.wrap = false
@@ -41,3 +42,8 @@ opt.undofile = true
 opt.shiftwidth = indent
 opt.tabstop = indent
 opt.smartindent = true
+
+cmd [[autocmd BufWritePre */flamingo/* lua vim.lsp.buf.formatting_sync(nil, 1000)]]
+cmd [[autocmd BufWrite,BufEnter,InsertLeave * lua vim.lsp.diagnostic.set_loclist({open = false})]]
+cmd [[autocmd TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=200 }]]
+cmd [[autocmd FileType markdown,gitcommit setlocal spell]]

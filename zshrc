@@ -3,18 +3,19 @@ export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
 export DOCKER_BUILDKIT=1
-export GOPATH=$HOME/.go
-export TERM="xterm-256color"
+export DENO_INSTALL="/home/simon/.deno"
 
 # If you come from bash you might have to change your $PATH.
+export GOPATH=$HOME/.go
+export GOROOT=$HOME/.go
 export PATH=$PATH:$N_PREFIX/bin:$HOME/.bin:$HOME/.bin/work/:$HOME/Apps/alacritty/target/release:$HOME/.cargo/bin:$PATH:$ANT_HOME/bin:$HOME/Applications/arduino-1.8.13/bin:/usr/local/go/bin:$GOPATH/bin
+export PATH="$DENO_INSTALL/bin:$PATH"
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
 export EDITOR=nvim
 export BROWSER=firefox
-export TERM="xterm-256color"
 
 export REVIEW_BASE=master
 gfiles() {

@@ -20,45 +20,10 @@ require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
     use {
         'nvim-telescope/telescope.nvim',
-        requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}, {'nvim-telescope/telescope-fzy-native.nvim'}}
+        requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
     }
+    use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
     use 'neovim/nvim-lspconfig'
-    use {
-        'glepnir/lspsaga.nvim',
-        config = function()
-            require('lspsaga').init_lsp_saga {
-                use_saga_diagnostic_sign = true,
-                error_sign = '',
-                warn_sign = '',
-                hint_sign = '',
-                infor_sign = '',
-                dianostic_header_icon = '   ',
-                code_action_icon = ' ',
-                code_action_prompt = {
-                    enable = true,
-                    sign = false,
-                    sign_priority = 20,
-                    virtual_text = true,
-                },
-                finder_definition_icon = '  ',
-                finder_reference_icon = '  ',
-                max_preview_lines = 10,
-                finder_action_keys = {
-                    open = 'o', vsplit = 's',split = 'i',quit = 'q',scroll_down = '<C-f>', scroll_up = '<C-b>'
-                },
-                code_action_keys = {
-                    quit = 'q',exec = '<CR>'
-                },
-                rename_action_keys = {
-                    quit = '<C-c>', exec = '<CR>'
-                },
-                definition_preview_icon = '  ',
-                border_style = "single",
-                rename_prompt_prefix = '➤',
-                server_filetype_map = {}
-            }
-        end
-    }
     use 'nvim-treesitter/nvim-treesitter'
     use 'hrsh7th/nvim-compe'
     use {
@@ -67,12 +32,12 @@ require('packer').startup(function(use)
             'nvim-lua/plenary.nvim'
         }
     }
+    use 'ggandor/lightspeed.nvim'
     use 'steelsojka/pears.nvim'
     use 'tpope/vim-surround'
     use 'sirver/UltiSnips'
     use {
         'hoob3rt/lualine.nvim',
-        requires = {'kyazdani42/nvim-web-devicons'},
         config = function()
             require('lualine').setup {
                 options = {
@@ -83,10 +48,10 @@ require('packer').startup(function(use)
             }
         end
     }
+    use 'kyazdani42/nvim-web-devicons'
     use 'vimwiki/vimwiki'
     use 'mhinz/vim-startify'
-    use 'tpope/vim-fugitive'
-    use 'skywind3000/asyncrun.vim'
+    use 'vim-test/vim-test'
     use {
         'voldikss/vim-floaterm',
         config = function()
@@ -124,10 +89,11 @@ require('compe').setup {
     source = {
         path = true;
         buffer = true;
-        calc = false;
-        vsnip = false;
+        calc = true;
         nvim_lsp = true;
         nvim_lua = true;
+        vsnip = false;
+        ultisnips = true;
     };
 }
 
@@ -135,7 +101,33 @@ require('bqf').setup {
     auto_resize_height = false,
 }
 
-require('telescope').load_extension('fzy_native')
+require("telescope").setup {
+    extensions = {
+        fzf = {
+            fuzzy = true,                    -- false will only do exact matching
+            override_generic_sorter = false, -- override the generic sorter
+            override_file_sorter = true,     -- override the file sorter
+            case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+            -- the default case_mode is "smart_case"
+        }
+    },
+    pickers = {
+        buffers = {
+            theme = "dropdown",
+            sort_lastused = true,
+            previewer = false,
+            mappings = {
+                i = {
+                    ["<c-d>"] = require("telescope.actions").delete_buffer,
+                },
+                n = {
+                    ["<c-d>"] = require("telescope.actions").delete_buffer,
+                }
+            }
+        },
+    },
+}
+require('telescope').load_extension('fzf')
 
 -- Plugin Options
 vim.g.floaterm_opener = 'edit'
@@ -145,10 +137,16 @@ vim.g.floaterm_height = 0.8
 
 vim.g.vimwiki_list = {{ path = '~/Wiki', syntax = 'markdown', ext = '.md' }}
 
-vim.g.UltiSnipsSnippetDirectories={ os.getenv('HOME') .. '/.config/nvim/UltiSnips' }
 vim.g.UltiSnipsExpandTrigger="<tab>"
 vim.g.UltiSnipsJumpForwardTrigger="<tab>"
 vim.g.UltiSnipsJumpBackwardTrigger="<S-tab>"
+vim.g.UltiSnipsSnippetDirectories={ os.getenv('HOME') .. '/.config/nvim/UltiSnips' }
 
 vim.g.startify_custom_header = {}
 vim.g.startify_change_to_dir = 0
+
+vim.g["test#strategy"] = "floaterm"
+vim.g["test#javascript#runner"] = "jest"
+vim.g["test#javascriptreact#runner"] = "jest"
+vim.g["test#typescript#runner"] = "jest"
+vim.g["test#typescriptreact#runner"] = "jest"

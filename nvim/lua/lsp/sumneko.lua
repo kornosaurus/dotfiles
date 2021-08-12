@@ -9,30 +9,11 @@ else
     print("Unsupported system for sumneko")
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = {
-        'documentation',
-        'detail',
-        'additionalTextEdits',
-    }
-}
-
 local sumneko_root_path = '/home/simon/Programs/lua-language-server'
 local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
 
 require'lspconfig'.sumneko_lua.setup {
-    on_attach = function()
-        require "lsp_signature".on_attach({
-            bind = true,
-            handler_opts = {
-                border = "single"
-            }
-        })
-    end,
     cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
-    capabilities,
     settings = {
         Lua = {
             runtime = {

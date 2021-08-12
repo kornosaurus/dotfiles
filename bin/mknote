@@ -1,2 +1,2 @@
 #! /bin/bash
-alacritty --title Note -e nvim +VimwikiIndex --cmd 'redraw'
+kitty --title Note -e nvim +VimwikiIndex --cmd 'redraw'
