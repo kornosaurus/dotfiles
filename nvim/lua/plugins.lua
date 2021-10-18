@@ -1,11 +1,10 @@
-local execute = vim.api.nvim_command
 local fn = vim.fn
 
-local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
 if fn.empty(fn.glob(install_path)) > 0 then
-    execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
-    execute 'packadd packer.nvim'
+  fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  vim.cmd 'packadd packer.nvim'
 end
 
 require('packer').startup(function(use)
@@ -16,16 +15,58 @@ require('packer').startup(function(use)
             vim.cmd [[colorscheme tokyonight]]
         end
     }
-    use 'kevinhwang91/nvim-bqf'
     use 'wbthomason/packer.nvim'
     use {
         'nvim-telescope/telescope.nvim',
         requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
     }
     use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+    use 'junegunn/fzf'
+    use 'tpope/vim-fugitive'
     use 'neovim/nvim-lspconfig'
+    use {
+        'kevinhwang91/nvim-bqf',
+        config = function()
+            require('bqf').setup({
+                auto_enable = true,
+                auto_resize_height = false
+            })
+        end
+    }
     use 'nvim-treesitter/nvim-treesitter'
-    use 'hrsh7th/nvim-compe'
+    use {
+        "hrsh7th/nvim-cmp",
+        requires = {
+            'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-buffer',
+            'hrsh7th/cmp-path',
+        },
+        config = function()
+            local cmp = require("cmp")
+            cmp.setup {
+                completion = {
+                    autocomplete = {}
+                },
+                mapping = {
+                    ["<C-p>"] = cmp.mapping.select_prev_item(),
+                    ["<C-n>"] = cmp.mapping.select_next_item(),
+                    ["<C-Space>"] = cmp.mapping.complete(),
+                    ["<C-e>"] = cmp.mapping.close(),
+                    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+                    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                    ["<CR>"] = cmp.mapping.confirm {
+                        behavior = cmp.ConfirmBehavior.Replace,
+                        select = true
+                    }
+                },
+                sources = {
+                    {name = "nvim_lsp"},
+                    {name = "buffer"},
+                    {name = "path"},
+                }
+            }
+        end
+    }
     use {
         'lewis6991/gitsigns.nvim',
         requires = {
@@ -33,7 +74,6 @@ require('packer').startup(function(use)
         }
     }
     use 'ggandor/lightspeed.nvim'
-    use 'steelsojka/pears.nvim'
     use 'tpope/vim-surround'
     use 'sirver/UltiSnips'
     use {
@@ -48,6 +88,7 @@ require('packer').startup(function(use)
             }
         end
     }
+    use 'mattn/emmet-vim'
     use 'kyazdani42/nvim-web-devicons'
     use 'vimwiki/vimwiki'
     use 'mhinz/vim-startify'
@@ -61,8 +102,6 @@ require('packer').startup(function(use)
 end)
 
 -- Plugin Setup
-require('pears').setup()
-
 require('gitsigns').setup {
     signs = {
         add = {hl = 'GitSignsAdd', text = '▎'},
@@ -82,49 +121,14 @@ require('nvim-treesitter.configs').setup {
     }
 }
 
-require('compe').setup {
-    enabled = true;
-    autocomplete = false;
-
-    source = {
-        path = true;
-        buffer = true;
-        calc = true;
-        nvim_lsp = true;
-        nvim_lua = true;
-        vsnip = false;
-        ultisnips = true;
-    };
-}
-
-require('bqf').setup {
-    auto_resize_height = false,
-}
-
 require("telescope").setup {
     extensions = {
         fzf = {
-            fuzzy = true,                    -- false will only do exact matching
-            override_generic_sorter = false, -- override the generic sorter
-            override_file_sorter = true,     -- override the file sorter
-            case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-            -- the default case_mode is "smart_case"
+            fuzzy = true,
+            override_generic_sorter = false,
+            override_file_sorter = true,
+            case_mode = "smart_case",
         }
-    },
-    pickers = {
-        buffers = {
-            theme = "dropdown",
-            sort_lastused = true,
-            previewer = false,
-            mappings = {
-                i = {
-                    ["<c-d>"] = require("telescope.actions").delete_buffer,
-                },
-                n = {
-                    ["<c-d>"] = require("telescope.actions").delete_buffer,
-                }
-            }
-        },
     },
 }
 require('telescope').load_extension('fzf')

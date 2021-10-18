@@ -29,8 +29,8 @@ opt.showmode = false
 opt.listchars = 'tab:  ,trail:·'
 opt.fillchars = 'vert:│,eob: '
 opt.mouse = 'a'
-opt.number = true
-opt.relativenumber = true
+opt.number = false
+opt.relativenumber = false
 opt.wrap = false
 opt.signcolumn = 'yes'
 opt.winblend = blend
@@ -42,6 +42,8 @@ opt.undofile = true
 opt.shiftwidth = indent
 opt.tabstop = indent
 opt.smartindent = true
+
+vim.g.netrw_banner = 0
 
 cmd [[autocmd BufWritePre */flamingo/* lua vim.lsp.buf.formatting_sync(nil, 1000)]]
 cmd [[autocmd BufWrite,BufEnter,InsertLeave * lua vim.lsp.diagnostic.set_loclist({open = false})]]

@@ -1,0 +1,41 @@
+# Misc
+alias lg='lazygit'
+alias xclip='xclip -selection c'
+alias ls='ls --color=auto'
+alias ll='ls -lah --color=auto'
+alias v='nvim'
+
+# GIT
+function git_current_branch() {
+    local ref
+    ref=$(git symbolic-ref --quiet HEAD 2> /dev/null)
+    local ret=$?
+    if [[ $ret != 0 ]]; then
+        [[ $ret == 128 ]] && return
+        ref=$(git rev-parse --short HEAD 2> /dev/null) || return
+    fi
+    echo ${ref#refs/heads/}
+}
+
+alias gpsup='git push --set-upstream origin $(git_current_branch)'
+alias glg='git log --stat'
+alias gl='git pull'
+alias gp='git push'
+alias grs='git restore'
+# alias gsw='git switch'
+alias gst='git status'
+alias gc='git commit -v'
+alias gd='git diff'
+alias ga='git add'
+
+function gsw() {
+    if [[ ! -z $@ ]]; then
+        git switch $@
+    else
+        git switch $(git branch -a | grep -E "HEAD|^\*" -v | sed "s/remotes\/origin\///" | fzf)
+    fi
+}
+
+function gcpb() {
+    git log $1 --oneline | fzf -m --preview 'echo {} | cut -d" " -f1 | xargs git show' | awk '{ print $1 }' | xargs -n 1 git cherry-pick
+}
