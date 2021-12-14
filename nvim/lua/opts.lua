@@ -8,7 +8,7 @@ opt.background = 'dark'
 opt.termguicolors = true
 opt.grepprg = 'rg --vimgrep'
 opt.grepformat = '%f:%l:%c:%m'
-opt.completeopt = 'menuone,noinsert,noselect'
+opt.completeopt = 'menu,menuone,noinsert,noselect'
 opt.foldlevelstart = 99
 opt.updatetime = 100
 opt.scrolloff = 7
@@ -42,10 +42,11 @@ opt.undofile = true
 opt.shiftwidth = indent
 opt.tabstop = indent
 opt.smartindent = true
+opt.conceallevel = 3
 
 vim.g.netrw_banner = 0
 
 cmd [[autocmd BufWritePre */flamingo/* lua vim.lsp.buf.formatting_sync(nil, 1000)]]
-cmd [[autocmd BufWrite,BufEnter,InsertLeave * lua vim.lsp.diagnostic.set_loclist({open = false})]]
-cmd [[autocmd TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=200 }]]
+cmd [[autocmd BufWrite,BufEnter,InsertLeave * lua vim.diagnostic.setloclist({open = false})]]
+cmd [[autocmd TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=100 }]]
 cmd [[autocmd FileType markdown,gitcommit setlocal spell]]

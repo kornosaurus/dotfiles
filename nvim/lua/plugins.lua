@@ -21,8 +21,9 @@ require('packer').startup(function(use)
         requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
     }
     use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-    use 'junegunn/fzf'
+    use { "junegunn/fzf", run = ":call fzf#install()" }
     use 'tpope/vim-fugitive'
+    use 'ThePrimeagen/harpoon'
     use 'neovim/nvim-lspconfig'
     use {
         'kevinhwang91/nvim-bqf',
@@ -40,20 +41,41 @@ require('packer').startup(function(use)
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
+            'quangnguyen30192/cmp-nvim-ultisnips',
         },
         config = function()
             local cmp = require("cmp")
             cmp.setup {
                 completion = {
-                    autocomplete = {}
+                    autocomplete = false
+                },
+                snippet = {
+                    expand = function(args)
+                        vim.fn["UltiSnips#Anon"](args.body)
+                    end,
                 },
                 mapping = {
-                    ["<C-p>"] = cmp.mapping.select_prev_item(),
-                    ["<C-n>"] = cmp.mapping.select_next_item(),
-                    ["<C-Space>"] = cmp.mapping.complete(),
+                    ["<C-p>"] = function()
+                        if cmp.visible() then
+                            cmp.select_prev_item()
+                        else
+                            cmp.complete()
+                        end
+                    end,
+                    ["<C-n>"] = function()
+                        if cmp.visible() then
+                            cmp.select_next_item()
+                        else
+                            cmp.complete()
+                        end
+                    end,
                     ["<C-e>"] = cmp.mapping.close(),
                     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
                     ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                    ["<C-y>"] = cmp.mapping.confirm {
+                        behavior = cmp.ConfirmBehavior.Replace,
+                        select = true
+                    },
                     ["<CR>"] = cmp.mapping.confirm {
                         behavior = cmp.ConfirmBehavior.Replace,
                         select = true
@@ -61,7 +83,8 @@ require('packer').startup(function(use)
                 },
                 sources = {
                     {name = "nvim_lsp"},
-                    {name = "buffer"},
+                    {name = 'ultisnips'},
+                    {name = "buffer", keyword_length = 8},
                     {name = "path"},
                 }
             }
@@ -77,7 +100,7 @@ require('packer').startup(function(use)
     use 'tpope/vim-surround'
     use 'sirver/UltiSnips'
     use {
-        'hoob3rt/lualine.nvim',
+        'nvim-lualine/lualine.nvim',
         config = function()
             require('lualine').setup {
                 options = {
@@ -90,15 +113,17 @@ require('packer').startup(function(use)
     }
     use 'mattn/emmet-vim'
     use 'kyazdani42/nvim-web-devicons'
-    use 'vimwiki/vimwiki'
-    use 'mhinz/vim-startify'
-    use 'vim-test/vim-test'
     use {
-        'voldikss/vim-floaterm',
+        'vimwiki/vimwiki',
         config = function()
-            vim.cmd [[ hi link FloatermBorder Normal ]]
+            vim.g.vimwiki_list = {
+                { path = '~/Wiki/', syntax = 'markdown', ext = '.md' }
+            }
         end
     }
+
+    -- Running tests
+    use 'tpope/vim-dispatch'
 end)
 
 -- Plugin Setup
@@ -115,6 +140,7 @@ require('gitsigns').setup {
 require('nvim-treesitter.configs').setup {
     highlight = {
         enable = true,
+        additional_vim_regex_highlighting = {'org'}
     },
     indent = {
         enable = true,
@@ -122,35 +148,19 @@ require('nvim-treesitter.configs').setup {
 }
 
 require("telescope").setup {
-    extensions = {
-        fzf = {
-            fuzzy = true,
-            override_generic_sorter = false,
-            override_file_sorter = true,
-            case_mode = "smart_case",
+    defaults = {
+        sorting_strategy = "ascending",
+        layout_strategy = "horizontal",
+        layout_config = {
+            prompt_position = "top"
         }
-    },
+    }
 }
 require('telescope').load_extension('fzf')
 
--- Plugin Options
-vim.g.floaterm_opener = 'edit'
-vim.g.floaterm_autoclose = 2
-vim.g.floaterm_title = ''
-vim.g.floaterm_height = 0.8
-
-vim.g.vimwiki_list = {{ path = '~/Wiki', syntax = 'markdown', ext = '.md' }}
+vim.g.dispatch_no_maps = 1
 
 vim.g.UltiSnipsExpandTrigger="<tab>"
 vim.g.UltiSnipsJumpForwardTrigger="<tab>"
 vim.g.UltiSnipsJumpBackwardTrigger="<S-tab>"
 vim.g.UltiSnipsSnippetDirectories={ os.getenv('HOME') .. '/.config/nvim/UltiSnips' }
-
-vim.g.startify_custom_header = {}
-vim.g.startify_change_to_dir = 0
-
-vim.g["test#strategy"] = "floaterm"
-vim.g["test#javascript#runner"] = "jest"
-vim.g["test#javascriptreact#runner"] = "jest"
-vim.g["test#typescript#runner"] = "jest"
-vim.g["test#typescriptreact#runner"] = "jest"

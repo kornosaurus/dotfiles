@@ -20,24 +20,27 @@ export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 # Prompt
 autoload -U colors && colors
 setopt PROMPT_SUBST
+autoload -Uz add-zsh-hook vcs_info
+zstyle ':vcs_info:*' enable git
 
-export PROMPT='%{$fg[cyan]%}%n%{$reset_color%}@%{$fg[red]%}%m %{$fg[yellow]%}%c%{$reset_color%}%(?:%{$fg_bold[green]%}:%{$fg_bold[red]%}) ➜ '
-export RPROMPT='%{$fg[red]%}$(git_current_branch)%{$reset_color%}'
+() {
+    local formats="%{$reset_color%}%{$fg[red]%}%b%c%u%{$reset_color%}"
+    local actionformats="${formats}%{${fg[default]}%} ${PRCH[sep]} %{${fg[green]}%}%a"
+    zstyle ':vcs_info:*:*' formats           $formats
+    zstyle ':vcs_info:*:*' actionformats     $actionformats
+    zstyle ':vcs_info:*:*' stagedstr         "%{${fg[green]}%}·"
+    zstyle ':vcs_info:*:*' unstagedstr       "%{${fg[yellow]}%}·"
+    zstyle ':vcs_info:*:*' check-for-changes true
+}
 
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-    exec tmux
-fi
+add-zsh-hook precmd vcs_info
 
-case "$TERM" in
-    linux|xterm*|rxvt*)
-        export PROMPT_COMMAND='echo -ne "\033]0;${HOSTNAME%%.*}: ${PWD##*/}\007"'
-        ;;
-    screen*)
-        export PROMPT_COMMAND='echo -ne "\033k${HOSTNAME%%.*}: ${PWD##*/}\033\\" '
-        ;;
-    *)
-  ;;
-esac
+export PROMPT='%{$fg[cyan]%}%n%{$reset_color%}@%{$fg[red]%}%m %{$fg[yellow]%}%c%(?:%{$fg_bold[green]%}:%{$fg_bold[red]%}) ➜%{$reset_color%} '
+export RPROMPT='${vcs_info_msg_0_}'
+
+# if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+#     exec tmux
+# fi
 
 # History
 export HISTFILE=~/.zsh_history
