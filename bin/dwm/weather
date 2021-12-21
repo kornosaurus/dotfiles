@@ -1,9 +1,0 @@
-#! /bin/bash
-
-temp=$(cat ~/.cache/wttr)
-
-if [ -z $temp ]; then
-    exit
-fi
-
-echo $temp
