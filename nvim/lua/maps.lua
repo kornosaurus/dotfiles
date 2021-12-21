@@ -47,4 +47,4 @@ map('n', '<C-k>', '<cmd>lua require("harpoon.ui").nav_file(2)<CR>', opts)
 map('n', '<C-l>', '<cmd>lua require("harpoon.ui").nav_file(3)<CR>', opts)
 map('n', '<C-;>', '<cmd>lua require("harpoon.ui").nav_file(4)<CR>', opts)
 
-map('n', '<leader>tf', ':Dispatch! jest -- %<CR>', opts)
+map('n', '<leader>tf', ':Dispatch jest -- %<CR>', opts)
