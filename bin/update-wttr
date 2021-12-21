@@ -1,6 +1,0 @@
-#! /bin/bash
-if [ -z $1 ]; then
-    echo 'usage: update-wttr <file>'
-    exit 0
-fi
-curl 'wttr.in/Gothenburg?0FTQq&format=%t' > "$1"
