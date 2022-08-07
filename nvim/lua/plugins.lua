@@ -20,9 +20,11 @@ require('packer').startup(function(use)
         'nvim-telescope/telescope.nvim',
         requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
     }
+    use {'nvim-telescope/telescope-ui-select.nvim' }
     use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
     use { "junegunn/fzf", run = ":call fzf#install()" }
     use 'tpope/vim-fugitive'
+    use 'kdheepak/lazygit.nvim'
     use 'ThePrimeagen/harpoon'
     use 'neovim/nvim-lspconfig'
     use {
@@ -35,6 +37,10 @@ require('packer').startup(function(use)
         end
     }
     use 'nvim-treesitter/nvim-treesitter'
+    use {
+        "windwp/nvim-autopairs",
+        config = function() require("nvim-autopairs").setup {} end
+    }
     use {
         "hrsh7th/nvim-cmp",
         requires = {
@@ -106,7 +112,8 @@ require('packer').startup(function(use)
                 options = {
                     theme = 'tokyonight',
                     section_separators = '',
-                    component_separators = ''
+                    component_separators = '',
+                    globalstatus = true
                 }
             }
         end
@@ -138,7 +145,7 @@ require('gitsigns').setup {
 }
 
 require('nvim-treesitter.configs').setup {
-    ensure_installed = "maintained",
+    ensure_installed = "all",
     highlight = {
         enable = true,
     },
@@ -157,6 +164,7 @@ require("telescope").setup {
     }
 }
 require('telescope').load_extension('fzf')
+require("telescope").load_extension("ui-select")
 
 vim.g.dispatch_no_maps = 1
 

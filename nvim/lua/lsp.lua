@@ -26,21 +26,25 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 )
 
 local servers = {
-  "pylsp",
-  "csharp_ls",
-  "eslint",
-  "tsserver",
-  "efm",
-  "cssls",
-  "rls",
-  "sumneko_lua",
+    "pylsp",
+    "csharp_ls",
+    "eslint",
+    "tsserver",
+    "efm",
+    "cssls",
+    "rls",
+    "sumneko_lua",
+    "gdscript"
 }
 
 -- User configurations for individual servers.
 local configs = {
     tsserver = {
-        on_attach = function(client, bufnr)
-            client.resolved_capabilities.document_formatting = false
+        capabilities = {
+            document_formatting = false
+        },
+        on_attach = function(client)
+            client.server_capabilities.document_formatting = false
         end
     },
     rls = {
@@ -97,6 +101,11 @@ local configs = {
                 },
             },
         },
+    },
+    gdscript = {
+        flags = {
+            debounce_text_changes = 150,
+        }
     }
 }
 

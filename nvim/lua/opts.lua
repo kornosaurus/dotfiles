@@ -20,7 +20,7 @@ opt.ignorecase = true
 opt.smartcase = true
 opt.incsearch = true
 opt.lazyredraw = true
-opt.cursorline = false
+opt.cursorline = true
 opt.undodir = os.getenv('HOME') .. '/.cache/undodir'
 opt.inccommand = 'nosplit'
 opt.splitbelow = true
@@ -43,10 +43,22 @@ opt.shiftwidth = indent
 opt.tabstop = indent
 opt.smartindent = true
 opt.conceallevel = 3
+opt.laststatus = 3
 
 vim.g.netrw_banner = 0
 
-cmd [[autocmd BufWritePre */flamingo/* lua vim.lsp.buf.formatting_sync(nil, 1000)]]
+--local format = function() vim.lsp.buf.formatting_sync(nil, 1000) end
+cmd [[autocmd BufWritePre */flamingo/* lua vim.lsp.buf.format({timeout=1000})]]
+--vim.api.nvim_create_autocmd({"BufWritePre"}, {
+--  pattern = {"*/flamingo/*"},
+--  callback = function() vim.lsp.buf.formatting_sync(nil, 1000) end,
+--})
+--
+
 cmd [[autocmd BufWrite,BufEnter,InsertLeave * lua vim.diagnostic.setloclist({open = false})]]
 cmd [[autocmd TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=100 }]]
+--vim.api.nvim_create_autocmd({"TextYankPost"}, {
+--  pattern = {"*"},
+--  callback = function() vim.highlight.on_yank({ higroup='IncSearch', timeout=100 }) end,
+--})
 cmd [[autocmd FileType markdown,gitcommit setlocal spell]]

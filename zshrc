@@ -77,3 +77,13 @@ fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zsh_aliases ] && source ~/.zsh_aliases
+
+export PATH="$HOME/.poetry/bin:$PATH"
+
+# PYENV
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# POETRY
+source $HOME/.poetry/env

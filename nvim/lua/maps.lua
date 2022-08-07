@@ -10,14 +10,14 @@ map('n', '<C-h>', "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 map('i', '<C-h>', "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
 map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-map('n', 'gf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-map('n', '<leader>c', ":Telescope lsp_code_actions<CR>", opts)
-map('v', '<leader>c', ":Telescope lsp_range_code_actions<CR>", opts)
+map('n', 'gf', '<cmd>lua vim.lsp.buf.format({async=true})<CR>', opts)
+map('n', '<leader>c', "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+map('v', '<leader>c', "<cmd>lua vim.lsp.buf.range_code_action()<CR>", opts)
 map('n', '<leader>r', "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 map('n', '<leader>d', "<cmd>lua vim.diagnostic.open_float(0, {scope='line'})<CR>", opts)
 
 -- Git
-map('n', '<leader>gg', ':Git<CR>', opts)
+map('n', '<leader>gg', ':LazyGit<CR>', opts)
 map('n', '<leader>gs', ":Telescope git_status<CR>", opts)
 map('n', '<leader>gd', ':Gvdiffsplit<CR>', opts)
 
