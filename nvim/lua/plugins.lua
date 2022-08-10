@@ -37,6 +37,16 @@ require('packer').startup(function(use)
         end
     }
     use 'nvim-treesitter/nvim-treesitter'
+    use({
+        "windwp/nvim-ts-autotag",
+        config = function()
+            require('nvim-treesitter.configs').setup {
+                autotag = {
+                    enable = true,
+                }
+            }
+        end,
+    })
     use {
         "windwp/nvim-autopairs",
         config = function() require("nvim-autopairs").setup {} end
