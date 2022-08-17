@@ -44,8 +44,14 @@ opt.tabstop = indent
 opt.smartindent = true
 opt.conceallevel = 3
 opt.laststatus = 3
+opt.guifont = { "Jetbrains Mono", ":h11" }
 
 vim.g.netrw_banner = 0
+
+if vim.g.neovide then
+    vim.g.neovide_floating_blur_amount_x = 4.0
+    vim.g.neovide_floating_blur_amount_y = 4.0
+end
 
 --local format = function() vim.lsp.buf.formatting_sync(nil, 1000) end
 cmd [[autocmd BufWritePre */flamingo/* lua vim.lsp.buf.format({timeout=1000})]]

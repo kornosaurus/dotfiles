@@ -8,4 +8,6 @@ nm-applet &
 nitrogen --restore &
 ~/.bin/dwm/bar &
 
+export NEOVIDE_MULTIGRID=true
+
 exec dwm
