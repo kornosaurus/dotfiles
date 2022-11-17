@@ -1,8 +1,10 @@
 local opt = vim.opt
-local cmd = vim.cmd
 local indent = 4
 local blend = 10
 
+vim.g.mapleader = ' '
+
+opt.guicursor = ""
 opt.syntax = 'on'
 opt.background = 'dark'
 opt.termguicolors = true
@@ -15,11 +17,11 @@ opt.scrolloff = 7
 opt.pumheight = 20
 opt.pumblend = blend
 opt.hidden = true
-opt.hlsearch = false
+opt.hlsearch = true
 opt.ignorecase = true
 opt.smartcase = true
 opt.incsearch = true
-opt.lazyredraw = true
+opt.lazyredraw = false
 opt.cursorline = true
 opt.undodir = os.getenv('HOME') .. '/.cache/undodir'
 opt.inccommand = 'nosplit'
@@ -42,29 +44,66 @@ opt.undofile = true
 opt.shiftwidth = indent
 opt.tabstop = indent
 opt.smartindent = true
+opt.cmdheight = 0
 opt.conceallevel = 3
 opt.laststatus = 3
 opt.guifont = { "Jetbrains Mono", ":h11" }
 
 vim.g.netrw_banner = 0
 
-if vim.g.neovide then
-    vim.g.neovide_floating_blur_amount_x = 4.0
-    vim.g.neovide_floating_blur_amount_y = 4.0
-end
+vim.api.nvim_create_autocmd(
+    {"BufWritePre"},
+    {
+        pattern = {"*/flamingo/*", "*/genial/*"},
+        callback = function()
+            vim.lsp.buf.format({timeout=1000})
+        end,
+    }
+)
 
---local format = function() vim.lsp.buf.formatting_sync(nil, 1000) end
-cmd [[autocmd BufWritePre */flamingo/* lua vim.lsp.buf.format({timeout=1000})]]
---vim.api.nvim_create_autocmd({"BufWritePre"}, {
---  pattern = {"*/flamingo/*"},
---  callback = function() vim.lsp.buf.formatting_sync(nil, 1000) end,
---})
---
+vim.api.nvim_create_autocmd(
+    {"BufWrite","BufEnter","InsertLeave"},
+    {
+        pattern = {"*"},
+        callback = function()
+            vim.diagnostic.setloclist({open = false})
+        end,
+    }
+)
 
-cmd [[autocmd BufWrite,BufEnter,InsertLeave * lua vim.diagnostic.setloclist({open = false})]]
-cmd [[autocmd TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=100 }]]
---vim.api.nvim_create_autocmd({"TextYankPost"}, {
---  pattern = {"*"},
---  callback = function() vim.highlight.on_yank({ higroup='IncSearch', timeout=100 }) end,
---})
-cmd [[autocmd FileType markdown,gitcommit setlocal spell]]
+vim.api.nvim_create_autocmd(
+    {"TextYankPost"},
+    {
+        pattern = {"*"},
+        callback = function()
+            vim.highlight.on_yank({ higroup='IncSearch', timeout=100 })
+        end,
+    }
+)
+
+vim.api.nvim_create_autocmd(
+    {"FileType"},
+    {
+        pattern = {"markdown", "gitcommit"},
+        callback = function()
+            vim.wo.spell = true
+        end,
+    }
+)
+
+vim.fn.sign_define(
+    "DiagnosticSignError",
+    { texthl = "DiagnosticSignError", text = "", numhl = "DiagnosticSignError" }
+)
+vim.fn.sign_define(
+    "DiagnosticSignWarn",
+    { texthl = "DiagnosticSignWarn", text = "", numhl = "DiagnosticSignWarn" }
+)
+vim.fn.sign_define(
+    "DiagnosticSignHint",
+    { texthl = "DiagnosticSignHint", text = "", numhl = "DiagnosticSignHint" }
+)
+vim.fn.sign_define(
+    "DiagnosticSignInfo",
+    { texthl = "DiagnosticSignInfo", text = "", numhl = "DiagnosticSignInfo" }
+)

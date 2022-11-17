@@ -28,14 +28,26 @@ alias gc='git commit -v'
 alias gd='git diff'
 alias ga='git add'
 
+# Git switch
 function gsw() {
     if [[ ! -z $@ ]]; then
         git switch $@
     else
-        git switch $(git branch -a | grep -E "HEAD|^\*" -v | sed "s/remotes\/origin\///" | fzf)
+        git switch $(git branch -a | grep -E "HEAD|^\*" -v | sed "s/remotes\/origin\///" | sort | uniq | fzf)
     fi
 }
 
 function gcpb() {
     git log $1 --oneline | fzf -m --preview 'echo {} | cut -d" " -f1 | xargs git show' | awk '{ print $1 }' | xargs -n 1 git cherry-pick
+}
+
+function gstash() {
+    if [[ ! -z $@ ]]; then
+        git stash $@
+    else
+        local stash=$(git stash list | fzf --preview 'echo {} | sed "s/\}.*/}/" | xargs git stash show' | sed 's/\}.*/}/')
+        if [[ ! -z "$stash" ]]; then
+            git stash apply $stash
+        fi
+    fi
 }

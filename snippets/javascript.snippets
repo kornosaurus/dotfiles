@@ -1,0 +1,47 @@
+snippet exd "Export"
+	export default $0
+
+snippet exd "Export"
+	export $0
+
+snippet re "return"
+	return $0
+
+snippet th "throw"
+	throw ${1:new Error("$2")}
+
+snippet if "If case"
+	if ($1) {
+		${0:${VISUAL}}
+	}
+
+snippet elif "Else-if case"
+	else if ($1) {
+		${0:${VISUAL}}
+	}
+
+snippet el "Else case"
+	else {
+		${0:${VISUAL}}
+	}
+
+snippet af "Arrow function" w
+	($1) => ${2:{
+		${0:${VISUAL}}
+	\}}
+
+snippet fn "Function" w
+	function ${1:name}($2) {
+		${0:${VISUAL}}
+	}
+
+snippet fof "for of"
+	for (let ${1:value} of ${2:iterable}) {
+		${0:${VISUAL}}
+	}
+
+snippet lg "Log"
+	console.log(${1})
+
+snippet lgv "Log variable"
+	console.log("${0:${VISUAL}} =", ${0})

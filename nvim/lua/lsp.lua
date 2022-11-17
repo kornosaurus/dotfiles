@@ -1,8 +1,3 @@
-local prettier = {
-  formatCommand = "prettierd ${INPUT}",
-  formatStdin = true
-}
-
 local system_name
 if vim.fn.has("mac") == 1 then
     system_name = "macOS"
@@ -17,6 +12,18 @@ end
 local sumneko_root_path = '/home/simon/Programs/lua-language-server'
 local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
 
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+    vim.lsp.handlers.hover, {
+        border = "single"
+    }
+)
+
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+    vim.lsp.handlers.signature_help, {
+        border = "single"
+    }
+)
+
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
         virtual_text = false,
@@ -25,20 +32,11 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     }
 )
 
-local servers = {
-    "pylsp",
-    "csharp_ls",
-    "eslint",
-    "tsserver",
-    "efm",
-    "cssls",
-    "rls",
-    "sumneko_lua",
-    "gdscript"
-}
-
 -- User configurations for individual servers.
 local configs = {
+    omnisharp = {
+        cmd = { "dotnet", "/home/simon/.local/share/nvim/mason/packages/omnisharp/OmniSharp.dll" },
+    },
     tsserver = {
         capabilities = {
             document_formatting = false
@@ -57,27 +55,6 @@ local configs = {
         },
     },
     cssls = { cmd = { "css-languageserver", "--stdio" } },
-    efm = {
-        init_options = { documentFormatting = true, codeAction = true },
-        filetypes = {
-            "javascript",
-            "javascriptreact",
-            "typescript",
-            "typescriptreact",
-            "sh",
-        },
-        settings = {
-            rootMarkers = {".eslintrc.json", ".git/"},
-            languages = {
-                javascript = {prettier},
-                javascriptreact = {prettier},
-                ["javascript.jsx"] = {prettier},
-                typescript = {prettier},
-                ["typescript.tsx"] = {prettier},
-                typescriptreact = {prettier},
-            }
-        }
-    },
     sumneko_lua = {
         cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
         settings = {
@@ -111,14 +88,14 @@ local configs = {
 
 -- User configurations for all servers.
 local config_defaults = {
-    capabilities = require("cmp_nvim_lsp").update_capabilities(
-        vim.lsp.protocol.make_client_capabilities()
-    ),
+    capabilities = require('cmp_nvim_lsp').default_capabilities(),
 }
 
 -- Setup configurations.
-for _, lsp in ipairs(servers) do
-    local config = configs[lsp] or {}
-    config = vim.tbl_extend("keep", config, config_defaults)
-    require('lspconfig')[lsp].setup(config)
+return function(servers)
+    for _, lsp in ipairs(servers) do
+        local config = configs[lsp] or {}
+        config = vim.tbl_extend("keep", config, config_defaults)
+        require('lspconfig')[lsp].setup(config)
+    end
 end
