@@ -1,6 +1,6 @@
 require("telescope").setup {
     defaults = {
-        path_display = { "smart" },
+        path_display = { "truncate" },
         sorting_strategy = "ascending",
         layout_strategy = "horizontal",
         layout_config = {

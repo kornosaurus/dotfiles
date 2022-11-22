@@ -8,12 +8,6 @@ end
 
 -- TODO: Move configs to after/plugin
 require('packer').startup(function(use)
-    use {
-        "smjonas/inc-rename.nvim",
-        config = function()
-            require("inc_rename").setup()
-        end,
-    }
     use({
         "folke/noice.nvim",
         config = function()
@@ -60,7 +54,7 @@ require('packer').startup(function(use)
     use {
         'folke/tokyonight.nvim',
         config = function()
-            vim.g.tokyonight_style = "moon"
+            vim.g.tokyonight_style = "night"
             vim.cmd [[colorscheme tokyonight]]
         end
     }
@@ -142,7 +136,6 @@ require('packer').startup(function(use)
     }
     use 'nvim-treesitter/nvim-treesitter'
     use 'nvim-treesitter/nvim-treesitter-textobjects'
-    use 'nvim-treesitter/nvim-treesitter-context'
     use "windwp/nvim-ts-autotag"
     use {
         "windwp/nvim-autopairs",
@@ -211,7 +204,7 @@ require('packer').startup(function(use)
                     'nvim-dap-ui'
                 },
                 options = {
-                    theme = 'tokyonight',
+                    -- theme = 'tokyonight',
                     component_separators = { left = '', right = '' },
                     section_separators = { left = '', right = '' },
                     globalstatus = true

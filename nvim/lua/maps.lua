@@ -29,7 +29,7 @@ nmap('<leader>gf', '<cmd>lua vim.lsp.buf.format({async=true})<CR>')
 nmap('<leader>ca', "<cmd>lua vim.lsp.buf.code_action()<CR>")
 vmap('<leader>ca', "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
 -- nmap('<leader>rn', "<cmd>lua vim.lsp.buf.rename()<CR>")
-nmap('<leader>rn', ":IncRename ")
+nmap('<leader>rn', "<cmd>lua vim.lsp.buf.rename()<CR>")
 nmap('<leader>dd', "<cmd>lua vim.diagnostic.open_float(0, {scope='line'})<CR>")
 
 -- Git
