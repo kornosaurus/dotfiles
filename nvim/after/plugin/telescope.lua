@@ -2,9 +2,17 @@ require("telescope").setup {
     defaults = {
         path_display = { "truncate" },
         sorting_strategy = "ascending",
-        layout_strategy = "horizontal",
+        -- layout_strategy = "horizontal",
+        layout_strategy = "vertical",
         layout_config = {
-            prompt_position = "top"
+            prompt_position = "top",
+            mirror = true,
+            vertical = {
+                width = 0.9,
+                height = 0.9,
+                preview_height = 0.6,
+                preview_cutoff = 0
+            }
         }
     }
 }

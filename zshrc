@@ -14,7 +14,7 @@ export LC_MESSAGES="en_US.UTF-8"
 export LC_MONETARY="en_US.UTF-8"
 export LC_NUMERIC="en_US.UTF-8"
 export LC_TIME="en_US.UTF-8"
-export VISUAL=nvim
+export EDITOR="nvim"
 export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 
 # Prompt
@@ -87,3 +87,10 @@ eval "$(pyenv init -)"
 
 # POETRY
 source $HOME/.poetry/env
+
+# bun completions
+[ -s "/home/simon/.bun/_bun" ] && source "/home/simon/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

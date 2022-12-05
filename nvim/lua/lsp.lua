@@ -38,12 +38,6 @@ local configs = {
         cmd = { "dotnet", "/home/simon/.local/share/nvim/mason/packages/omnisharp/OmniSharp.dll" },
     },
     tsserver = {
-        capabilities = {
-            document_formatting = false
-        },
-        on_attach = function(client)
-            client.server_capabilities.document_formatting = false
-        end
     },
     rls = {
         settings = {
@@ -87,8 +81,9 @@ local configs = {
 }
 
 -- User configurations for all servers.
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local config_defaults = {
-    capabilities = require('cmp_nvim_lsp').default_capabilities(),
+    capabilities = capabilities
 }
 
 -- Setup configurations.

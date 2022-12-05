@@ -2,7 +2,9 @@ snippet lo "local"
 	local ${1:name} = $0
 
 snippet fn "Function"
-	function${1: name}()
+	function ${1:name}()
 		$0
 	end
 
+snippet use "Use"
+	use { "${1:plugin}" }

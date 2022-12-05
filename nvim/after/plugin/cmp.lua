@@ -1,4 +1,6 @@
 local cmp = require('cmp')
+local lspkind = require('lspkind')
+
 cmp.setup {
     completion = {
         autocomplete = false
@@ -32,8 +34,25 @@ cmp.setup {
     },
     sources = {
         {name = 'nvim_lsp'},
-        {name = 'orgmode'},
-        {name = 'buffer', keyword_length = 8},
         {name = 'path'},
-    }
+        {name = 'luasnip'},
+        {name = 'buffer', keyword_length = 5},
+    },
+    snippet = {
+        expand = function(args)
+            require('luasnip').lsp_expand(args.body)
+        end
+    },
+    formatting = {
+        format = lspkind.cmp_format({
+            mode = "symbol_text",
+            menu = ({
+                buffer = "[Buffer]",
+                nvim_lsp = "[LSP]",
+                luasnip = "[LuaSnip]",
+                nvim_lua = "[Lua]",
+                latex_symbols = "[Latex]",
+            })
+        }),
+    },
 }

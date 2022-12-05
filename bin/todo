@@ -1,0 +1,2 @@
+#! /bin/bash
+find $HOME/Wiki/ -type f -exec sed -nr 's/\* \[ \] ([\p{N}\s]*)/TODO \1/p' {} \;

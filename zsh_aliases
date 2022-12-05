@@ -19,6 +19,7 @@ function git_current_branch() {
 
 alias gpsup='git push --set-upstream origin $(git_current_branch)'
 alias glg='git log --stat'
+alias glo="git log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=short"
 alias gl='git pull'
 alias gp='git push'
 alias grs='git restore'

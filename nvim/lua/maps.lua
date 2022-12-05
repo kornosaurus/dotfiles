@@ -1,22 +1,11 @@
-local set_keymap = vim.api.nvim_set_keymap local default_opts = { noremap=true, silent=true }
-
-local function map(mode, m, cmd, opts)
-    set_keymap(mode, m, cmd, opts or default_opts)
-end
-local function nmap(m, cmd, opts)
-    map('n', m, cmd, opts)
-end
-local function imap(m, cmd, opts)
-    map('i', m, cmd, opts)
-end
-local function vmap(m, cmd, opts)
-    map('v', m, cmd, opts)
-end
-local function xmap(m, cmd, opts)
-    map('x', m, cmd, opts)
-end
+local nmap = require("keymap").nmap
+local imap = require("keymap").imap
+local vmap = require("keymap").vmap
 
 vim.g.mapleader = ' '
+
+-- TODO Move plugin maps to correct after/plugin/<pluginname>.lua
+-- TODO Add description to all maps
 
 -- Lsp
 nmap('K', "<cmd>lua vim.lsp.buf.hover()<CR>")
@@ -28,7 +17,6 @@ nmap('gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
 nmap('<leader>gf', '<cmd>lua vim.lsp.buf.format({async=true})<CR>')
 nmap('<leader>ca', "<cmd>lua vim.lsp.buf.code_action()<CR>")
 vmap('<leader>ca', "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
--- nmap('<leader>rn', "<cmd>lua vim.lsp.buf.rename()<CR>")
 nmap('<leader>rn', "<cmd>lua vim.lsp.buf.rename()<CR>")
 nmap('<leader>dd', "<cmd>lua vim.diagnostic.open_float(0, {scope='line'})<CR>")
 
@@ -36,6 +24,14 @@ nmap('<leader>dd', "<cmd>lua vim.diagnostic.open_float(0, {scope='line'})<CR>")
 nmap('<leader>gg', ':LazyGit<CR>')
 nmap('<leader>gs', ":Telescope git_status<CR>")
 nmap('<leader>gd', ':Gvdiffsplit<CR>')
+
+-- Buffers
+nmap("<C-j>", ":bnext<CR>")
+nmap("<C-k>", ":bprevious<CR>")
+nmap("<C-x>", ":bd<CR>")
+
+nmap("<A-j>", ":m .+1<CR>==")
+nmap("<A-k>", ":m .-2<CR>==")
 
 -- File explorer
 nmap('<leader>e', ':NnnPicker %:p:h<CR>')
@@ -52,10 +48,10 @@ nmap('<leader>ff', ":Telescope find_files<CR>")
 nmap('<leader>fb', ":Telescope buffers<CR>")
 nmap('Y', '"+y')
 vmap('Y', '"+y')
-nmap('/', '/\\v', { noremap=true })
-nmap('<leader>/', ':Telescope live_grep<CR>', { noremap=true })
-nmap('<leader>*', ':Telescope grep_string<CR>', { noremap=true })
-nmap('<leader><CR>', ':nohl<CR>')
+nmap('/', '/\\v', nil, { noremap=true })
+nmap('<leader>/', ':Telescope live_grep<CR>', nil, { noremap=true })
+nmap('<leader>*', ':Telescope grep_string<CR>', nil, { noremap=true })
+nmap('<esc><esc>', ':nohlsearch<CR>')
 
 -- DAP
 nmap('<leader>b', '<cmd>lua require"dap".toggle_breakpoint()<CR>')
@@ -70,13 +66,5 @@ nmap('<leader>du', '<cmd>lua require("dapui").toggle()<CR>')
 -- Formatting
 nmap('<leader>fj', ':%!jq<CR>')
 vmap('<leader>fj', ':!jq<CR>')
-
--- Plugins
-nmap('<leader>ha', '<cmd>lua require("harpoon.mark").add_file()<CR>')
-nmap('<leader>ho', '<cmd>lua require("harpoon.ui").toggle_quick_menu()<CR>')
-nmap('<C-j>', '<cmd>lua require("harpoon.ui").nav_file(1)<CR>')
-nmap('<C-k>', '<cmd>lua require("harpoon.ui").nav_file(2)<CR>')
-nmap('<C-l>', '<cmd>lua require("harpoon.ui").nav_file(3)<CR>')
-nmap('<C-;>', '<cmd>lua require("harpoon.ui").nav_file(4)<CR>')
 
 nmap('<leader>tf', ':Dispatch jest -- %<CR>')
