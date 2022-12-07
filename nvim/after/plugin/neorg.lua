@@ -32,8 +32,9 @@ require("neorg").setup {
 
 -- Mappings
 nmap("<leader>nn", ":Neorg index<CR>", "Open index")
+nmap("<leader>nt", ":Neorg workspace tasks<CR>", "Open tasks index")
+nmap("<leader>nv", ":Neorg gtd views<CR>", "Task views")
 nmap("<leader>nj", ":Neorg journal today<CR>", "Journal (today)")
 nmap("<leader>nJ", ":Neorg journal yesterday<CR>", "Journal (yesterday)")
 nmap("<leader>n<C-j>", ":Neorg journal tomorrow<CR>", "Journal (tomorrow)")
 nmap("<leader>nc", ":Neorg gtd capture<CR>", "Capture task")
-nmap("<leader>nt", ":Neorg gtd views<CR>", "Task views")
