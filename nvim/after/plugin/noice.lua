@@ -37,8 +37,12 @@ require("noice").setup({
             ["vim.lsp.util.stylize_markdown"] = true,
             ["cmp.entry.get_documentation"] = true,
         },
+        signature = {
+            enabled = false,
+            view = nil, -- when nil, use defaults from documentation
+            opts = {}, -- merged with defaults from documentation
+        },
     },
-    -- you can enable a preset for easier configuration
     presets = {
         bottom_search = true, -- use a classic bottom cmdline for search
         command_palette = true, -- position the cmdline and popupmenu together

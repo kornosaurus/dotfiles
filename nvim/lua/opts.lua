@@ -22,7 +22,7 @@ opt.ignorecase = true
 opt.smartcase = true
 opt.incsearch = true
 opt.lazyredraw = false
-opt.cursorline = false
+opt.cursorline = true
 opt.undodir = os.getenv('HOME') .. '/.cache/undodir'
 opt.inccommand = 'nosplit'
 opt.splitbelow = true
@@ -86,7 +86,7 @@ vim.api.nvim_create_autocmd(
     {
         pattern = {"markdown", "gitcommit"},
         callback = function()
-            vim.wo.spell = true
+            vim.opt_local.spell = true
         end,
     }
 )
