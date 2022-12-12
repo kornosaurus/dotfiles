@@ -4,7 +4,7 @@ local vmap = require("keymap").vmap
 
 vim.g.mapleader = ' '
 
--- TODO Move plugin maps to correct after/plugin/<pluginname>.lua
+-- TODO Move plugin maps to correct plugins/<pluginname>.lua
 -- TODO Add description to all maps
 
 -- Lsp
@@ -20,21 +20,13 @@ vmap('<leader>ca', "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
 nmap('<leader>rn', "<cmd>lua vim.lsp.buf.rename()<CR>")
 nmap('<leader>dd', "<cmd>lua vim.diagnostic.open_float(0, {scope='line'})<CR>")
 
--- Git
-nmap('<leader>gg', ':LazyGit<CR>')
-nmap('<leader>gs', ":Telescope git_status<CR>")
-nmap('<leader>gd', ':Gvdiffsplit<CR>')
-
 -- Buffers
 nmap("<C-j>", ":bnext<CR>")
 nmap("<C-k>", ":bprevious<CR>")
-nmap("<C-x>", ":bd<CR>")
+nmap("<C-c>", ":bd<CR>")
 
 nmap("<A-j>", ":m .+1<CR>==")
 nmap("<A-k>", ":m .-2<CR>==")
-
--- File explorer
-nmap('<leader>e', ':NnnPicker %:p:h<CR>')
 
 -- Misc
 nmap('<M-q>', ':lopen<CR>')
@@ -44,14 +36,11 @@ nmap('<C-q>', ':copen<CR>')
 nmap('<C-n>', ':cnext<CR>')
 nmap('<C-p>', ':cprev<CR>')
 nmap('<leader><Tab>', '<C-^>')
-nmap('<leader>ff', ":Telescope find_files<CR>")
-nmap('<leader>fb', ":Telescope buffers<CR>")
 nmap('Y', '"+y')
 vmap('Y', '"+y')
 nmap('/', '/\\v', nil, { noremap=true })
-nmap('<leader>/', ':Telescope live_grep<CR>', nil, { noremap=true })
-nmap('<leader>*', ':Telescope grep_string<CR>', nil, { noremap=true })
 nmap('<esc><esc>', ':nohlsearch<CR>')
+nmap('J', ':TSJToggle<CR>')
 
 -- DAP
 nmap('<leader>b', '<cmd>lua require"dap".toggle_breakpoint()<CR>')
@@ -62,6 +51,9 @@ nmap('<F11>', '<cmd>lua require"dap".step_into()<CR>')
 nmap('<F12>', '<cmd>lua require"dap".run_to_cursor()<CR>')
 nmap('<leader>dr', '<cmd>lua require"dap".repl.open()<CR>')
 nmap('<leader>du', '<cmd>lua require("dapui").toggle()<CR>')
+
+nmap('<C-d>', '<C-d>zz')
+nmap('<C-u>', '<C-u>zz')
 
 -- Formatting
 nmap('<leader>fj', ':%!jq<CR>')

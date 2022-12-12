@@ -1,6 +1,11 @@
 local imap = require("keymap").imap
 local smap = require("keymap").smap
-local ls = require("luasnip")
+
+local luasnip_status_ok, ls = pcall(require, 'luasnip')
+if not luasnip_status_ok then
+    vim.notify('luasnip not found')
+    return
+end
 
 ls.config.set_config({
     enable_autosnippets = true,
@@ -8,7 +13,7 @@ ls.config.set_config({
 })
 
 require("luasnip.loaders.from_snipmate").lazy_load({paths = {"./snippets/snipmate"}})
-require("luasnip.loaders.from_lua").load({paths = {"./snippets/lua-snip"}})
+require("luasnip.loaders.from_lua").lazy_load({paths = {"./snippets/lua-snip"}})
 
 ls.filetype_extend("typescriptreact", { "javascriptreact" })
 

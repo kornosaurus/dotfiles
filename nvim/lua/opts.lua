@@ -48,6 +48,7 @@ opt.cmdheight = 0
 opt.conceallevel = 3
 opt.laststatus = 3
 opt.guifont = { "Jetbrains Mono", ":h11" }
+opt.diffopt:append({"linematch:50"})
 
 vim.g.netrw_banner = 0
 

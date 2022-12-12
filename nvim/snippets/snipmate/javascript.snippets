@@ -45,3 +45,13 @@ snippet lg "Log"
 
 snippet lgv "Log variable"
 	console.log("${0:${VISUAL}} =", ${0})
+
+snippet desc
+	desc("${1}", () => {
+		$0
+	})
+
+snippet it
+	it("${1}", () => {
+		$0
+	})
