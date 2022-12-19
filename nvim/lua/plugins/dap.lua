@@ -1,11 +1,9 @@
-require("dapui").setup()
-
 local dap = require('dap')
 
-dap.adapters.chrome = {
-    type = "executable",
-    command = "node",
-    args = {os.getenv("HOME") .. "/.local/share/nvim/mason/packages/chrome-debug-adapter/out/src/chromeDebug.js"}
+dap.adapters.firefox = {
+    type = 'executable',
+    command = 'node',
+    args = {os.getenv('HOME') .. '/.local/share/nvim/mason/packages/firefox-debug-adapter/dist/adapter.bundle.js'},
 }
 
 dap.adapters.coreclr = {
@@ -23,18 +21,17 @@ dap.configurations.cs = {
     },
 }
 
-local chrome = {
-    type = "chrome",
-    request = "attach",
-    program = "${file}",
-    cwd = vim.fn.getcwd(),
-    sourceMaps = true,
-    protocol = "inspector",
-    port = 9222,
-    webRoot = "${workspaceFolder}",
+local firefox = {
+    name = 'Debug with Firefox',
+    type = 'firefox',
+    request = 'launch',
+    reAttach = true,
+    url = 'http://localhost:1337',
+    webRoot = '${workspaceFolder}',
+    firefoxExecutable = '/usr/bin/firefox'
 }
 
-dap.configurations.typescript = {chrome}
-dap.configurations.javascript = {chrome}
-dap.configurations.typescriptreact = {chrome}
-dap.configurations.javascriptreact = {chrome}
+dap.configurations.typescript = {firefox}
+dap.configurations.javascript = {firefox}
+dap.configurations.typescriptreact = {firefox}
+dap.configurations.javascriptreact = {firefox}

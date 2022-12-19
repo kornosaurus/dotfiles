@@ -1,4 +1,3 @@
-local nmap = require("keymap").nmap
 local status_ok, telescope = pcall(require, 'telescope')
 
 if not status_ok then
@@ -29,8 +28,8 @@ telescope.load_extension('ui-select')
 telescope.load_extension('fzf')
 
 -- Maps
-nmap('<leader>ff', ":Telescope find_files<CR>")
-nmap('<leader>fb', ":Telescope buffers<CR>")
-nmap('<leader>gs', ":Telescope git_status<CR>")
-nmap('<leader>/', ':Telescope live_grep<CR>', nil, { noremap=true })
-nmap('<leader>*', ':Telescope grep_string<CR>', nil, { noremap=true })
+vim.keymap.set('n', '<leader>ff', ":Telescope find_files<CR>")
+vim.keymap.set('n', '<leader>fb', ":Telescope buffers<CR>")
+vim.keymap.set('n', '<leader>gs', ":Telescope git_status<CR>")
+vim.keymap.set('n', '<leader>/', ':Telescope live_grep<CR>')
+vim.keymap.set('n', '<leader>*', ':Telescope grep_string<CR>')

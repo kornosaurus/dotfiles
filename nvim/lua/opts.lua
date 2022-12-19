@@ -1,6 +1,6 @@
 local opt = vim.opt
 local indent = 4
-local blend = 10
+-- local blend = 10
 
 vim.g.mapleader = ' '
 
@@ -15,7 +15,7 @@ opt.foldlevelstart = 99
 opt.updatetime = 100
 opt.scrolloff = 7
 opt.pumheight = 20
-opt.pumblend = blend
+-- opt.pumblend = blend
 opt.hidden = true
 opt.hlsearch = true
 opt.ignorecase = true
@@ -44,7 +44,7 @@ opt.undofile = true
 opt.shiftwidth = indent
 opt.tabstop = indent
 opt.smartindent = true
-opt.cmdheight = 0
+opt.cmdheight = 1
 opt.conceallevel = 3
 opt.laststatus = 3
 opt.guifont = { "Jetbrains Mono", ":h11" }

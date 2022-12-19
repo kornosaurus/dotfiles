@@ -55,3 +55,18 @@ snippet it
 	it("${1}", () => {
 		$0
 	})
+
+snippet sw "Switch"
+	switch(${1:var}) {
+		case ${2}:
+			$3
+			break
+		default:
+			$4
+			break;
+	}
+
+snippet ca "Switch case"
+	case $1:
+		$0
+		break

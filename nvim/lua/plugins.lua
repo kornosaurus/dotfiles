@@ -109,6 +109,8 @@ require('packer').startup(function(use)
             '<leader>*',
         }
     })
+
+    -- LINES
     use({
         {
             'nvim-lualine/lualine.nvim',
@@ -136,13 +138,6 @@ require('packer').startup(function(use)
                                 icon_only = true,
                             },
                             { 'filename', path = 0 }
-                        },
-                        lualine_x = {
-                            {
-                                require('noice').api.statusline.mode.get,
-                                cond = require('noice').api.statusline.mode.has,
-                                color = { fg = '#ff9e64' },
-                            }
                         },
                         lualine_y = {'progress'},
                         lualine_z = {'location'}
@@ -179,7 +174,6 @@ require('packer').startup(function(use)
             'sindrets/diffview.nvim',
             requires = 'nvim-lua/plenary.nvim',
             config = function()
-                local nmap = require('keymap').nmap
                 require('diffview').setup({
                     view = {
                         merge_tool = {
@@ -187,7 +181,7 @@ require('packer').startup(function(use)
                         }
                     }
                 })
-                nmap("<leader>gd", ":DiffviewOpen<CR>", "Git diff")
+                vim.keymap.set('n', '<leader>gd', ':DiffviewOpen<CR>', { desc = 'Git diff' })
             end,
             cmd = {
 				'DiffviewOpen',
@@ -214,7 +208,6 @@ require('packer').startup(function(use)
             },
             event = { 'BufRead' },
             config = function()
-                local nmap = require('keymap').nmap
                 require('gitsigns').setup({
                     signs = {
                         add = {hl = 'GitSignsAdd', text = '▎'},
@@ -224,8 +217,8 @@ require('packer').startup(function(use)
                         changedelete = {hl = 'GitSignsChangeDelete', text = '▌'},
                     }
                 })
-                nmap("<leader>gb", ":lua require('gitsigns').blame_line()<CR>", "Blame current line")
-                nmap("<leader>gB", ":lua require('gitsigns').blame_line({ full=true })<CR>", "Blame current line (full)")
+                vim.keymap.set('n', "<leader>gb", ":lua require('gitsigns').blame_line({ ignore_whitespace=true })<CR>", {desc="Blame current line"})
+                vim.keymap.set('n', "<leader>gB", ":lua require('gitsigns').blame_line({ full=true, ignore_whitespace=true  })<CR>", {desc="Blame current line (full)"})
             end
         }
     })
@@ -261,9 +254,7 @@ require('packer').startup(function(use)
             requires = 'nvim-treesitter/nvim-treesitter',
             after = 'nvim-treesitter',
             config = function()
-                require('treesj').setup({
-                    use_default_keymaps = false,
-                })
+                require('plugins.treesj')
             end,
         },
         {
@@ -287,6 +278,7 @@ require('packer').startup(function(use)
                 { 'n', 'cs' },
                 { 'n', 'ds' },
                 { 'n', 'ys' },
+                { 'v', 'S' },
             },
         },
         {
@@ -312,19 +304,7 @@ require('packer').startup(function(use)
     })
 
     -- UI & COLORS
-   use({
-       {
-           'folke/noice.nvim',
-            module_pattern = { 'noice' },
-           config = function()
-               require('plugins.noice')
-           end,
-           event = { 'BufRead' },
-           requires = {
-               'MunifTanjim/nui.nvim',
-               'rcarriga/nvim-notify',
-           }
-       },
+   use(
        {
            'rose-pine/neovim',
            as = 'rose-pine',
@@ -336,11 +316,32 @@ require('packer').startup(function(use)
                vim.cmd('colorscheme rose-pine')
            end
        }
-   })
+   )
 
     -- UTILITY
     use({ 'dstein64/vim-startuptime', cmd = { 'StartupTime' } })
 
-    --    use 'mfussenegger/nvim-dap'
-    --    use 'rcarriga/nvim-dap-ui'
+    -- DAP
+    use({
+        {
+            'mfussenegger/nvim-dap',
+            config = function()
+                require('plugins.dap')
+            end,
+            keys = {
+                '<leader>b',
+                '<leader>B',
+                '<leader>dr',
+                '<leader>du',
+                '<F5>',
+            }
+        },
+        {
+            'rcarriga/nvim-dap-ui',
+            config = function()
+                require("dapui").setup()
+            end,
+            after = "nvim-dap"
+        }
+    })
 end)

@@ -1,5 +1,3 @@
-local nmap = require("keymap").nmap
-
 -- Setup
 require("neorg").setup {
     load = {
@@ -31,10 +29,10 @@ require("neorg").setup {
 }
 
 -- Mappings
-nmap("<leader>nn", ":Neorg index<CR>", "Open index")
-nmap("<leader>nt", ":Neorg workspace tasks<CR>", "Open tasks index")
-nmap("<leader>nv", ":Neorg gtd views<CR>", "Task views")
-nmap("<leader>nj", ":Neorg journal today<CR>", "Journal (today)")
-nmap("<leader>nJ", ":Neorg journal yesterday<CR>", "Journal (yesterday)")
-nmap("<leader>n<C-j>", ":Neorg journal tomorrow<CR>", "Journal (tomorrow)")
-nmap("<leader>nc", ":Neorg gtd capture<CR>", "Capture task")
+vim.keymap.set('n', "<leader>nn", ":Neorg index<CR>", {desc = "Open index"})
+vim.keymap.set('n', "<leader>nt", ":Neorg workspace tasks<CR>", { desc = "Open tasks index" })
+vim.keymap.set('n', "<leader>nv", ":Neorg gtd views<CR>", {desc = "Task views"})
+vim.keymap.set('n', "<leader>nj", ":Neorg journal today<CR>", {desc = "Journal (today)"})
+vim.keymap.set('n', "<leader>nJ", ":Neorg journal yesterday<CR>", {desc = "Journal (yesterday)"})
+vim.keymap.set('n', "<leader>n<C-j>", ":Neorg journal tomorrow<CR>", {desc = "Journal (tomorrow)"})
+vim.keymap.set('n', "<leader>nc", ":Neorg gtd capture<CR>", {desc = "Capture task"})

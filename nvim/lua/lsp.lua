@@ -36,6 +36,9 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 local configs = {
     omnisharp = {
         cmd = { "dotnet", "/home/simon/.local/share/nvim/mason/packages/omnisharp/OmniSharp.dll" },
+        on_attach = function(client)
+           client.server_capabilities.semanticTokensProvider = nil
+        end
     },
     tsserver = {
     },
@@ -80,17 +83,15 @@ local configs = {
     }
 }
 
--- User configurations for all servers.
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-local config_defaults = {
-    capabilities = capabilities
-}
-
--- Setup configurations.
 return function(servers)
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
     for _, lsp in ipairs(servers) do
         local config = configs[lsp] or {}
-        config = vim.tbl_extend("keep", config, config_defaults)
+        config = vim.tbl_extend(
+            "keep",
+            config,
+            { vim.tbl_extend("keep", config.capabilities or {}, capabilities) }
+        )
         require('lspconfig')[lsp].setup(config)
     end
 end

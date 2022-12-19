@@ -1,6 +1,6 @@
 #!/bin/bash
 xset r rate 200 50
-setxkbmap us
+setxkbmap us -variant altgr-intl
 setxkbmap -option caps:escape
 
 dunst &
