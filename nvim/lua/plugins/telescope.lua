@@ -5,15 +5,12 @@ if not status_ok then
     return
 end
 
-telescope.setup {
+telescope.setup({
     defaults = {
         path_display = { "truncate" },
         sorting_strategy = "ascending",
-        -- layout_strategy = "horizontal",
-        layout_strategy = "vertical",
         layout_config = {
             prompt_position = "top",
-            mirror = true,
             vertical = {
                 width = 0.9,
                 height = 0.9,
@@ -21,8 +18,13 @@ telescope.setup {
                 preview_cutoff = 0
             }
         }
+    },
+    extensions = {
+        ["ui-select"] = {
+            require("telescope.themes").get_cursor()
+        }
     }
-}
+})
 
 telescope.load_extension('ui-select')
 telescope.load_extension('fzf')

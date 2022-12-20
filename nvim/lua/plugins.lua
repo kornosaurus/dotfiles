@@ -38,6 +38,7 @@ require('packer').startup(function(use)
                 require('lsp')(servers)
             end
         },
+        { "folke/neodev.nvim", module = 'neodev' },
         {
             'neovim/nvim-lspconfig',
             module_pattern = { 'lspconfig.*' },
@@ -70,10 +71,10 @@ require('packer').startup(function(use)
             end,
             event = 'InsertEnter *',
         },
+        { 'rafamadriz/friendly-snippets' },
         {
             'L3MON4D3/LuaSnip',
             tag = 'v1.*',
-            module = { "luasnip", "LuaSnip" },
             config = function()
                 require('plugins.luasnip')
             end,
@@ -111,16 +112,14 @@ require('packer').startup(function(use)
     })
 
     -- LINES
-    use({
+    use(
         {
             'nvim-lualine/lualine.nvim',
-            module = 'lualine',
             requires = {
                 { 'kyazdani42/nvim-web-devicons' },
             },
-            event = { 'BufRead' },
             config = function()
-                require('lualine').setup {
+                require('lualine').setup({
                     extensions = {
                         'nvim-dap-ui'
                     },
@@ -142,19 +141,10 @@ require('packer').startup(function(use)
                         lualine_y = {'progress'},
                         lualine_z = {'location'}
                     },
-                }
+                })
             end
-        },
-        {
-            'akinsho/bufferline.nvim',
-            tag = 'v3.*',
-            requires = {'nvim-tree/nvim-web-devicons'},
-            config = function()
-                require('plugins.bufferline')
-            end,
-            event = { 'BufRead' },
         }
-    })
+    )
 
     -- FILES
     use(
@@ -218,41 +208,29 @@ require('packer').startup(function(use)
                     }
                 })
                 vim.keymap.set('n', "<leader>gb", ":lua require('gitsigns').blame_line({ ignore_whitespace=true })<CR>", {desc="Blame current line"})
-                vim.keymap.set('n', "<leader>gB", ":lua require('gitsigns').blame_line({ full=true, ignore_whitespace=true  })<CR>", {desc="Blame current line (full)"})
+                vim.keymap.set('n', "<leader>gB", ":lua require('gitsigns').blame_line({ full=true, ignore_whitespace=true })<CR>", {desc="Blame current line (full)"})
             end
         }
     })
 
-    ---- EDITOR
+    -- EDITOR
     use({
         {
             'nvim-treesitter/nvim-treesitter',
-            module_pattern = { 'treesitter' },
             config = function()
                 require('plugins.treesitter')
             end,
-            event = { 'InsertEnter', 'CursorMoved', 'WinScrolled' },
         },
-        {
-            'nvim-treesitter/nvim-treesitter-textobjects',
-            after = 'nvim-treesitter',
-            requires = 'nvim-treesitter/nvim-treesitter',
-        },
-        {
-            'windwp/nvim-ts-autotag',
-            after = 'nvim-treesitter',
-            requires = 'nvim-treesitter/nvim-treesitter',
-        },
+        { 'nvim-treesitter/nvim-treesitter-textobjects' },
+        { 'windwp/nvim-ts-autotag' },
         {
             'windwp/nvim-autopairs',
-            requires = 'nvim-treesitter/nvim-treesitter',
-            after = 'nvim-treesitter',
-            config = function() require('nvim-autopairs').setup() end
+            config = function()
+                require('nvim-autopairs').setup()
+            end,
         },
         {
             'Wansmer/treesj',
-            requires = 'nvim-treesitter/nvim-treesitter',
-            after = 'nvim-treesitter',
             config = function()
                 require('plugins.treesj')
             end,
@@ -267,7 +245,7 @@ require('packer').startup(function(use)
                 {'n', 'S' },
             }
         },
-        {'tpope/vim-repeat', event = { 'BufRead' }},
+        {'tpope/vim-repeat'},
         {
             'kylechui/nvim-surround',
             tag = '*',
@@ -286,11 +264,10 @@ require('packer').startup(function(use)
             config = function()
                 require('which-key').setup()
             end,
-            event = {'BufRead'}
         }
     })
 
-    ---- WIKI
+    -- WIKI
     use({
         'nvim-neorg/neorg',
         requires = 'nvim-lua/plenary.nvim',
@@ -304,7 +281,7 @@ require('packer').startup(function(use)
     })
 
     -- UI & COLORS
-   use(
+   use({
        {
            'rose-pine/neovim',
            as = 'rose-pine',
@@ -315,8 +292,31 @@ require('packer').startup(function(use)
                })
                vim.cmd('colorscheme rose-pine')
            end
-       }
-   )
+       },
+       {
+            "shortcuts/no-neck-pain.nvim",
+            config = function()
+                vim.keymap.set('n', '<leader>z', ':NoNeckPain<CR>')
+
+                require("no-neck-pain").setup({
+                    width = 130,
+                })
+
+                -- Run on start
+                vim.api.nvim_create_augroup("OnVimEnter", { clear = true })
+                vim.api.nvim_create_autocmd({ "VimEnter" }, {
+                    group = "OnVimEnter",
+                    pattern = "*",
+                    callback = function()
+                        vim.schedule(function()
+                            require("no-neck-pain").enable()
+                        end)
+                    end,
+                })
+            end,
+            tag = "*"
+        }
+    })
 
     -- UTILITY
     use({ 'dstein64/vim-startuptime', cmd = { 'StartupTime' } })
