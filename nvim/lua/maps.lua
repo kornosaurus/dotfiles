@@ -6,7 +6,6 @@ vim.g.mapleader = ' '
 -- Lsp
 -- TODO: move to on_attach callback
 vim.keymap.set('n', 'K', "<cmd>lua vim.lsp.buf.hover()<CR>")
-vim.keymap.set('n', '<C-k>', "<cmd>lua vim.lsp.buf.signature_help()<CR>")
 vim.keymap.set('i', '<C-k>', "<cmd>lua vim.lsp.buf.signature_help()<CR>")
 vim.keymap.set('n', 'gr', function() require('telescope.builtin').lsp_references() end, { desc = 'Goto References' })
 vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
