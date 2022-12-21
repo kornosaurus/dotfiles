@@ -15,7 +15,6 @@ export LC_MONETARY="en_US.UTF-8"
 export LC_NUMERIC="en_US.UTF-8"
 export LC_TIME="en_US.UTF-8"
 export EDITOR="nvim"
-export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 
 # Prompt
 autoload -U colors && colors
@@ -70,27 +69,16 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_CTRL_T_COMMAND='rg --hidden --files --null | xargs -0 dirname | uniq'
 export FZF_DEFAULT_OPTS='--height 40% --reverse'
 
-if [ -e /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
-    source /usr/share/doc/fzf/examples/key-bindings.zsh
-    source /usr/share/doc/fzf/examples/completion.zsh
-fi
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f $HOME/.zsh-vi-mode/zsh-vi-mode.plugin.zsh ] && source $HOME/.zsh-vi-mode/zsh-vi-mode.plugin.zsh
 [ -f ~/.zsh_aliases ] && source ~/.zsh_aliases
 
-export PATH="$HOME/.poetry/bin:$PATH"
+function my_init() {
+  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+  if [ -e /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
+      source /usr/share/doc/fzf/examples/key-bindings.zsh
+      source /usr/share/doc/fzf/examples/completion.zsh
+  fi
+}
 
-# PYENV
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+zvm_after_init_commands+=(my_init)
 
-# POETRY
-source $HOME/.poetry/env
-
-# bun completions
-[ -s "/home/simon/.bun/_bun" ] && source "/home/simon/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
