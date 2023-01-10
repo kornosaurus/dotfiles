@@ -69,16 +69,11 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden'
 export FZF_CTRL_T_COMMAND='rg --hidden --files --null | xargs -0 dirname | uniq'
 export FZF_DEFAULT_OPTS='--height 40% --reverse'
 
-[ -f $HOME/.zsh-vi-mode/zsh-vi-mode.plugin.zsh ] && source $HOME/.zsh-vi-mode/zsh-vi-mode.plugin.zsh
 [ -f ~/.zsh_aliases ] && source ~/.zsh_aliases
 
-function my_init() {
-  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-  if [ -e /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
-      source /usr/share/doc/fzf/examples/key-bindings.zsh
-      source /usr/share/doc/fzf/examples/completion.zsh
-  fi
-}
-
-zvm_after_init_commands+=(my_init)
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [ -e /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+    source /usr/share/doc/fzf/examples/completion.zsh
+fi
 

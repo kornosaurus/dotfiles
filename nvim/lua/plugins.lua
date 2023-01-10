@@ -169,8 +169,8 @@ require("lazy").setup({
                     end,
                 }
             })
-            vim.keymap.set('n', '<space>,', '<cmd>BufferLineMovePrev<CR>')
-            vim.keymap.set('n', '<space>.', '<cmd>BufferLineMoveNext<CR>')
+            vim.keymap.set('n', '<space>[', '<cmd>BufferLineMovePrev<CR>')
+            vim.keymap.set('n', '<space>]', '<cmd>BufferLineMoveNext<CR>')
             vim.keymap.set('n', '<space>1', '<cmd>BufferLineGoToBuffer 1<CR>')
             vim.keymap.set('n', '<space>2', '<cmd>BufferLineGoToBuffer 2<CR>')
             vim.keymap.set('n', '<space>3', '<cmd>BufferLineGoToBuffer 3<CR>')
@@ -268,7 +268,6 @@ require("lazy").setup({
             'S',
         }
     },
-    'tpope/vim-repeat',
     {
         'folke/which-key.nvim',
         config = function()
@@ -307,8 +306,6 @@ require("lazy").setup({
             '<space>n'
         },
     },
-     -- UTILITY
-     { 'dstein64/vim-startuptime', cmd = { 'StartupTime' } },
      -- DAP
     {
         'mfussenegger/nvim-dap',

@@ -22,8 +22,8 @@ vim.keymap.set('v', "<A-j>", ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', "<A-k>", ":m '<-2<CR>gv=gv")
 
 -- Buffers
-vim.keymap.set('n', '<C-j>', ':bprev<CR>')
-vim.keymap.set('n', '<C-k>', ':bnext<CR>')
+vim.keymap.set('n', '<C-j>', ':bnext<CR>')
+vim.keymap.set('n', '<C-k>', ':bprev<CR>')
 vim.keymap.set('n', '<leader>q', ':bdelete<CR>')
 
 -- Misc
