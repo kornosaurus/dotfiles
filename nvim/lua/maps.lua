@@ -1,8 +1,5 @@
 vim.g.mapleader = ' '
 
--- TODO Move plugin maps to correct plugins/<pluginname>.lua
--- TODO Add description to all maps
-
 -- Lsp
 -- TODO: move to on_attach callback
 vim.keymap.set('n', 'K', "<cmd>lua vim.lsp.buf.hover()<CR>")
@@ -23,6 +20,11 @@ vim.keymap.set('i', "<A-j>", "<Esc>:m .+1<CR>==gi")
 vim.keymap.set('i', "<A-k>", "<Esc>:m .-2<CR>==gi")
 vim.keymap.set('v', "<A-j>", ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', "<A-k>", ":m '<-2<CR>gv=gv")
+
+-- Buffers
+vim.keymap.set('n', '<C-j>', ':bprev<CR>')
+vim.keymap.set('n', '<C-k>', ':bnext<CR>')
+vim.keymap.set('n', '<leader>q', ':bdelete<CR>')
 
 -- Misc
 vim.keymap.set('n', '<M-q>', ':lopen<CR>')

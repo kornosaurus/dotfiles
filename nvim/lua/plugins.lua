@@ -116,7 +116,7 @@ require("lazy").setup({
             '<space>ca',
         }
     },
-    -- STATUSLINE
+    -- LINES
     {
         'nvim-lualine/lualine.nvim',
         dependencies = {
@@ -148,6 +148,40 @@ require("lazy").setup({
             })
         end
     },
+    {
+        'akinsho/bufferline.nvim',
+        dependencies = {
+            'kyazdani42/nvim-web-devicons',
+        },
+        config = function()
+            require("bufferline").setup({
+                options = {
+                    max_name_length = 22,
+                    tab_size = 22,
+                    diagnostics = "nvim_lsp",
+                    show_close_icon = false,
+                    close_icon = '',
+                    show_buffer_close_icon = false,
+                    buffer_close_icon = '',
+                    separator_style = "slant",
+                    numbers = function(opts)
+                        return string.format('%s', opts.raise(opts.ordinal))
+                    end,
+                }
+            })
+            vim.keymap.set('n', '<space>,', '<cmd>BufferLineMovePrev<CR>')
+            vim.keymap.set('n', '<space>.', '<cmd>BufferLineMoveNext<CR>')
+            vim.keymap.set('n', '<space>1', '<cmd>BufferLineGoToBuffer 1<CR>')
+            vim.keymap.set('n', '<space>2', '<cmd>BufferLineGoToBuffer 2<CR>')
+            vim.keymap.set('n', '<space>3', '<cmd>BufferLineGoToBuffer 3<CR>')
+            vim.keymap.set('n', '<space>4', '<cmd>BufferLineGoToBuffer 4<CR>')
+            vim.keymap.set('n', '<space>5', '<cmd>BufferLineGoToBuffer 5<CR>')
+            vim.keymap.set('n', '<space>6', '<cmd>BufferLineGoToBuffer 6<CR>')
+            vim.keymap.set('n', '<space>7', '<cmd>BufferLineGoToBuffer 7<CR>')
+            vim.keymap.set('n', '<space>8', '<cmd>BufferLineGoToBuffer 8<CR>')
+            vim.keymap.set('n', '<space>9', '<cmd>BufferLineGoToBuffer 9<CR>')
+        end
+    },
     -- FILES
     {
         'luukvbaal/nnn.nvim',
@@ -156,29 +190,6 @@ require("lazy").setup({
         end,
         cmd = 'NnnPicker',
         keys = { '<space>e' },
-    },
-    {
-        'ThePrimeagen/harpoon',
-        keys = {
-            "<space>a",
-            "<C-e>",
-            "<C-h>",
-            "<C-j>",
-            "<C-k>",
-            "<C-l>"
-        },
-        config = function ()
-            local mark = require("harpoon.mark")
-            local ui = require("harpoon.ui")
-
-            vim.keymap.set("n", "<leader>a", mark.add_file)
-            vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
-
-            vim.keymap.set("n", "<C-h>", function() ui.nav_file(1) end)
-            vim.keymap.set("n", "<C-j>", function() ui.nav_file(2) end)
-            vim.keymap.set("n", "<C-k>", function() ui.nav_file(3) end)
-            vim.keymap.set("n", "<C-l>", function() ui.nav_file(4) end)
-        end
     },
     -- GIT
     {
@@ -239,14 +250,7 @@ require("lazy").setup({
             require('plugins.treesitter')
         end,
     },
-    'nvim-treesitter/nvim-treesitter-textobjects',
     'windwp/nvim-ts-autotag',
-    {
-        'windwp/nvim-autopairs',
-        config = function()
-            require('nvim-autopairs').setup()
-        end,
-    },
     {
         'Wansmer/treesj',
         keys = { 'gj' },
@@ -266,21 +270,28 @@ require("lazy").setup({
     },
     'tpope/vim-repeat',
     {
-        'kylechui/nvim-surround',
-        config = function()
-            require('nvim-surround').setup({})
-        end,
-        keys = {
-            'cs',
-            'ds',
-            'ys',
-        },
-    },
-    {
         'folke/which-key.nvim',
         config = function()
             require('which-key').setup()
         end,
+    },
+    {
+        'echasnovski/mini.surround',
+        config = function()
+            require('mini.surround').setup()
+        end
+    },
+    {
+        'echasnovski/mini.comment',
+        config = function()
+            require('mini.comment').setup()
+        end
+    },
+    {
+        'echasnovski/mini.pairs',
+        config = function()
+            require('mini.pairs').setup()
+        end
     },
     -- WIKI
     {
@@ -291,6 +302,7 @@ require("lazy").setup({
         end,
         cmd = 'Neorg',
         ft = 'norg',
+        build = ':Neorg sync-parsers',
         keys = {
             '<space>n'
         },
