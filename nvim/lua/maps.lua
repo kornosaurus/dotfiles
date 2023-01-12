@@ -4,13 +4,13 @@ vim.g.mapleader = ' '
 -- TODO: move to on_attach callback
 vim.keymap.set('n', 'K', "<cmd>lua vim.lsp.buf.hover()<CR>")
 vim.keymap.set('i', '<C-k>', "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-vim.keymap.set('n', 'gr', function() require('telescope.builtin').lsp_references() end, { desc = 'Goto References' })
+vim.keymap.set('n', 'gr', function() require('telescope.builtin').lsp_references() end, { desc = 'LSP: Goto References' })
 vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
 vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
 vim.keymap.set('n', '<leader>gf', '<cmd>lua vim.lsp.buf.format({async=true})<CR>')
-vim.keymap.set('n', '<leader>ca', "<cmd>lua vim.lsp.buf.code_action()<CR>")
-vim.keymap.set('v', '<leader>ca', "<cmd>lua vim.lsp.buf.range_code_action()<CR>")
-vim.keymap.set('n', '<leader>rn', "<cmd>lua vim.lsp.buf.rename()<CR>")
+vim.keymap.set('n', '<leader>c', "<cmd>lua vim.lsp.buf.code_action()<CR>", { desc = "LSP: Code action" })
+vim.keymap.set('v', '<leader>c', "<cmd>lua vim.lsp.buf.range_code_action()<CR>", { desc = "LSP: Code action" })
+vim.keymap.set('n', '<leader>r', "<cmd>lua vim.lsp.buf.rename()<CR>", { desc = "LSP: Rename" })
 vim.keymap.set('n', '<leader>dd', "<cmd>lua vim.diagnostic.open_float(0, {scope='line'})<CR>")
 
 -- Move line(s)
@@ -22,8 +22,6 @@ vim.keymap.set('v', "<A-j>", ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', "<A-k>", ":m '<-2<CR>gv=gv")
 
 -- Buffers
-vim.keymap.set('n', '<C-j>', ':bnext<CR>')
-vim.keymap.set('n', '<C-k>', ':bprev<CR>')
 vim.keymap.set('n', '<leader>q', ':bdelete<CR>')
 
 -- Misc

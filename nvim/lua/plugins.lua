@@ -169,6 +169,8 @@ require("lazy").setup({
                     end,
                 }
             })
+            vim.keymap.set('n', '<C-j>', '<cmd>BufferLineCycleNext<CR>')
+            vim.keymap.set('n', '<C-k>', '<cmd>BufferLineCyclePrev<CR>')
             vim.keymap.set('n', '<space>[', '<cmd>BufferLineMovePrev<CR>')
             vim.keymap.set('n', '<space>]', '<cmd>BufferLineMoveNext<CR>')
             vim.keymap.set('n', '<space>1', '<cmd>BufferLineGoToBuffer 1<CR>')
