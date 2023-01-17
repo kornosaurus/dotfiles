@@ -53,16 +53,6 @@ opt.diffopt:append({"linematch:50"})
 vim.g.netrw_banner = 0
 
 vim.api.nvim_create_autocmd(
-    {"BufWritePre"},
-    {
-        pattern = {"*/flamingo/*", "*/genial/*"},
-        callback = function()
-            vim.lsp.buf.format({timeout=1000})
-        end,
-    }
-)
-
-vim.api.nvim_create_autocmd(
     {"BufWrite","BufEnter","InsertLeave"},
     {
         pattern = {"*"},
@@ -102,6 +92,16 @@ vim.api.nvim_create_autocmd('BufReadPost', {
         end
     end,
 })
+
+vim.api.nvim_create_autocmd(
+    {'BufWritePre'},
+    {
+        pattern = {'*.js', '*.jsx'},
+        callback = function()
+            vim.cmd('EslintFixAll')
+        end
+    }
+)
 
 vim.fn.sign_define(
     "DiagnosticSignError",

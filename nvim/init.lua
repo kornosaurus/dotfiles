@@ -4,3 +4,5 @@ require('opts')
 
 -- Utility
 require('hlsearch')
+
+pcall(require, 'work')

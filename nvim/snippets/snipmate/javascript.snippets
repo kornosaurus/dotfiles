@@ -1,14 +1,14 @@
 snippet exd "Export"
 	export default $0
 
-snippet exd "Export"
+snippet ex "Export"
 	export $0
 
 snippet re "return"
-	return $0
+	return $0;
 
 snippet th "throw"
-	throw ${1:new Error("$2")}
+	throw ${1:new Error("$2")};
 
 snippet if "If case"
 	if ($1) {
@@ -41,26 +41,26 @@ snippet fof "for of"
 	}
 
 snippet lg "Log"
-	console.log(${1})
+	console.log(${1});
 
 snippet lgv "Log variable"
-	console.log("${0:${VISUAL}} =", ${0})
+	console.log("${0:${VISUAL}} =", ${0});
 
 snippet desc
-	desc("${1}", () => {
+	describe("${1}", () => {
 		$0
-	})
+	});
 
 snippet it
 	it("${1}", () => {
 		$0
-	})
+	});
 
 snippet sw "Switch"
 	switch(${1:var}) {
 		case ${2}:
 			$3
-			break
+			break;
 		default:
 			$4
 			break;
@@ -69,4 +69,4 @@ snippet sw "Switch"
 snippet ca "Switch case"
 	case $1:
 		$0
-		break
+		break;

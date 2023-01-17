@@ -53,20 +53,19 @@ require("lazy").setup({
     },
     'folke/neodev.nvim',
     'neovim/nvim-lspconfig',
-    {
-        'jose-elias-alvarez/null-ls.nvim',
-        ft = {'javascript', 'typescript', 'javascriptreact', 'typescriptreact'},
-        config = function()
-            local null_ls = require('null-ls')
-
-            null_ls.setup({
-                sources = {
-                    null_ls.builtins.formatting.prettierd,
-                },
-            })
-        end,
-        dependencies = { 'nvim-lua/plenary.nvim' },
-    },
+   -- {
+   --     'jose-elias-alvarez/null-ls.nvim',
+   --     ft = {'javascript', 'typescript', 'javascriptreact', 'typescriptreact'},
+   --     config = function()
+   --         local null_ls = require('null-ls')
+   --         null_ls.setup({
+   --             sources = {
+   --                 null_ls.builtins.formatting.eslint,
+   --             },
+   --         })
+   --     end,
+   --     dependencies = { 'nvim-lua/plenary.nvim' },
+   -- },
     'onsails/lspkind.nvim',
     {
         'hrsh7th/nvim-cmp',
@@ -106,6 +105,7 @@ require("lazy").setup({
         cmd = { 'Telescope' },
         keys = {
             '<space>ff',
+            '<space>fp',
             '<space>fb',
             '<space>gs',
             '<space>/',
@@ -164,21 +164,27 @@ require("lazy").setup({
                     numbers = function(opts)
                         return string.format('%s', opts.raise(opts.ordinal))
                     end,
+                    custom_filter = function(buf_number)
+                        -- filter out filetypes you don't want to see
+                        if vim.bo[buf_number].filetype ~= "qf" then
+                            return true
+                        end
+                    end,
                 }
             })
             vim.keymap.set('n', '<C-j>', '<cmd>BufferLineCycleNext<CR>')
             vim.keymap.set('n', '<C-k>', '<cmd>BufferLineCyclePrev<CR>')
-            vim.keymap.set('n', '<space>[', '<cmd>BufferLineMovePrev<CR>')
-            vim.keymap.set('n', '<space>]', '<cmd>BufferLineMoveNext<CR>')
-            vim.keymap.set('n', '<space>1', '<cmd>BufferLineGoToBuffer 1<CR>')
-            vim.keymap.set('n', '<space>2', '<cmd>BufferLineGoToBuffer 2<CR>')
-            vim.keymap.set('n', '<space>3', '<cmd>BufferLineGoToBuffer 3<CR>')
-            vim.keymap.set('n', '<space>4', '<cmd>BufferLineGoToBuffer 4<CR>')
-            vim.keymap.set('n', '<space>5', '<cmd>BufferLineGoToBuffer 5<CR>')
-            vim.keymap.set('n', '<space>6', '<cmd>BufferLineGoToBuffer 6<CR>')
-            vim.keymap.set('n', '<space>7', '<cmd>BufferLineGoToBuffer 7<CR>')
-            vim.keymap.set('n', '<space>8', '<cmd>BufferLineGoToBuffer 8<CR>')
-            vim.keymap.set('n', '<space>9', '<cmd>BufferLineGoToBuffer 9<CR>')
+            vim.keymap.set('n', '<C-[>', '<cmd>BufferLineMovePrev<CR>')
+            vim.keymap.set('n', '<C-]>', '<cmd>BufferLineMoveNext<CR>')
+            vim.keymap.set('n', '<space>1', '<cmd>lua require("bufferline").go_to_buffer(1, true)<CR>')
+            vim.keymap.set('n', '<space>2', '<cmd>lua require("bufferline").go_to_buffer(2, true)<CR>')
+            vim.keymap.set('n', '<space>3', '<cmd>lua require("bufferline").go_to_buffer(3, true)<CR>')
+            vim.keymap.set('n', '<space>4', '<cmd>lua require("bufferline").go_to_buffer(4, true)<CR>')
+            vim.keymap.set('n', '<space>5', '<cmd>lua require("bufferline").go_to_buffer(5, true)<CR>')
+            vim.keymap.set('n', '<space>6', '<cmd>lua require("bufferline").go_to_buffer(6, true)<CR>')
+            vim.keymap.set('n', '<space>7', '<cmd>lua require("bufferline").go_to_buffer(7, true)<CR>')
+            vim.keymap.set('n', '<space>8', '<cmd>lua require("bufferline").go_to_buffer(8, true)<CR>')
+            vim.keymap.set('n', '<space>9', '<cmd>lua require("bufferline").go_to_buffer(9, true)<CR>')
         end
     },
     -- FILES
@@ -189,6 +195,12 @@ require("lazy").setup({
         end,
         cmd = 'NnnPicker',
         keys = { '<space>e' },
+    },
+    {
+        'ahmedkhalf/project.nvim',
+        config = function()
+            require("project_nvim").setup()
+        end
     },
     -- GIT
     {
@@ -256,16 +268,6 @@ require("lazy").setup({
         config = function()
             require('plugins.treesj')
         end,
-    },
-    {
-        'ggandor/leap.nvim',
-        config = function()
-            require('leap').add_default_mappings()
-        end,
-        keys = {
-            's',
-            'S',
-        }
     },
     {
         'folke/which-key.nvim',

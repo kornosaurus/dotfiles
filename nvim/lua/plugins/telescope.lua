@@ -28,9 +28,11 @@ telescope.setup({
 
 telescope.load_extension('ui-select')
 telescope.load_extension('fzf')
+telescope.load_extension('projects')
 
 -- Maps
 vim.keymap.set('n', '<leader>ff', ":Telescope find_files<CR>")
+vim.keymap.set('n', '<leader>fp', ":Telescope projects<CR>")
 vim.keymap.set('n', '<leader>fb', ":Telescope buffers<CR>")
 vim.keymap.set('n', '<leader>gs', ":Telescope git_status<CR>")
 vim.keymap.set('n', '<leader>/', ':Telescope live_grep<CR>')
