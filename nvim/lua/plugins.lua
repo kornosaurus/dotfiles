@@ -38,7 +38,7 @@ require("lazy").setup({
         end
     },
     {
-        'williamboman/mason-lspconfig.nvim',
+        'neovim/nvim-lspconfig',
         config = function()
             local servers = {
                 'pylsp',
@@ -49,9 +49,6 @@ require("lazy").setup({
                 'omnisharp',
                 'rust_analyzer'
             }
-            require('mason-lspconfig').setup({
-                ensure_installed = servers
-            })
             require('lsp')(servers)
         end
     },
