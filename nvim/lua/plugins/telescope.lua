@@ -17,7 +17,8 @@ telescope.setup({
                 preview_height = 0.6,
                 preview_cutoff = 0
             }
-        }
+        },
+        -- file_ignore_patterns = {"^node_modules/", "^.git/"}
     },
     extensions = {
         ["ui-select"] = {
@@ -31,9 +32,7 @@ telescope.load_extension('fzf')
 telescope.load_extension('projects')
 
 -- Maps
-vim.keymap.set('n', '<leader>ff', ":Telescope find_files<CR>")
+vim.keymap.set('n', '<leader>ff', function() require('telescope.builtin').find_files({}) end)
 vim.keymap.set('n', '<leader>fp', ":Telescope projects<CR>")
 vim.keymap.set('n', '<leader>fb', ":Telescope buffers<CR>")
 vim.keymap.set('n', '<leader>gs', ":Telescope git_status<CR>")
-vim.keymap.set('n', '<leader>/', ':Telescope live_grep<CR>')
-vim.keymap.set('n', '<leader>*', ':Telescope grep_string<CR>')

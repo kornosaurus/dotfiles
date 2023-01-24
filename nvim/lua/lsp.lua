@@ -48,7 +48,7 @@ local configs = {
             },
         },
     },
-    cssls = { cmd = { "css-languageserver", "--stdio" } },
+    cssls = {},
     gdscript = {
         flags = {
             debounce_text_changes = 150,

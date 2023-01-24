@@ -8,7 +8,7 @@ opt.guicursor = ""
 opt.syntax = 'on'
 opt.background = 'dark'
 opt.termguicolors = true
-opt.grepprg = 'rg --vimgrep'
+opt.grepprg = 'rg --vimgrep --hidden --follow --no-ignore-vcs -g "!{node_modules,.git,build,dist}"'
 opt.grepformat = '%f:%l:%c:%m'
 opt.completeopt = 'menu,menuone,noselect'
 opt.foldlevelstart = 99
@@ -50,8 +50,6 @@ opt.laststatus = 3
 opt.guifont = { "Jetbrains Mono", ":h11" }
 opt.diffopt:append({"linematch:50"})
 
-vim.g.netrw_banner = 0
-
 vim.api.nvim_create_autocmd(
     {"BufWrite","BufEnter","InsertLeave"},
     {
@@ -92,16 +90,6 @@ vim.api.nvim_create_autocmd('BufReadPost', {
         end
     end,
 })
-
-vim.api.nvim_create_autocmd(
-    {'BufWritePre'},
-    {
-        pattern = {'*.js', '*.jsx'},
-        callback = function()
-            vim.cmd('EslintFixAll')
-        end
-    }
-)
 
 vim.fn.sign_define(
     "DiagnosticSignError",

@@ -14,6 +14,10 @@ vim.opt.runtimepath:prepend(lazypath)
 -- TODO: Move keymaps to "init" function
 -- This will allow lazy loading without duplicating keymaps in the "keys" field
 require("lazy").setup({
+    -- DEV
+    {
+        dir = '/Users/sk/git/multi-cursor.nvim',
+    },
     -- COLORS
     {
         'rose-pine/neovim',
@@ -52,7 +56,13 @@ require("lazy").setup({
         end
     },
     'folke/neodev.nvim',
-    'neovim/nvim-lspconfig',
+    {
+        'neovim/nvim-lspconfig',
+        dependencies = { 'j-hui/fidget.nvim' },
+        config = function ()
+            require"fidget".setup()
+        end
+    },
    -- {
    --     'jose-elias-alvarez/null-ls.nvim',
    --     ft = {'javascript', 'typescript', 'javascriptreact', 'typescriptreact'},
@@ -108,9 +118,7 @@ require("lazy").setup({
             '<space>fp',
             '<space>fb',
             '<space>gs',
-            '<space>/',
-            '<space>*',
-            '<space>ca',
+            '<space>c',
         }
     },
     -- LINES
@@ -158,6 +166,7 @@ require("lazy").setup({
                     diagnostics = "nvim_lsp",
                     show_close_icon = false,
                     close_icon = '',
+                    show_buffer_icons = false,
                     show_buffer_close_icon = false,
                     buffer_close_icon = '',
                     separator_style = "slant",
@@ -193,38 +202,19 @@ require("lazy").setup({
         config = function()
             require('plugins.nnn')
         end,
-        cmd = 'NnnPicker',
-        keys = { '<space>e' },
+        cmd = { 'NnnPicker', 'NnnExplorer' },
+        keys = { '<space>e', '<space>E' },
     },
     {
         'ahmedkhalf/project.nvim',
         config = function()
-            require("project_nvim").setup()
+            require("project_nvim").setup({
+                detection_methods = { "pattern" },
+                patterns = { ".git" },
+            })
         end
     },
     -- GIT
-    {
-        'sindrets/diffview.nvim',
-        dependencies = {'nvim-lua/plenary.nvim'},
-        config = function()
-            require('diffview').setup({
-                view = {
-                    merge_tool = {
-                        layout = 'diff3_mixed',
-                    }
-                }
-            })
-            vim.keymap.set('n', '<leader>gd', ':DiffviewOpen<CR>', { desc = 'Git diff' })
-        end,
-        cmd = {
-            'DiffviewOpen',
-            'DiffviewLog',
-            'DiffviewFileHistory',
-        },
-        keys = {
-            "<space>gd"
-        }
-    },
     {
         'kdheepak/lazygit.nvim',
         config = function()
@@ -243,15 +233,20 @@ require("lazy").setup({
         config = function()
             require('gitsigns').setup({
                 signs = {
-                    add = {hl = 'GitSignsAdd', text = '▎'},
-                    change = {hl = 'GitSignsChange', text = '▎'},
-                    delete = {hl = 'GitSignsDelete', text = '◢'},
-                    topdelete = {hl = 'GitSignsDelete', text = '◥'},
-                    changedelete = {hl = 'GitSignsChangeDelete', text = '▌'},
+                    add = { hl = "GitSignsAdd", text = "┃" },
+                    change = { hl = "GitSignsChange", text = "┃" },
+                    delete = { hl = "GitSignsDelete", text = "▁" },
+                    topdelete = { hl = "GitSignsDelete", text = "▔" },
+                    changedelete = { hl = "GitSignsChangeDelete", text = "┃" },
+                    untracked = { hl = "GitSignsUntracked", text = "┃" },
                 }
             })
-            vim.keymap.set('n', "<leader>gb", ":lua require('gitsigns').blame_line({ ignore_whitespace=true })<CR>", {desc="Blame current line"})
-            vim.keymap.set('n', "<leader>gB", ":lua require('gitsigns').blame_line({ full=true, ignore_whitespace=true })<CR>", {desc="Blame current line (full)"})
+            vim.keymap.set('n', "<leader>gb", function() require('gitsigns').blame_line({ ignore_whitespace=true }) end, {desc="GIT: Blame current line"})
+            vim.keymap.set('n', "<leader>gB", function() require('gitsigns').blame_line({ full=true, ignore_whitespace=true }) end, {desc="GIT: Blame current line (full)"})
+            vim.keymap.set('n', '<leader>]', function() require('gitsigns').next_hunk() end, {desc='GIT: Go to next hunk'})
+            vim.keymap.set('n', '<leader>[', function() require('gitsigns').prev_hunk() end, {desc='GIT: Go to previous hunk'})
+            vim.keymap.set('n', '<leader>gd', function() require('gitsigns').diffthis() end, {desc='GIT: Diff file'})
+            vim.keymap.set('n', '<leader>gD', function() require('gitsigns').toggle_deleted() end, {desc='GIT: Toggle deleted'})
         end
     },
     -- EDITOR
@@ -292,6 +287,10 @@ require("lazy").setup({
         config = function()
             require('mini.pairs').setup()
         end
+    },
+    {
+        'kevinhwang91/nvim-bqf',
+        ft = 'qf'
     },
     -- WIKI
     {

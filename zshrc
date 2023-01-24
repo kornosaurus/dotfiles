@@ -65,8 +65,8 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' menu select
 
 # fzf
-export FZF_DEFAULT_COMMAND='rg --files --hidden'
-export FZF_CTRL_T_COMMAND='rg --hidden --files --null | xargs -0 dirname | uniq'
+export FZF_DEFAULT_COMMAND='rg --hidden --follow --files --no-ignore-vcs -g "!{node_modules,.git}"'
+export FZF_CTRL_T_COMMAND='rg --hidden --follow --files --null | xargs -0 dirname | uniq'
 export FZF_DEFAULT_OPTS='--height 40% --reverse'
 
 [ -f ~/.zsh_aliases ] && source ~/.zsh_aliases

@@ -24,6 +24,11 @@ vim.keymap.set('v', "<A-k>", ":m '<-2<CR>gv=gv")
 -- Buffers
 vim.keymap.set('n', '<leader>q', ':bdelete<CR>')
 
+-- Search
+vim.keymap.set('n', '/', '/\\v')
+vim.keymap.set('n', '<leader>/', ':grep! ')
+vim.keymap.set('n', '<leader>*', function() vim.cmd('grep! -w ' .. vim.fn.expand('<cword>')) end)
+
 -- Misc
 vim.keymap.set('n', '<M-q>', ':lopen<CR>')
 vim.keymap.set('n', '<M-n>', ':lafter<CR>')

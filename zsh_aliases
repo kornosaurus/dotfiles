@@ -3,7 +3,8 @@ alias lg='lazygit'
 alias xclip='xclip -selection c'
 alias ls='ls --color=auto'
 alias ll='ls -lah --color=auto'
-alias v='nvim'
+alias v='env TERM=wezterm nvim'
+alias nvim='env TERM=wezterm nvim'
 
 # GIT
 function git_current_branch() {
