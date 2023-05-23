@@ -15,6 +15,7 @@ export LC_MONETARY="en_US.UTF-8"
 export LC_NUMERIC="en_US.UTF-8"
 export LC_TIME="en_US.UTF-8"
 export EDITOR="nvim"
+export ZK_NOTEBOOK_DIR=$HOME/notes
 
 # Prompt
 autoload -U colors && colors
@@ -77,3 +78,6 @@ if [ -e /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
     source /usr/share/doc/fzf/examples/completion.zsh
 fi
 
+## MacOS specific
+[ -f /opt/homebrew/etc/profile.d/z.sh ] && source /opt/homebrew/etc/profile.d/z.sh
+PATH=$(pyenv root)/shims:$PATH

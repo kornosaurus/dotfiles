@@ -14,10 +14,6 @@ vim.opt.runtimepath:prepend(lazypath)
 -- TODO: Move keymaps to "init" function
 -- This will allow lazy loading without duplicating keymaps in the "keys" field
 require("lazy").setup({
-    -- DEV
-    {
-        dir = '/Users/sk/git/multi-cursor.nvim',
-    },
     -- COLORS
     {
         'rose-pine/neovim',
@@ -45,12 +41,41 @@ require("lazy").setup({
                 'eslint',
                 'tsserver',
                 'cssls',
-                'sumneko_lua',
+                'lua_ls',
                 'omnisharp',
                 'rust_analyzer'
             }
             require('lsp')(servers)
         end
+    },
+    {
+        'jose-elias-alvarez/null-ls.nvim',
+        ft = {'javascript', 'typescript', 'javascriptreact', 'typescriptreact'},
+        config = function()
+            local null_ls = require('null-ls')
+            local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
+            null_ls.setup({
+                sources = {
+                    null_ls.builtins.formatting.prettierd,
+                },
+                on_attach = function(client, bufnr)
+                    if client.supports_method("textDocument/formatting") then
+                        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+                        vim.api.nvim_create_autocmd("BufWritePre", {
+                            group = augroup,
+                            buffer = bufnr,
+                            callback = function()
+                                if vim.fn.filereadable('./.prettierrc.yml') == 1 then
+                                    vim.lsp.buf.format({ bufnr = bufnr })
+                                end
+                            end,
+                        })
+                    end
+                end,
+            })
+        end,
+        dependencies = { 'nvim-lua/plenary.nvim' },
     },
     'folke/neodev.nvim',
     {
@@ -60,19 +85,6 @@ require("lazy").setup({
             require"fidget".setup()
         end
     },
-   -- {
-   --     'jose-elias-alvarez/null-ls.nvim',
-   --     ft = {'javascript', 'typescript', 'javascriptreact', 'typescriptreact'},
-   --     config = function()
-   --         local null_ls = require('null-ls')
-   --         null_ls.setup({
-   --             sources = {
-   --                 null_ls.builtins.formatting.eslint,
-   --             },
-   --         })
-   --     end,
-   --     dependencies = { 'nvim-lua/plenary.nvim' },
-   -- },
     'onsails/lspkind.nvim',
     {
         'hrsh7th/nvim-cmp',
@@ -81,17 +93,17 @@ require("lazy").setup({
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
-            'saadparwaiz1/cmp_luasnip'
+            'dcampos/cmp-snippy'
         },
         config = function()
             require('plugins.cmp')
         end,
     },
     {
-        'L3MON4D3/LuaSnip',
+        'dcampos/nvim-snippy',
         event = 'InsertEnter',
         config = function()
-            require('plugins.luasnip')
+            require('plugins.snippy')
         end,
     },
     -- FUZZY FIND
@@ -122,7 +134,7 @@ require("lazy").setup({
     {
         'nvim-lualine/lualine.nvim',
         dependencies = {
-            'kyazdani42/nvim-web-devicons',
+            "nvim-tree/nvim-web-devicons",
         },
         config = function()
             require('lualine').setup({
@@ -135,62 +147,14 @@ require("lazy").setup({
                     globalstatus = true
                 },
                 sections = {
-                    lualine_a = {'mode'},
+                    lualine_a = {},
                     lualine_b = {'branch', 'diff', 'diagnostics'},
-                    lualine_c = {
-                        {
-                            'filetype',
-                            icon_only = true,
-                        },
-                        { 'filename', path = 0 }
-                    },
-                    lualine_y = {'progress'},
-                    lualine_z = {'location'}
+                    lualine_c = {{ 'filename', path = 0 }},
+                    lualine_x = {},
+                    lualine_y = {'searchcount', 'progress', 'location' },
+                    lualine_z = {}
                 },
             })
-        end
-    },
-    {
-        'akinsho/bufferline.nvim',
-        dependencies = {
-            'kyazdani42/nvim-web-devicons',
-        },
-        config = function()
-            require("bufferline").setup({
-                options = {
-                    max_name_length = 22,
-                    tab_size = 22,
-                    diagnostics = "nvim_lsp",
-                    show_close_icon = false,
-                    close_icon = '',
-                    show_buffer_icons = false,
-                    show_buffer_close_icon = false,
-                    buffer_close_icon = '',
-                    separator_style = "slant",
-                    numbers = function(opts)
-                        return string.format('%s', opts.raise(opts.ordinal))
-                    end,
-                    custom_filter = function(buf_number)
-                        -- filter out filetypes you don't want to see
-                        if vim.bo[buf_number].filetype ~= "qf" then
-                            return true
-                        end
-                    end,
-                }
-            })
-            vim.keymap.set('n', '<C-j>', '<cmd>BufferLineCycleNext<CR>')
-            vim.keymap.set('n', '<C-k>', '<cmd>BufferLineCyclePrev<CR>')
-            vim.keymap.set('n', '<C-[>', '<cmd>BufferLineMovePrev<CR>')
-            vim.keymap.set('n', '<C-]>', '<cmd>BufferLineMoveNext<CR>')
-            vim.keymap.set('n', '<space>1', '<cmd>lua require("bufferline").go_to_buffer(1, true)<CR>')
-            vim.keymap.set('n', '<space>2', '<cmd>lua require("bufferline").go_to_buffer(2, true)<CR>')
-            vim.keymap.set('n', '<space>3', '<cmd>lua require("bufferline").go_to_buffer(3, true)<CR>')
-            vim.keymap.set('n', '<space>4', '<cmd>lua require("bufferline").go_to_buffer(4, true)<CR>')
-            vim.keymap.set('n', '<space>5', '<cmd>lua require("bufferline").go_to_buffer(5, true)<CR>')
-            vim.keymap.set('n', '<space>6', '<cmd>lua require("bufferline").go_to_buffer(6, true)<CR>')
-            vim.keymap.set('n', '<space>7', '<cmd>lua require("bufferline").go_to_buffer(7, true)<CR>')
-            vim.keymap.set('n', '<space>8', '<cmd>lua require("bufferline").go_to_buffer(8, true)<CR>')
-            vim.keymap.set('n', '<space>9', '<cmd>lua require("bufferline").go_to_buffer(9, true)<CR>')
         end
     },
     -- FILES
@@ -248,6 +212,15 @@ require("lazy").setup({
     },
     -- EDITOR
     {
+        'madox2/vim-ai'
+    },
+    {
+        'ggandor/leap.nvim',
+        config = function()
+            require('leap').add_default_mappings(true)
+        end
+    },
+    {
         'nvim-treesitter/nvim-treesitter',
         config = function()
             require('plugins.treesitter')
@@ -268,9 +241,9 @@ require("lazy").setup({
         end,
     },
     {
-        'echasnovski/mini.surround',
+        'kylechui/nvim-surround',
         config = function()
-            require('mini.surround').setup()
+            require("nvim-surround").setup()
         end
     },
     {
@@ -280,28 +253,39 @@ require("lazy").setup({
         end
     },
     {
-        'echasnovski/mini.pairs',
+        'windwp/nvim-autopairs',
         config = function()
-            require('mini.pairs').setup()
+            require("nvim-autopairs").setup({
+                disable_filetype = { "markdown" }
+            })
         end
     },
     {
         'kevinhwang91/nvim-bqf',
         ft = 'qf'
     },
+    {
+        'kevinhwang91/nvim-ufo',
+        dependencies = 'kevinhwang91/promise-async',
+        config = function ()
+            require('ufo').setup()
+            vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+            vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+        end
+    },
     -- WIKI
     {
-        'nvim-neorg/neorg',
-        requires = 'nvim-lua/plenary.nvim',
-        config = function()
-            require('plugins.neorg')
-        end,
-        cmd = 'Neorg',
-        ft = 'norg',
-        build = ':Neorg sync-parsers',
-        keys = {
-            '<space>n'
-        },
+        'mickael-menu/zk-nvim',
+        config = function ()
+            require("zk").setup({
+                picker = "telescope",
+            })
+            vim.keymap.set("n", "<space>zn", "<Cmd>ZkNew { title = vim.fn.input('Title: ') }<CR>", { desc = "New note" })
+            vim.keymap.set("n", "<space>zo", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", { desc = "Open notes" })
+            vim.keymap.set("n", "<space>zt", "<Cmd>ZkTags<CR>", { desc = "Open notes by tag" })
+            vim.keymap.set("n", "<space>zf", "<Cmd>ZkNotes { sort = { 'modified' }, match = { vim.fn.input('Search: ') } }<CR>", { desc = "Search note" })
+            vim.keymap.set("v", "<space>zf", ":'<,'>ZkMatch<CR>", { desc = "Search note with visual selection" })
+        end
     },
      -- DAP
     {

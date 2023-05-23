@@ -22,7 +22,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 
 -- User configurations for individual servers.
 local configs = {
-    sumneko_lua = {
+    lua_ls = {
         settings = {
             Lua = {
                 completion = {
@@ -63,7 +63,10 @@ return function(servers)
         config = vim.tbl_extend(
             "keep",
             config,
-            { vim.tbl_extend("keep", config.capabilities or {}, capabilities) }
+            { vim.tbl_extend("keep", config.capabilities or {}, capabilities, {
+                dynamicRegistration = false,
+                lineFoldingOnly = true
+            }) }
         )
         require('lspconfig')[lsp].setup(config)
     end

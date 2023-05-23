@@ -2,14 +2,14 @@ vim.g.mapleader = ' '
 
 -- Lsp
 -- TODO: move to on_attach callback
-vim.keymap.set('n', 'K', "<cmd>lua vim.lsp.buf.hover()<CR>")
 vim.keymap.set('i', '<C-k>', "<cmd>lua vim.lsp.buf.signature_help()<CR>")
+vim.keymap.set('n', 'K', "<cmd>lua vim.lsp.buf.hover()<CR>")
 vim.keymap.set('n', 'gr', function() require('telescope.builtin').lsp_references() end, { desc = 'LSP: Goto References' })
 vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
 vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
 vim.keymap.set('n', '<leader>gf', '<cmd>lua vim.lsp.buf.format({async=true})<CR>')
-vim.keymap.set('n', '<leader>c', "<cmd>lua vim.lsp.buf.code_action()<CR>", { desc = "LSP: Code action" })
-vim.keymap.set('v', '<leader>c', "<cmd>lua vim.lsp.buf.range_code_action()<CR>", { desc = "LSP: Code action" })
+vim.keymap.set('n', '<leader>cc', "<cmd>lua vim.lsp.buf.code_action()<CR>", { desc = "LSP: Code action" })
+vim.keymap.set('v', '<leader>cc', "<cmd>lua vim.lsp.buf.range_code_action()<CR>", { desc = "LSP: Code action" })
 vim.keymap.set('n', '<leader>r', "<cmd>lua vim.lsp.buf.rename()<CR>", { desc = "LSP: Rename" })
 vim.keymap.set('n', '<leader>dd', "<cmd>lua vim.diagnostic.open_float(0, {scope='line'})<CR>")
 
@@ -25,14 +25,26 @@ vim.keymap.set('v', "<A-k>", ":m '<-2<CR>gv=gv")
 vim.keymap.set('n', '<leader>q', ':bdelete<CR>')
 
 -- Search
+vim.api.nvim_create_user_command(
+    'Grep',
+    function(opts)
+        vim.cmd('grep! ' .. opts.args)
+        vim.cmd('redraw!')
+        vim.cmd('bot copen')
+    end,
+    { nargs = 1 }
+)
 vim.keymap.set('n', '/', '/\\v')
-vim.keymap.set('n', '<leader>/', ':grep! ')
-vim.keymap.set('n', '<leader>*', function() vim.cmd('grep! -w ' .. vim.fn.expand('<cword>')) end)
+vim.keymap.set('n', '<leader>/', ':Grep ')
+vim.keymap.set('n', '<leader>*', function()
+    vim.cmd('Grep -w ' .. vim.fn.expand('<cword>'))
+end)
 
 -- Misc
+vim.keymap.set('n', '<leader>:', function() require('telescope.builtin').commands() end, { desc = 'Commands' })
 vim.keymap.set('n', '<M-q>', ':lopen<CR>')
-vim.keymap.set('n', '<M-n>', ':lafter<CR>')
-vim.keymap.set('n', '<M-p>', ':lbefore<CR>')
+vim.keymap.set('n', ']e', ':lafter<CR>')
+vim.keymap.set('n', '[e', ':lbefore<CR>')
 vim.keymap.set('n', '<C-q>', ':bot copen<CR>')
 vim.keymap.set('n', '<C-n>', ':cnext<CR>')
 vim.keymap.set('n', '<C-p>', ':cprev<CR>')

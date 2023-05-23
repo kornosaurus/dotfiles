@@ -20,6 +20,16 @@ telescope.setup({
         },
         -- file_ignore_patterns = {"^node_modules/", "^.git/"}
     },
+    pickers = {
+        buffers = {
+            show_all_buffers = true,
+            sort_lastused = true,
+            previewer = false,
+            mappings = {
+                i = { ["<c-d>"] = "delete_buffer" }
+            }
+        },
+    },
     extensions = {
         ["ui-select"] = {
             require("telescope.themes").get_cursor()
@@ -32,7 +42,10 @@ telescope.load_extension('fzf')
 telescope.load_extension('projects')
 
 -- Maps
-vim.keymap.set('n', '<leader>ff', function() require('telescope.builtin').find_files({}) end)
+vim.keymap.set('n', '<leader>ff', function() require('telescope.builtin').find_files({ }) end)
 vim.keymap.set('n', '<leader>fp', ":Telescope projects<CR>")
 vim.keymap.set('n', '<leader>fb', ":Telescope buffers<CR>")
 vim.keymap.set('n', '<leader>gs', ":Telescope git_status<CR>")
+
+-- Crashes for some reason, using :grep instead for now
+-- vim.keymap.set('n', '<leader>/', function() require('telescope.builtin').live_grep({ glob_pattern={ "!*.vsdx" } }) end) 

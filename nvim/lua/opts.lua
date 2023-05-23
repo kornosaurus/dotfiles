@@ -8,9 +8,10 @@ opt.guicursor = ""
 opt.syntax = 'on'
 opt.background = 'dark'
 opt.termguicolors = true
-opt.grepprg = 'rg --vimgrep --hidden --follow --no-ignore-vcs -g "!{node_modules,.git,build,dist}"'
+opt.grepprg = 'rg --vimgrep --hidden --follow --no-ignore-vcs -g "!{node_modules,.git,build,dist,*.vsdx,assets}"'
 opt.grepformat = '%f:%l:%c:%m'
 opt.completeopt = 'menu,menuone,noselect'
+opt.foldlevel = 99
 opt.foldlevelstart = 99
 opt.updatetime = 100
 opt.scrolloff = 7
@@ -29,7 +30,7 @@ opt.splitbelow = true
 opt.splitright = true
 opt.showmode = false
 opt.listchars = 'tab:  ,trail:·'
-opt.fillchars = 'vert:│,eob: '
+opt.fillchars = 'eob: '
 opt.mouse = 'a'
 opt.number = false
 opt.relativenumber = false
@@ -89,6 +90,18 @@ vim.api.nvim_create_autocmd('BufReadPost', {
             pcall(vim.api.nvim_win_set_cursor, 0, mark)
         end
     end,
+})
+
+vim.api.nvim_create_autocmd('WinLeave', {
+    callback = function ()
+        vim.opt.cursorline = false
+    end
+})
+
+vim.api.nvim_create_autocmd('WinEnter', {
+    callback = function ()
+        vim.opt.cursorline = true
+    end
 })
 
 vim.fn.sign_define(

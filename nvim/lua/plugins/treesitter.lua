@@ -1,5 +1,4 @@
 require('nvim-treesitter.configs').setup({
-    ensure_installed = "all",
     highlight = {
         enable = true
     },
@@ -23,7 +22,7 @@ require('nvim-treesitter.configs').setup({
             enable = true,
             border = 'single',
             peek_definition_code = {
-                ["<leader>K"] = "@function.outer",
+                ["<space>K"] = "@function.outer",
                 -- ["<leader>gD"] = "@class.outer",
             },
         },

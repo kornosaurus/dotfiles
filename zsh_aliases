@@ -26,7 +26,7 @@ alias gp='git push'
 alias grs='git restore'
 # alias gsw='git switch'
 alias gst='git status'
-alias gc='git commit -v'
+alias gc='git commit -v --cleanup=scissors'
 alias gd='git diff'
 alias ga='git add'
 
@@ -53,3 +53,5 @@ function gstash() {
         fi
     fi
 }
+
+alias rgg='rg --no-ignore-vcs -g "!{node_modules,build,dist,public,*.svg,*.vdx}"'
