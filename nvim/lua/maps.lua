@@ -35,7 +35,7 @@ vim.api.nvim_create_user_command(
     { nargs = 1 }
 )
 vim.keymap.set('n', '/', '/\\v')
-vim.keymap.set('n', '<leader>/', ':Grep ')
+-- vim.keymap.set('n', '<leader>/', ':Grep ')
 vim.keymap.set('n', '<leader>*', function()
     vim.cmd('Grep -w ' .. vim.fn.expand('<cword>'))
 end)

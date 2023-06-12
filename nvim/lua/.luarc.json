@@ -1,0 +1,10 @@
+{
+    "workspace.library": [
+        "/Users/sk/.local/share/nvim/lazy/neodev.nvim/types/nightly",
+        "/opt/homebrew/Cellar/neovim/HEAD-a26c0ec/share/nvim/runtime/lua",
+        "/Users/sk/git/dotfiles/nvim/lua",
+        "/Users/sk/.local/share/nvim/mason/packages/lua-language-server/libexec/meta/692f4135",
+        "/Users/sk/.local/share/nvim/mason/packages/lua-language-server/libexec/meta/68d21d7a"
+    ],
+    "workspace.checkThirdParty": false
+}

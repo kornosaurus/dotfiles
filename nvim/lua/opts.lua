@@ -49,7 +49,7 @@ opt.cmdheight = 1
 opt.conceallevel = 3
 opt.laststatus = 3
 opt.guifont = { "Jetbrains Mono", ":h11" }
-opt.diffopt:append({"linematch:50"})
+opt.diffopt:append({"linematch:50", "iwhiteall", "algorithm:patience"})
 
 vim.api.nvim_create_autocmd(
     {"BufWrite","BufEnter","InsertLeave"},

@@ -1,5 +1,8 @@
 snippet im "Import"
-	import $1 from "$2";
+	import $1 from '$2';
+
+snippet ima "Import as"
+	import * as $1 from '$2';
 
 snippet exd "Export"
 	export default $0
@@ -11,7 +14,7 @@ snippet r "return"
 	return $0
 
 snippet th "throw"
-	throw ${1:new Error("$2")};
+	throw ${1"new Error("$2")};
 
 snippet if "If case"
 	if ($1) {
@@ -29,7 +32,7 @@ snippet el "Else case"
 	}
 
 snippet af "Arrow function" w
-	($1) => ${2:{
+	($1) => ${2"{
 		$0
 	\}}
 
