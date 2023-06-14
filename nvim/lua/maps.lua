@@ -41,7 +41,6 @@ vim.keymap.set('n', '<leader>*', function()
 end)
 
 -- Misc
-vim.keymap.set('n', '<leader>:', function() require('telescope.builtin').commands() end, { desc = 'Commands' })
 vim.keymap.set('n', '<M-q>', ':lopen<CR>')
 vim.keymap.set('n', ']e', ':lafter<CR>')
 vim.keymap.set('n', '[e', ':lbefore<CR>')

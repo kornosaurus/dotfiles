@@ -15,7 +15,6 @@ require('opts')
 require('maps')
 require("lazy").setup("plugins")
 
--- Utility
 require('hlsearch')
 
 pcall(require, 'work')

@@ -1,5 +1,4 @@
 -- TODO: Move big configuration plugins to their own files
-
 return {
     -- COLORS
     {
@@ -167,31 +166,22 @@ return {
         'dcampos/nvim-snippy',
         event = 'InsertEnter',
         opts = {
-            {
-                mappings = {
-                    is = {
-                        ['<Tab>'] = 'expand_or_advance',
-                        ['<S-Tab>'] = 'previous',
-                    },
-                    nx = {
-                        ['<leader>x'] = 'cut_text',
-                    },
+            mappings = {
+                is = {
+                    ['<Tab>'] = 'expand_or_advance',
+                    ['<S-Tab>'] = 'previous',
                 },
-            }
+                nx = {
+                    ['<leader>x'] = 'cut_text',
+                },
+            },
         }
     },
     -- FUZZY FIND
     {
         'nvim-telescope/telescope.nvim',
         config = function()
-            local status_ok, telescope = pcall(require, 'telescope')
-
-            if not status_ok then
-                vim.notify('telescope not found')
-                return
-            end
-
-            telescope.setup({
+            require('telescope').setup({
                 defaults = {
                     path_display = { "truncate" },
                     sorting_strategy = "ascending",
@@ -223,11 +213,9 @@ return {
                 }
             })
 
-            telescope.load_extension('ui-select')
-            telescope.load_extension('fzf')
-            telescope.load_extension('projects')
-
-            vim.keymap.set('n', '<leader>/', function() require('telescope.builtin').live_grep() end)
+            require('telescope').load_extension('ui-select')
+            require('telescope').load_extension('fzf')
+            require('telescope').load_extension('projects')
         end,
         dependencies = {
             'nvim-lua/popup.nvim',
@@ -240,11 +228,12 @@ return {
         },
         cmd = { 'Telescope' },
         keys = {
-            { '<space>ff', function() require('telescope.builtin').find_files({}) end, desc = 'Find files' },
-            '<space>fp',
-            '<space>fb',
-            '<space>gs',
-            '<space>c',
+            { '<leader>ff', function() require('telescope.builtin').find_files({}) end, desc = 'Find files' },
+            { '<leader>fb', function() require('telescope.builtin').buffers({}) end, desc = 'Find buffers' },
+            { '<leader>gs', function() require('telescope.builtin').git_status({}) end, desc = 'GIT: Status' },
+            { '<leader>/', function() require('telescope.builtin').live_grep({}) end, desc = 'Grep' },
+            { '<leader>:', function() require('telescope.builtin').commands() end, desc = 'Find command' },
+            { '<leader>fp', function() require("telescope").extensions.projects.projects() end, desc = 'Find project'}
         }
     },
     -- LINES
@@ -278,9 +267,11 @@ return {
     -- FILES
     {
         'stevearc/oil.nvim',
+        lazy = false,
         keys = {
             { '<leader>e', '<cmd>Oil<CR>', desc = 'File explorer' }
         },
+        cmd = {'Oil'},
         opts = {},
         dependencies = { 'nvim-tree/nvim-web-devicons' },
     },
@@ -340,6 +331,7 @@ return {
     },
     {
         'nvim-treesitter/nvim-treesitter',
+        version = false,
         opts = {
             highlight = {
                 enable = true
@@ -369,7 +361,10 @@ return {
                     },
                 },
             },
-        }
+        },
+        config = function (_, opts)
+            require("nvim-treesitter.configs").setup(opts)
+        end,
     },
     'windwp/nvim-ts-autotag',
     {
