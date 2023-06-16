@@ -2,15 +2,14 @@
 return {
     -- COLORS
     {
-        "folke/tokyonight.nvim",
-        lazy = false,
+        'rose-pine/neovim',
+        name = 'rose-pine',
         priority = 1000,
-        opts = {},
         config = function()
-            require("tokyonight").setup({
-                style = "moon"
+            require('rose-pine').setup({
+                disable_italics = true
             })
-            vim.cmd('colorscheme tokyonight')
+            vim.cmd('colorscheme rose-pine')
         end,
     },
     -- LSP
@@ -63,7 +62,13 @@ return {
         end,
         dependencies = { 'nvim-lua/plenary.nvim' },
     },
-    'folke/neodev.nvim',
+    {
+        'folke/neodev.nvim',
+        ft = 'lua',
+        config = function()
+            require("neodev").setup({})
+        end
+    },
     'onsails/lspkind.nvim',
     {
         'hrsh7th/nvim-cmp',
@@ -228,12 +233,12 @@ return {
         },
         cmd = { 'Telescope' },
         keys = {
-            { '<leader>ff', function() require('telescope.builtin').find_files({}) end, desc = 'Find files' },
-            { '<leader>fb', function() require('telescope.builtin').buffers({}) end, desc = 'Find buffers' },
-            { '<leader>gs', function() require('telescope.builtin').git_status({}) end, desc = 'GIT: Status' },
-            { '<leader>/', function() require('telescope.builtin').live_grep({}) end, desc = 'Grep' },
-            { '<leader>:', function() require('telescope.builtin').commands() end, desc = 'Find command' },
-            { '<leader>fp', function() require("telescope").extensions.projects.projects() end, desc = 'Find project'}
+            { '<leader>ff', function() require('telescope.builtin').find_files({}) end,         desc = 'Find files' },
+            { '<leader>fb', function() require('telescope.builtin').buffers({}) end,            desc = 'Find buffers' },
+            { '<leader>gs', function() require('telescope.builtin').git_status({}) end,         desc = 'GIT: Status' },
+            { '<leader>/',  function() require('telescope.builtin').live_grep({}) end,          desc = 'Grep' },
+            { '<leader>:',  function() require('telescope.builtin').commands() end,             desc = 'Find command' },
+            { '<leader>fp', function() require("telescope").extensions.projects.projects() end, desc = 'Find project' }
         }
     },
     -- LINES
@@ -271,7 +276,7 @@ return {
         keys = {
             { '<leader>e', '<cmd>Oil<CR>', desc = 'File explorer' }
         },
-        cmd = {'Oil'},
+        cmd = { 'Oil' },
         opts = {},
         dependencies = { 'nvim-tree/nvim-web-devicons' },
     },
@@ -362,7 +367,7 @@ return {
                 },
             },
         },
-        config = function (_, opts)
+        config = function(_, opts)
             require("nvim-treesitter.configs").setup(opts)
         end,
     },
