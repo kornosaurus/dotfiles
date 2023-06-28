@@ -9,7 +9,7 @@ return {
             require('rose-pine').setup({
                 disable_italics = true
             })
-            vim.cmd('colorscheme rose-pine')
+            vim.cmd('colorscheme rose-pine-moon')
         end,
     },
     -- LSP
@@ -238,6 +238,7 @@ return {
             { '<leader>gs', function() require('telescope.builtin').git_status({}) end,         desc = 'GIT: Status' },
             { '<leader>/',  function() require('telescope.builtin').live_grep({}) end,          desc = 'Grep' },
             { '<leader>:',  function() require('telescope.builtin').commands() end,             desc = 'Find command' },
+            { '<leader>fk',  function() require('telescope.builtin').keymaps() end,             desc = 'Find keymap' },
             { '<leader>fp', function() require("telescope").extensions.projects.projects() end, desc = 'Find project' }
         }
     },
@@ -253,7 +254,6 @@ return {
                     'nvim-dap-ui'
                 },
                 options = {
-                    theme = 'tokyonight',
                     component_separators = { left = '', right = '' },
                     section_separators = { left = '', right = '' },
                     globalstatus = true
@@ -301,31 +301,25 @@ return {
         dependencies = {
             'nvim-lua/plenary.nvim'
         },
-        event = { 'BufRead' },
-        config = function()
-            require('gitsigns').setup({
-                signs = {
-                    add = { hl = "GitSignsAdd", text = "┃" },
-                    change = { hl = "GitSignsChange", text = "┃" },
-                    delete = { hl = "GitSignsDelete", text = "▁" },
-                    topdelete = { hl = "GitSignsDelete", text = "▔" },
-                    changedelete = { hl = "GitSignsChangeDelete", text = "┃" },
-                    untracked = { hl = "GitSignsUntracked", text = "┃" },
-                }
-            })
-            vim.keymap.set('n', "<leader>gb", function() require('gitsigns').blame_line({ ignore_whitespace = true }) end,
-                { desc = "GIT: Blame current line" })
-            vim.keymap.set('n', "<leader>gB",
-                function() require('gitsigns').blame_line({ full = true, ignore_whitespace = true }) end,
-                { desc = "GIT: Blame current line (full)" })
-            vim.keymap.set('n', '<leader>]', function() require('gitsigns').next_hunk() end,
-                { desc = 'GIT: Go to next hunk' })
-            vim.keymap.set('n', '<leader>[', function() require('gitsigns').prev_hunk() end,
-                { desc = 'GIT: Go to previous hunk' })
-            vim.keymap.set('n', '<leader>gd', function() require('gitsigns').diffthis() end, { desc = 'GIT: Diff file' })
-            vim.keymap.set('n', '<leader>gD', function() require('gitsigns').toggle_deleted() end,
-                { desc = 'GIT: Toggle deleted' })
-        end
+        lazy = false,
+        opts = {
+            signs = {
+                add = { hl = "GitSignsAdd", text = "┃" },
+                change = { hl = "GitSignsChange", text = "┃" },
+                delete = { hl = "GitSignsDelete", text = "▁" },
+                topdelete = { hl = "GitSignsDelete", text = "▔" },
+                changedelete = { hl = "GitSignsChangeDelete", text = "┃" },
+                untracked = { hl = "GitSignsUntracked", text = "┃" },
+            }
+        },
+        keys = {
+            { "<leader>gb", function() require('gitsigns').blame_line({ ignore_whitespace = true }) end, desc = "GIT: Blame current line" },
+            { "<leader>gB", function() require('gitsigns').blame_line({ full = true, ignore_whitespace = true }) end, desc = "GIT: Blame current line (full)" },
+            { '<leader>]',  function() require('gitsigns').next_hunk() end,                                           desc = 'GIT: Go to next hunk' },
+            { '<leader>[',  function() require('gitsigns').prev_hunk() end,                                           desc = 'GIT: Go to previous hunk' },
+            { '<leader>gd', function() require('gitsigns').diffthis() end,                                            desc = 'GIT: Diff file' },
+            { '<leader>gD', function() require('gitsigns').toggle_deleted() end,                                      desc = 'GIT: Toggle deleted' }
+        }
     },
     -- EDITOR
     {
@@ -422,6 +416,56 @@ return {
             vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
             vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
         end
+    },
+    {
+        'mfussenegger/nvim-dap',
+        lazy = false,
+        config = function()
+            vim.keymap.set('n', '<F6>', function() require('dap').step_over() end, { desc = 'DAP: Step over' })
+            vim.keymap.set('n', '<F7>', function() require('dap').step_into() end, { desc = 'DAP: Step into' })
+            vim.keymap.set('n', '<F8>', function() require('dap').step_out() end, { desc = 'DAP: Step out' })
+            vim.keymap.set('n', '<Leader>dr', function() require('dap').repl.open() end, { desc = 'DAP: Repl' })
+            vim.keymap.set({'n', 'v'}, '<Leader>dk', function()
+                require('dap.ui.widgets').hover()
+            end, { desc = 'DAP: Hover' })
+            vim.keymap.set('n', '<Leader>df', function()
+                local widgets = require('dap.ui.widgets')
+                widgets.centered_float(widgets.frames)
+            end, { desc = 'DAP: Frames' })
+            vim.keymap.set('n', '<Leader>ds', function()
+                local widgets = require('dap.ui.widgets')
+                widgets.centered_float(widgets.scopes)
+            end, { desc = 'DAP: Scopes' })
+
+            -- TODO: Move
+            require('dap').adapters.chrome = {
+                type = "executable",
+                command = "node",
+                args = {os.getenv("HOME") .. "/.local/share/nvim/mason/packages/chrome-debug-adapter/out/src/chromeDebug.js"}
+            }
+
+            require('dap').configurations.javascript = {
+                {
+                    type = "chrome",
+                    request = "attach",
+                    program = "${file}",
+                    cwd = vim.fn.getcwd(),
+                    sourceMaps = true,
+                    protocol = "inspector",
+                    port = 9222,
+                    webRoot = "${workspaceFolder}",
+                    sourceMapPathOverrides = {
+                        ["*"] = "${workspaceFolder}/*"
+                    }
+                }
+            }
+        end,
+        keys = {
+            { '<leader>db', function() require('dap').toggle_breakpoint() end, desc = 'DAP: Toggle breakpoint' },
+            { '<leader>dc', function() require('dap').set_breakpoint(vim.fn.input('Condition: ')) end, desc = 'DAP: Set conditional breakpoint' },
+            { '<leader>dl', function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end, desc = 'DAP: Set log point breakpoint' },
+            { '<F5>', function() require('dap').continue() end, desc = 'DAP: Continue' },
+        }
     },
     -- WIKI
     {
