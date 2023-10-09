@@ -32,7 +32,7 @@ alias ga='git add'
 
 # Git switch
 function gsw() {
-    if [[ ! -z $@ ]]; then
+    if [[ ! -z "$@" ]]; then
         git switch $@
     else
         git switch $(git branch -a | grep -E "HEAD|^\*" -v | sed "s/remotes\/origin\///" | sort | uniq | fzf)
@@ -54,4 +54,10 @@ function gstash() {
     fi
 }
 
-alias rgg='rg --no-ignore-vcs -g "!{node_modules,build,dist,public,*.svg,*.vdx}"'
+function search() {
+    local matches=$(rg . --line-number --column --no-heading --glob '!.git' | fzf +s --exact --delimiter : --preview 'bat --style=full --color=always --highlight-line {2} {1}' --preview-window '~4,+{2}+4/2' --multi --bind 'ctrl-a:toggle-all')
+    local files=$(echo $matches | sed -E 's/([a-zA-Z0-9/-_]*):([0-9]*):([0-9]*):.*/\1:\2:\3/' | tr '\n' ' ')
+    echo $files
+}
+
+alias f='nvim $(search)'

@@ -9,7 +9,7 @@ return {
             require('rose-pine').setup({
                 disable_italics = true
             })
-            vim.cmd('colorscheme rose-pine-moon')
+            vim.cmd('colorscheme rose-pine')
         end,
     },
     -- LSP
@@ -183,64 +183,86 @@ return {
         }
     },
     -- FUZZY FIND
+    -- {
+    --     'nvim-telescope/telescope.nvim',
+    --     config = function()
+    --         require('telescope').setup({
+    --             defaults = {
+    --                 path_display = { "truncate" },
+    --                 sorting_strategy = "ascending",
+    --                 layout_config = {
+    --                     prompt_position = "top",
+    --                     vertical = {
+    --                         width = 0.9,
+    --                         height = 0.9,
+    --                         preview_height = 0.6,
+    --                         preview_cutoff = 0
+    --                     }
+    --                 },
+    --                 -- file_ignore_patterns = {"^node_modules/", "^.git/"}
+    --             },
+    --             pickers = {
+    --                 buffers = {
+    --                     show_all_buffers = true,
+    --                     sort_lastused = true,
+    --                     previewer = false,
+    --                     mappings = {
+    --                         i = { ["<c-d>"] = "delete_buffer" }
+    --                     }
+    --                 },
+    --             },
+    --             extensions = {
+    --                 ["ui-select"] = {
+    --                     require("telescope.themes").get_cursor()
+    --                 },
+    --                 undo = {},
+    --             }
+    --         })
+    --
+    --         require("telescope").load_extension("undo")
+    --         require('telescope').load_extension('ui-select')
+    --         require('telescope').load_extension('fzf')
+    --         require('telescope').load_extension('projects')
+    --     end,
+    --     dependencies = {
+    --         'nvim-lua/popup.nvim',
+    --         'nvim-lua/plenary.nvim',
+    --         'debugloop/telescope-undo.nvim',
+    --         'nvim-telescope/telescope-ui-select.nvim',
+    --         {
+    --             'nvim-telescope/telescope-fzf-native.nvim',
+    --             build = 'make',
+    --         },
+    --     },
+    --     cmd = { 'Telescope' },
+    --     keys = {
+    --         { '<leader>f', function() require('telescope.builtin').find_files({}) end,         desc = 'Find files' },
+    --         { '<leader>b', function() require('telescope.builtin').buffers({}) end,            desc = 'Find buffers' },
+    --         { '<leader>gs', function() require('telescope.builtin').git_status({}) end,         desc = 'GIT: Status' },
+    --         { '<leader>/',  function() require('telescope.builtin').live_grep({}) end,          desc = 'Grep' },
+    --         { '<leader>:',  function() require('telescope.builtin').commands() end,             desc = 'Find command' },
+    --         { '<leader>?',  function() require('telescope.builtin').keymaps() end,             desc = 'Find keymap' },
+    --         { '<leader>p', function() require("telescope").extensions.projects.projects() end, desc = 'Find project' },
+    --         { '<leader>u', "<cmd>Telescope undo<cr>", desc = 'Undo tree'}
+    --     }
+    -- },
     {
-        'nvim-telescope/telescope.nvim',
+        "ibhagwan/fzf-lua",
+        -- optional for icon support
+        dependencies = { "nvim-tree/nvim-web-devicons" },
         config = function()
-            require('telescope').setup({
-                defaults = {
-                    path_display = { "truncate" },
-                    sorting_strategy = "ascending",
-                    layout_config = {
-                        prompt_position = "top",
-                        vertical = {
-                            width = 0.9,
-                            height = 0.9,
-                            preview_height = 0.6,
-                            preview_cutoff = 0
-                        }
-                    },
-                    -- file_ignore_patterns = {"^node_modules/", "^.git/"}
-                },
-                pickers = {
-                    buffers = {
-                        show_all_buffers = true,
-                        sort_lastused = true,
-                        previewer = false,
-                        mappings = {
-                            i = { ["<c-d>"] = "delete_buffer" }
-                        }
-                    },
-                },
-                extensions = {
-                    ["ui-select"] = {
-                        require("telescope.themes").get_cursor()
-                    }
-                }
-            })
-
-            require('telescope').load_extension('ui-select')
-            require('telescope').load_extension('fzf')
-            require('telescope').load_extension('projects')
+            -- calling `setup` is optional for customization
+            require("fzf-lua").setup({})
+            require("fzf-lua").register_ui_select()
         end,
-        dependencies = {
-            'nvim-lua/popup.nvim',
-            'nvim-lua/plenary.nvim',
-            'nvim-telescope/telescope-ui-select.nvim',
-            {
-                'nvim-telescope/telescope-fzf-native.nvim',
-                build = 'make',
-            },
-        },
-        cmd = { 'Telescope' },
-        keys = {
-            { '<leader>ff', function() require('telescope.builtin').find_files({}) end,         desc = 'Find files' },
-            { '<leader>fb', function() require('telescope.builtin').buffers({}) end,            desc = 'Find buffers' },
-            { '<leader>gs', function() require('telescope.builtin').git_status({}) end,         desc = 'GIT: Status' },
-            { '<leader>/',  function() require('telescope.builtin').live_grep({}) end,          desc = 'Grep' },
-            { '<leader>:',  function() require('telescope.builtin').commands() end,             desc = 'Find command' },
-            { '<leader>fk',  function() require('telescope.builtin').keymaps() end,             desc = 'Find keymap' },
-            { '<leader>fp', function() require("telescope").extensions.projects.projects() end, desc = 'Find project' }
-        }
+         keys = {
+             { '<leader>f', function() require('fzf-lua').files() end,         desc = 'Find files' },
+             { '<leader>b', function() require('fzf-lua').buffers() end,         desc = 'Find buffers' },
+             { '<leader>/', function() require('fzf-lua').live_grep() end,         desc = 'Grep' },
+             { '<leader>gs', function() require('fzf-lua').git_status() end,         desc = 'GIT: Status' },
+             { '<leader>:', function() require('fzf-lua').commands() end,         desc = 'Find command' },
+             { '<leader>?', function() require('fzf-lua').keymaps() end,         desc = 'Find keymap' },
+         }
     },
     -- LINES
     {
@@ -250,9 +272,6 @@ return {
         },
         config = function()
             require('lualine').setup({
-                extensions = {
-                    'nvim-dap-ui'
-                },
                 options = {
                     component_separators = { left = '', right = '' },
                     section_separators = { left = '', right = '' },
@@ -280,22 +299,7 @@ return {
         opts = {},
         dependencies = { 'nvim-tree/nvim-web-devicons' },
     },
-    {
-        'ahmedkhalf/project.nvim',
-        config = function()
-            require("project_nvim").setup({
-                detection_methods = { "pattern" },
-                patterns = { ".git" },
-            })
-        end
-    },
     -- GIT
-    {
-        'kdheepak/lazygit.nvim',
-        keys = {
-            { '<leader>gg', '<cmd>LazyGit<CR>', desc = 'Lazygit' }
-        }
-    },
     {
         'lewis6991/gitsigns.nvim',
         dependencies = {
@@ -315,18 +319,34 @@ return {
         keys = {
             { "<leader>gb", function() require('gitsigns').blame_line({ ignore_whitespace = true }) end, desc = "GIT: Blame current line" },
             { "<leader>gB", function() require('gitsigns').blame_line({ full = true, ignore_whitespace = true }) end, desc = "GIT: Blame current line (full)" },
-            { '<leader>]',  function() require('gitsigns').next_hunk() end,                                           desc = 'GIT: Go to next hunk' },
-            { '<leader>[',  function() require('gitsigns').prev_hunk() end,                                           desc = 'GIT: Go to previous hunk' },
+            { ']g',  function() require('gitsigns').next_hunk() end,                                           desc = 'GIT: Go to next hunk' },
+            { '[g',  function() require('gitsigns').prev_hunk() end,                                           desc = 'GIT: Go to previous hunk' },
             { '<leader>gd', function() require('gitsigns').diffthis() end,                                            desc = 'GIT: Diff file' },
             { '<leader>gD', function() require('gitsigns').toggle_deleted() end,                                      desc = 'GIT: Toggle deleted' }
         }
     },
     -- EDITOR
     {
-        'ggandor/leap.nvim',
-        config = function()
-            require('leap').add_default_mappings(true)
-        end
+        "folke/flash.nvim",
+        event = "VeryLazy",
+        opts = {},
+        keys = {
+            { "s", mode = { "n", "o", "x" }, function() require("flash").jump() end, desc = "Flash" },
+            { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+            { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+            { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+            { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+        },
+    },
+    -- { 'RRethy/vim-illuminate' },
+    -- { "lukas-reineke/indent-blankline.nvim", opts = {} },
+    {
+        "sindrets/diffview.nvim",
+        event = "VeryLazy",
+        keys = {
+            {"<leader>go", '<cmd>DiffviewOpen<CR>', desc = 'GIT: View diff against index'},
+            {"<leader>gf", '<cmd>DiffviewFileHistory %<CR>', desc = 'GIT: View current file history'},
+        }
     },
     {
         'nvim-treesitter/nvim-treesitter',
@@ -344,10 +364,8 @@ return {
             incremental_selection = {
                 enable = true,
                 keymaps = {
-                    init_selection = "<CR>",
-                    node_incremental = "<CR>",
-                    scope_incremental = "<S-CR>",
-                    node_decremental = "<BS>",
+                    node_incremental = "v",
+                    node_decremental = "V",
                 },
             },
             textobjects = {
@@ -376,6 +394,17 @@ return {
         opts = {}
     },
     {
+        'numToStr/Navigator.nvim',
+        opts = {},
+        keys = {
+            { '<A-h>', '<CMD>NavigatorLeft<CR>'},
+            { '<A-l>', '<CMD>NavigatorRight<CR>'},
+            { '<A-k>', '<CMD>NavigatorUp<CR>'},
+            { '<A-j>', '<CMD>NavigatorDown<CR>'},
+            { '<A-p>', '<CMD>NavigatorPrevious<CR>'}
+        }
+    },
+    {
         'kylechui/nvim-surround',
         config = function()
             require("nvim-surround").setup()
@@ -392,9 +421,14 @@ return {
         version = '*'
     },
     {
-        'echasnovski/mini.splitjoin',
-        version = '*',
-        config = function() require('mini.splitjoin').setup({ mappings = { toggle = 'gj', split = '', join = '', }, }) end
+        'Wansmer/treesj',
+        dependencies = { 'nvim-treesitter/nvim-treesitter' },
+        config = function()
+            require('treesj').setup({ use_default_keymaps = false, max_join_length = 200 })
+        end,
+        keys = {
+            { 'gj', function() require('treesj').toggle({ split = { recursive = true } }) end, desc='Toggle split/join block' },
+        }
     },
     {
         'windwp/nvim-autopairs',
@@ -416,56 +450,6 @@ return {
             vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
             vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
         end
-    },
-    {
-        'mfussenegger/nvim-dap',
-        lazy = false,
-        config = function()
-            vim.keymap.set('n', '<F6>', function() require('dap').step_over() end, { desc = 'DAP: Step over' })
-            vim.keymap.set('n', '<F7>', function() require('dap').step_into() end, { desc = 'DAP: Step into' })
-            vim.keymap.set('n', '<F8>', function() require('dap').step_out() end, { desc = 'DAP: Step out' })
-            vim.keymap.set('n', '<Leader>dr', function() require('dap').repl.open() end, { desc = 'DAP: Repl' })
-            vim.keymap.set({'n', 'v'}, '<Leader>dk', function()
-                require('dap.ui.widgets').hover()
-            end, { desc = 'DAP: Hover' })
-            vim.keymap.set('n', '<Leader>df', function()
-                local widgets = require('dap.ui.widgets')
-                widgets.centered_float(widgets.frames)
-            end, { desc = 'DAP: Frames' })
-            vim.keymap.set('n', '<Leader>ds', function()
-                local widgets = require('dap.ui.widgets')
-                widgets.centered_float(widgets.scopes)
-            end, { desc = 'DAP: Scopes' })
-
-            -- TODO: Move
-            require('dap').adapters.chrome = {
-                type = "executable",
-                command = "node",
-                args = {os.getenv("HOME") .. "/.local/share/nvim/mason/packages/chrome-debug-adapter/out/src/chromeDebug.js"}
-            }
-
-            require('dap').configurations.javascript = {
-                {
-                    type = "chrome",
-                    request = "attach",
-                    program = "${file}",
-                    cwd = vim.fn.getcwd(),
-                    sourceMaps = true,
-                    protocol = "inspector",
-                    port = 9222,
-                    webRoot = "${workspaceFolder}",
-                    sourceMapPathOverrides = {
-                        ["*"] = "${workspaceFolder}/*"
-                    }
-                }
-            }
-        end,
-        keys = {
-            { '<leader>db', function() require('dap').toggle_breakpoint() end, desc = 'DAP: Toggle breakpoint' },
-            { '<leader>dc', function() require('dap').set_breakpoint(vim.fn.input('Condition: ')) end, desc = 'DAP: Set conditional breakpoint' },
-            { '<leader>dl', function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end, desc = 'DAP: Set log point breakpoint' },
-            { '<F5>', function() require('dap').continue() end, desc = 'DAP: Continue' },
-        }
     },
     -- WIKI
     {

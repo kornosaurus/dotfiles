@@ -4,7 +4,7 @@ export DOCKER_BUILDKIT=1
 export DENO_INSTALL="/home/simon/.deno"
 export GOPATH=$HOME/.go
 export GOROOT=$HOME/.go
-export PATH=$PATH:$N_PREFIX/bin:$HOME/.bin:$HOME/.bin/work:$HOME/.cargo/bin:$PATH:/usr/local/go/bin:$GOPATH/bin
+export PATH=$PATH:$N_PREFIX/bin:$HOME/.bin:$HOME/.bin/work:$HOME/.cargo/bin:$PATH:/usr/local/go/bin:$GOPATH:/opt/cisco/anyconnect/bin/
 export PATH="/opt/homebrew/bin:$PATH"
 export LANG=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
@@ -15,6 +15,7 @@ export LC_MONETARY="en_US.UTF-8"
 export LC_NUMERIC="en_US.UTF-8"
 export LC_TIME="en_US.UTF-8"
 export EDITOR="nvim"
+export VISUAL="nvim"
 export ZK_NOTEBOOK_DIR=$HOME/notes
 
 # Prompt
@@ -68,9 +69,10 @@ zstyle ':completion:*' menu select
 # fzf
 export FZF_DEFAULT_COMMAND='rg --hidden --follow --files --no-ignore-vcs -g "!{node_modules,.git}"'
 export FZF_CTRL_T_COMMAND='rg --hidden --follow --files --null | xargs -0 dirname | uniq'
-export FZF_DEFAULT_OPTS='--height 40% --reverse'
+export FZF_DEFAULT_OPTS='--height 50% --reverse'
 
 [ -f ~/.zsh_aliases ] && source ~/.zsh_aliases
+[ -f ~/.zsh_work ] && source ~/.zsh_work
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if [ -e /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
@@ -81,3 +83,10 @@ fi
 ## MacOS specific
 [ -f /opt/homebrew/etc/profile.d/z.sh ] && source /opt/homebrew/etc/profile.d/z.sh
 PATH=$(pyenv root)/shims:$PATH
+
+# bun completions
+[ -s "/Users/sk/.bun/_bun" ] && source "/Users/sk/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
