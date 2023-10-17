@@ -2,16 +2,46 @@
 return {
     -- COLORS
     {
-        'rose-pine/neovim',
-        name = 'rose-pine',
+        "catppuccin/nvim",
+        name = "catppuccin",
         priority = 1000,
         config = function()
-            require('rose-pine').setup({
-                disable_italics = true
+            require('catppuccin').setup({
+                integrations = {
+                    native_lsp = {
+                        enabled = true,
+                        virtual_text = {
+                            errors = { "italic" },
+                            hints = { "italic" },
+                            warnings = { "italic" },
+                            information = { "italic" },
+                        },
+                        underlines = {
+                            errors = { "undercurl" },
+                            hints = { "undercurl" },
+                            warnings = { "undercurl" },
+                            information = { "undercurl" },
+                        },
+                        inlay_hints = {
+                            background = true,
+                        },
+                    },
+                }
             })
-            vim.cmd('colorscheme rose-pine')
+            vim.cmd('colorscheme catppuccin-mocha')
         end,
     },
+    -- {
+    --     'rose-pine/neovim',
+    --     name = 'rose-pine',
+    --     priority = 1000,
+    --     config = function()
+    --         require('rose-pine').setup({
+    --             disable_italics = true
+    --         })
+    --         vim.cmd('colorscheme rose-pine')
+    --     end,
+    -- },
     -- LSP
     {
         'williamboman/mason.nvim',
@@ -36,31 +66,17 @@ return {
         end
     },
     {
-        'jose-elias-alvarez/null-ls.nvim',
-        ft = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
-        config = function()
-            local null_ls = require('null-ls')
-            local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-
-            null_ls.setup({
-                sources = {
-                    null_ls.builtins.formatting.prettierd,
-                },
-                on_attach = function(client, bufnr)
-                    if client.supports_method("textDocument/formatting") then
-                        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-                        vim.api.nvim_create_autocmd("BufWritePre", {
-                            group = augroup,
-                            buffer = bufnr,
-                            callback = function()
-                                vim.lsp.buf.format({ bufnr = bufnr })
-                            end,
-                        })
-                    end
-                end,
-            })
-        end,
-        dependencies = { 'nvim-lua/plenary.nvim' },
+        'stevearc/conform.nvim',
+        opts = {
+            format_on_save = {
+                -- These options will be passed to conform.format()
+                timeout_ms = 500,
+                lsp_fallback = true,
+            },
+            formatters_by_ft = {
+                javascript = { { "prettierd", "prettier" } },
+            },
+        },
     },
     {
         'folke/neodev.nvim',
@@ -87,7 +103,7 @@ return {
                 maxwidth = 50,
             })
 
-            cmp.setup {
+            cmp.setup({
                 completion = {
                     -- autocomplete = true,
                 },
@@ -164,7 +180,7 @@ return {
                         return kind
                     end,
                 },
-            }
+            })
         end,
     },
     {
@@ -250,19 +266,22 @@ return {
         "ibhagwan/fzf-lua",
         -- optional for icon support
         dependencies = { "nvim-tree/nvim-web-devicons" },
+        lazy = false,
+        priority = 500,
         config = function()
-            -- calling `setup` is optional for customization
             require("fzf-lua").setup({})
             require("fzf-lua").register_ui_select()
         end,
-         keys = {
-             { '<leader>f', function() require('fzf-lua').files() end,         desc = 'Find files' },
-             { '<leader>b', function() require('fzf-lua').buffers() end,         desc = 'Find buffers' },
-             { '<leader>/', function() require('fzf-lua').live_grep() end,         desc = 'Grep' },
-             { '<leader>gs', function() require('fzf-lua').git_status() end,         desc = 'GIT: Status' },
-             { '<leader>:', function() require('fzf-lua').commands() end,         desc = 'Find command' },
-             { '<leader>?', function() require('fzf-lua').keymaps() end,         desc = 'Find keymap' },
-         }
+        keys = {
+            { '<leader>f',  function() require('fzf-lua').files() end,          desc = 'Find files' },
+            { '<leader>b',  function() require('fzf-lua').buffers() end,        desc = 'Find buffers' },
+            { '<leader>/',  function() require('fzf-lua').live_grep() end,      desc = 'Grep' },
+            { '<leader>gs', function() require('fzf-lua').git_status() end,     desc = 'GIT: Status' },
+            { '<leader>:',  function() require('fzf-lua').commands() end,       desc = 'Find command' },
+            { 'gr',         function() require('fzf-lua').lsp_references() end, desc = 'Find files' },
+            { '<leader>?',  function() require('fzf-lua').keymaps() end,        desc = 'Find keymap' },
+            { '<leader>*',  function() require('fzf-lua').grep_cword() end,     desc = 'Grep current word' },
+        }
     },
     -- LINES
     {
@@ -290,15 +309,26 @@ return {
     },
     -- FILES
     {
-        'stevearc/oil.nvim',
-        lazy = false,
+        'echasnovski/mini.files',
+        version = '*',
         keys = {
-            { '<leader>e', '<cmd>Oil<CR>', desc = 'File explorer' }
-        },
-        cmd = { 'Oil' },
-        opts = {},
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
+            {
+                '<leader>e',
+                function() require('mini.files').open(vim.api.nvim_buf_get_name(0)) end,
+                desc = 'File explorer'
+            }
+        }
     },
+    -- {
+    --     'stevearc/oil.nvim',
+    --     lazy = false,
+    --     keys = {
+    --         { '<leader>e', '<cmd>Oil<CR>', desc = 'File explorer' }
+    --     },
+    --     cmd = { 'Oil' },
+    --     opts = {},
+    --     dependencies = { 'nvim-tree/nvim-web-devicons' },
+    -- },
     -- GIT
     {
         'lewis6991/gitsigns.nvim',
@@ -317,12 +347,42 @@ return {
             }
         },
         keys = {
-            { "<leader>gb", function() require('gitsigns').blame_line({ ignore_whitespace = true }) end, desc = "GIT: Blame current line" },
-            { "<leader>gB", function() require('gitsigns').blame_line({ full = true, ignore_whitespace = true }) end, desc = "GIT: Blame current line (full)" },
-            { ']g',  function() require('gitsigns').next_hunk() end,                                           desc = 'GIT: Go to next hunk' },
-            { '[g',  function() require('gitsigns').prev_hunk() end,                                           desc = 'GIT: Go to previous hunk' },
-            { '<leader>gd', function() require('gitsigns').diffthis() end,                                            desc = 'GIT: Diff file' },
-            { '<leader>gD', function() require('gitsigns').toggle_deleted() end,                                      desc = 'GIT: Toggle deleted' }
+            {
+                "<leader>gb",
+                function() require('gitsigns').blame_line({ ignore_whitespace = true }) end,
+                desc =
+                "GIT: Blame current line"
+            },
+            {
+                "<leader>gB",
+                function() require('gitsigns').blame_line({ full = true, ignore_whitespace = true }) end,
+                desc =
+                "GIT: Blame current line (full)"
+            },
+            {
+                ']g',
+                function() require('gitsigns').next_hunk() end,
+                desc =
+                'GIT: Go to next hunk'
+            },
+            {
+                '[g',
+                function() require('gitsigns').prev_hunk() end,
+                desc =
+                'GIT: Go to previous hunk'
+            },
+            {
+                '<leader>gd',
+                function() require('gitsigns').diffthis() end,
+                desc =
+                'GIT: Diff file'
+            },
+            {
+                '<leader>gD',
+                function() require('gitsigns').toggle_deleted() end,
+                desc =
+                'GIT: Toggle deleted'
+            }
         }
     },
     -- EDITOR
@@ -332,10 +392,34 @@ return {
         opts = {},
         keys = {
             { "s", mode = { "n", "o", "x" }, function() require("flash").jump() end, desc = "Flash" },
-            { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-            { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-            { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-            { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+            {
+                "S",
+                mode = { "n" },
+                function() require("flash").treesitter() end,
+                desc =
+                "Flash Treesitter"
+            },
+            {
+                "r",
+                mode = "o",
+                function() require("flash").remote() end,
+                desc =
+                "Remote Flash"
+            },
+            {
+                "R",
+                mode = { "o", "x" },
+                function() require("flash").treesitter_search() end,
+                desc =
+                "Treesitter Search"
+            },
+            {
+                "<c-s>",
+                mode = { "c" },
+                function() require("flash").toggle() end,
+                desc =
+                "Toggle Flash Search"
+            },
         },
     },
     -- { 'RRethy/vim-illuminate' },
@@ -344,12 +428,13 @@ return {
         "sindrets/diffview.nvim",
         event = "VeryLazy",
         keys = {
-            {"<leader>go", '<cmd>DiffviewOpen<CR>', desc = 'GIT: View diff against index'},
-            {"<leader>gf", '<cmd>DiffviewFileHistory %<CR>', desc = 'GIT: View current file history'},
+            { "<leader>go", '<cmd>DiffviewOpen<CR>',          desc = 'GIT: View diff against index' },
+            { "<leader>gf", '<cmd>DiffviewFileHistory %<CR>', desc = 'GIT: View current file history' },
         }
     },
     {
         'nvim-treesitter/nvim-treesitter',
+        dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
         version = false,
         opts = {
             highlight = {
@@ -373,7 +458,7 @@ return {
                     enable = true,
                     border = 'single',
                     peek_definition_code = {
-                        ["<space>K"] = "@function.outer",
+                        ["<leader>k"] = "@function.outer",
                         -- ["<leader>gD"] = "@class.outer",
                     },
                 },
@@ -397,11 +482,11 @@ return {
         'numToStr/Navigator.nvim',
         opts = {},
         keys = {
-            { '<A-h>', '<CMD>NavigatorLeft<CR>'},
-            { '<A-l>', '<CMD>NavigatorRight<CR>'},
-            { '<A-k>', '<CMD>NavigatorUp<CR>'},
-            { '<A-j>', '<CMD>NavigatorDown<CR>'},
-            { '<A-p>', '<CMD>NavigatorPrevious<CR>'}
+            { '<A-h>', '<CMD>NavigatorLeft<CR>' },
+            { '<A-l>', '<CMD>NavigatorRight<CR>' },
+            { '<A-k>', '<CMD>NavigatorUp<CR>' },
+            { '<A-j>', '<CMD>NavigatorDown<CR>' },
+            { '<A-p>', '<CMD>NavigatorPrevious<CR>' }
         }
     },
     {
@@ -427,7 +512,11 @@ return {
             require('treesj').setup({ use_default_keymaps = false, max_join_length = 200 })
         end,
         keys = {
-            { 'gj', function() require('treesj').toggle({ split = { recursive = true } }) end, desc='Toggle split/join block' },
+            {
+                'gj',
+                function() require('treesj').toggle({ split = { recursive = true } }) end,
+                desc = 'Toggle split/join block'
+            },
         }
     },
     {
@@ -456,7 +545,7 @@ return {
         'mickael-menu/zk-nvim',
         config = function()
             require("zk").setup({
-                picker = "telescope",
+                picker = "select",
             })
             vim.keymap.set("n", "<space>zn", "<Cmd>ZkNew { title = vim.fn.input('Title: ') }<CR>", { desc = "New note" })
             vim.keymap.set("n", "<space>zo", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", { desc = "Open notes" })

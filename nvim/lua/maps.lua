@@ -4,7 +4,7 @@ vim.g.mapleader = ' '
 -- TODO: move to on_attach callback
 vim.keymap.set('i', '<C-k>', "<cmd>lua vim.lsp.buf.signature_help()<CR>")
 vim.keymap.set('n', 'K', "<cmd>lua vim.lsp.buf.hover()<CR>")
-vim.keymap.set('n', 'gr', function() require('telescope.builtin').lsp_references() end, { desc = 'LSP: Goto References' })
+-- vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>') Handled by fzf-lua
 vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
 vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
 vim.keymap.set('n', '<leader>gf', '<cmd>lua vim.lsp.buf.format({async=true})<CR>')
@@ -26,17 +26,27 @@ vim.api.nvim_create_user_command(
     end,
     { nargs = 1 }
 )
-vim.keymap.set('n', '/', '/\\v')
+
+vim.cmd [[
+    vnoremap * y/\V<C-R>=escape(@",'/\')<CR><CR>
+]]
+
+vim.keymap.set('n', '<leader>a', '*:%s//&')
+vim.keymap.set('n', '<leader>s', '*:%s//')
+vim.keymap.set('v', '<leader>a', 'y:<C-u>%s/<C-r>"/&')
+vim.keymap.set('v', '<leader>s', 'y:<C-u>%s/<C-r>"/')
+-- vim.keymap.set('n', '/', '/\\v')
+-- vim.keymap.set('n', '/', '/\\v')
 -- vim.keymap.set('n', '<leader>/', ':Grep ')
-vim.keymap.set('n', '<leader>*', function()
-    vim.cmd('Grep -w ' .. vim.fn.expand('<cword>'))
-end)
+-- vim.keymap.set('n', '<leader>*', function()
+--     vim.cmd('Grep -w ' .. vim.fn.expand('<cword>'))
+-- end)
 
 -- Move line(s)
 vim.keymap.set('n', "<C-j>", ":m .+1<CR>==")
 vim.keymap.set('n', "<C-k>", ":m .-2<CR>==")
-vim.keymap.set('i', "<C-j>", "<Esc>:m .+1<CR>==gi")
-vim.keymap.set('i', "<C-k>", "<Esc>:m .-2<CR>==gi")
+-- vim.keymap.set('i', "<C-j>", "<Esc>:m .+1<CR>==gi")
+-- vim.keymap.set('i', "<C-k>", "<Esc>:m .-2<CR>==gi")
 vim.keymap.set('v', "<C-j>", ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', "<C-k>", ":m '<-2<CR>gv=gv")
 
@@ -55,4 +65,5 @@ vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
 
 -- Wezterm
-vim.keymap.set('n', '<leader>gg', '<cmd>!wezterm cli split-pane --right --cwd ' .. vim.fn.getcwd() .. ' -- lazygit <CR><CR>', { desc = 'GIT: Lazygit' })
+vim.keymap.set('n', '<leader>gg',
+    '<cmd>!wezterm cli split-pane --right --cwd ' .. vim.fn.getcwd() .. ' -- lazygit <CR><CR>', { desc = 'GIT: Lazygit' })
