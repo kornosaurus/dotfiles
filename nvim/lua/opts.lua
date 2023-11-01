@@ -45,36 +45,36 @@ opt.undofile = true
 opt.shiftwidth = indent
 opt.tabstop = indent
 opt.smartindent = true
-opt.cmdheight = 1
+opt.cmdheight = 0
 opt.conceallevel = 3
 opt.laststatus = 3
 opt.guifont = { "Jetbrains Mono", ":h11" }
-opt.diffopt:append({"linematch:50", "iwhiteall", "algorithm:patience"})
+opt.diffopt:append({ "linematch:50", "iwhiteall", "algorithm:patience" })
 
 vim.api.nvim_create_autocmd(
-    {"BufWrite","BufEnter","InsertLeave"},
+    { "BufWrite", "BufEnter", "InsertLeave" },
     {
-        pattern = {"*"},
+        pattern = { "*" },
         callback = function()
-            vim.diagnostic.setloclist({open = false})
+            vim.diagnostic.setloclist({ open = false })
         end,
     }
 )
 
 vim.api.nvim_create_autocmd(
-    {"TextYankPost"},
+    { "TextYankPost" },
     {
-        pattern = {"*"},
+        pattern = { "*" },
         callback = function()
-            vim.highlight.on_yank({ higroup='IncSearch', timeout=100 })
+            vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 100 })
         end,
     }
 )
 
 vim.api.nvim_create_autocmd(
-    {"FileType"},
+    { "FileType" },
     {
-        pattern = {"markdown", "gitcommit"},
+        pattern = { "markdown", "gitcommit" },
         callback = function()
             vim.opt_local.spell = true
         end,
@@ -92,17 +92,17 @@ vim.api.nvim_create_autocmd('BufReadPost', {
     end,
 })
 
-vim.api.nvim_create_autocmd('WinLeave', {
-    callback = function ()
-        vim.opt.cursorline = false
-    end
-})
-
-vim.api.nvim_create_autocmd('WinEnter', {
-    callback = function ()
-        vim.opt.cursorline = true
-    end
-})
+-- vim.api.nvim_create_autocmd('WinLeave', {
+--     callback = function()
+--         vim.opt.cursorline = false
+--     end
+-- })
+--
+-- vim.api.nvim_create_autocmd('WinEnter', {
+--     callback = function()
+--         vim.opt.cursorline = true
+--     end
+-- })
 
 vim.fn.sign_define(
     "DiagnosticSignError",
@@ -121,6 +121,18 @@ vim.fn.sign_define(
     { texthl = "DiagnosticSignInfo", text = "", numhl = "DiagnosticSignInfo" }
 )
 
+vim.api.nvim_create_autocmd("RecordingEnter", {
+    callback = function()
+        vim.opt.cmdheight = 1
+    end
+})
+
+vim.api.nvim_create_autocmd("RecordingLeave", {
+    callback = function()
+        vim.opt.cmdheight = 0
+    end
+})
+
 local fn = vim.fn
 
 function _G.qftf(info)
@@ -135,9 +147,9 @@ function _G.qftf(info)
     -- vim.cmd(('noa lcd %s'):format(fn.fnameescape(root)))
     --
     if info.quickfix == 1 then
-        items = fn.getqflist({id = info.id, items = 0}).items
+        items = fn.getqflist({ id = info.id, items = 0 }).items
     else
-        items = fn.getloclist(info.winid, {id = info.id, items = 0}).items
+        items = fn.getloclist(info.winid, { id = info.id, items = 0 }).items
     end
     local limit = 31
     local fnameFmt1, fnameFmt2 = '%-' .. limit .. 's', '…%.' .. (limit - 1) .. 's'

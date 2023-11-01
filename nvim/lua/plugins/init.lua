@@ -1,36 +1,36 @@
 -- TODO: Move big configuration plugins to their own files
 return {
     -- COLORS
-    {
-        "catppuccin/nvim",
-        name = "catppuccin",
-        priority = 1000,
-        config = function()
-            require('catppuccin').setup({
-                integrations = {
-                    native_lsp = {
-                        enabled = true,
-                        virtual_text = {
-                            errors = { "italic" },
-                            hints = { "italic" },
-                            warnings = { "italic" },
-                            information = { "italic" },
-                        },
-                        underlines = {
-                            errors = { "undercurl" },
-                            hints = { "undercurl" },
-                            warnings = { "undercurl" },
-                            information = { "undercurl" },
-                        },
-                        inlay_hints = {
-                            background = true,
-                        },
-                    },
-                }
-            })
-            vim.cmd('colorscheme catppuccin-mocha')
-        end,
-    },
+    -- {
+    --     "catppuccin/nvim",
+    --     name = "catppuccin",
+    --     priority = 1000,
+    --     config = function()
+    --         require('catppuccin').setup({
+    --             integrations = {
+    --                 native_lsp = {
+    --                     enabled = true,
+    --                     virtual_text = {
+    --                         errors = { "italic" },
+    --                         hints = { "italic" },
+    --                         warnings = { "italic" },
+    --                         information = { "italic" },
+    --                     },
+    --                     underlines = {
+    --                         errors = { "undercurl" },
+    --                         hints = { "undercurl" },
+    --                         warnings = { "undercurl" },
+    --                         information = { "undercurl" },
+    --                     },
+    --                     inlay_hints = {
+    --                         background = true,
+    --                     },
+    --                 },
+    --             }
+    --         })
+    --         vim.cmd('colorscheme catppuccin-mocha')
+    --     end,
+    -- },
     -- {
     --     'rose-pine/neovim',
     --     name = 'rose-pine',
@@ -42,6 +42,48 @@ return {
     --         vim.cmd('colorscheme rose-pine')
     --     end,
     -- },
+    {
+        "EdenEast/nightfox.nvim",
+        priority = 1000,
+        config = function()
+            vim.cmd('colorscheme carbonfox')
+        end,
+    },
+    {
+        'b0o/incline.nvim',
+        config = function()
+            require('incline').setup {
+                window = {
+                    margin = {
+                        vertical = {
+                            bottom = 0,
+                            top = 0,
+                        },
+                    },
+                },
+                hide = {
+                    cursorline = false,
+                    focused_win = false,
+                    only_win = false
+                },
+                render = function(props)
+                    local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ':t')
+                    local icon, color = require('nvim-web-devicons').get_icon_color(filename)
+
+                    local segments = {}
+
+                    if icon and #icon then
+                        table.insert(segments, { icon, guifg = color })
+                        table.insert(segments, { ' ' })
+                    end
+
+                    table.insert(segments, { filename })
+
+                    return segments
+                end,
+            }
+        end,
+    },
     -- LSP
     {
         'williamboman/mason.nvim',
@@ -60,9 +102,27 @@ return {
                 'cssls',
                 'lua_ls',
                 'omnisharp',
-                'rust_analyzer'
+                'rust_analyzer',
+                'gdscript'
             }
             require('lsp')(servers)
+        end
+    },
+    { 'norcalli/nvim-colorizer.lua', opts = { 'css', 'scss', 'javascript', 'html' } },
+    {
+        "ThePrimeagen/refactoring.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+        },
+        config = function()
+            require("refactoring").setup()
+        end,
+    },
+    {
+        'boltlessengineer/smart-tab.nvim',
+        config = function()
+            require('smart-tab').setup({})
         end
     },
     {
@@ -189,8 +249,8 @@ return {
         opts = {
             mappings = {
                 is = {
-                    ['<Tab>'] = 'expand_or_advance',
-                    ['<S-Tab>'] = 'previous',
+                    ['<C-l>'] = 'expand_or_advance',
+                    ['<S-C-l>'] = 'previous',
                 },
                 nx = {
                     ['<leader>x'] = 'cut_text',
@@ -273,14 +333,20 @@ return {
             require("fzf-lua").register_ui_select()
         end,
         keys = {
-            { '<leader>f',  function() require('fzf-lua').files() end,          desc = 'Find files' },
-            { '<leader>b',  function() require('fzf-lua').buffers() end,        desc = 'Find buffers' },
-            { '<leader>/',  function() require('fzf-lua').live_grep() end,      desc = 'Grep' },
-            { '<leader>gs', function() require('fzf-lua').git_status() end,     desc = 'GIT: Status' },
-            { '<leader>:',  function() require('fzf-lua').commands() end,       desc = 'Find command' },
-            { 'gr',         function() require('fzf-lua').lsp_references() end, desc = 'Find files' },
-            { '<leader>?',  function() require('fzf-lua').keymaps() end,        desc = 'Find keymap' },
-            { '<leader>*',  function() require('fzf-lua').grep_cword() end,     desc = 'Grep current word' },
+            { '<leader>f',  function() require('fzf-lua').files() end,                           desc = 'Find files' },
+            { '<leader>b',  function() require('fzf-lua').buffers({ sort_lastused = true }) end, desc = 'Find buffers' },
+            { '<leader>/',  function() require('fzf-lua').live_grep() end,                       desc = 'Grep' },
+            { '<leader>gs', function() require('fzf-lua').git_status() end,                      desc = 'GIT: Status' },
+            { '<leader>gc', function() require('fzf-lua').git_branches() end,                    desc = 'GIT: Branches' },
+            { '<leader>:',  function() require('fzf-lua').commands() end,                        desc = 'Find command' },
+            { 'gr',         function() require('fzf-lua').lsp_references() end,                  desc = 'Find files' },
+            { '<leader>?',  function() require('fzf-lua').keymaps() end,                         desc = 'Find keymap' },
+            {
+                '<leader>*',
+                function() require('fzf-lua').grep_cword() end,
+                desc =
+                'Grep current word'
+            },
         }
     },
     -- LINES
@@ -309,26 +375,15 @@ return {
     },
     -- FILES
     {
-        'echasnovski/mini.files',
-        version = '*',
+        'stevearc/oil.nvim',
+        lazy = false,
         keys = {
-            {
-                '<leader>e',
-                function() require('mini.files').open(vim.api.nvim_buf_get_name(0)) end,
-                desc = 'File explorer'
-            }
-        }
+            { '<leader>e', '<cmd>Oil<CR>', desc = 'File explorer' }
+        },
+        cmd = { 'Oil' },
+        opts = {},
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
     },
-    -- {
-    --     'stevearc/oil.nvim',
-    --     lazy = false,
-    --     keys = {
-    --         { '<leader>e', '<cmd>Oil<CR>', desc = 'File explorer' }
-    --     },
-    --     cmd = { 'Oil' },
-    --     opts = {},
-    --     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    -- },
     -- GIT
     {
         'lewis6991/gitsigns.nvim',
@@ -423,7 +478,18 @@ return {
         },
     },
     -- { 'RRethy/vim-illuminate' },
-    -- { "lukas-reineke/indent-blankline.nvim", opts = {} },
+    -- {
+    --     "lukas-reineke/indent-blankline.nvim",
+    --     main = "ibl",
+    --     opts = {
+    --         indent = { char = "▏" },
+    --         scope = {
+    --             enabled = true,
+    --             show_start = false,
+    --             show_end = false,
+    --         }
+    --     }
+    -- },
     {
         "sindrets/diffview.nvim",
         event = "VeryLazy",
@@ -454,6 +520,46 @@ return {
                 },
             },
             textobjects = {
+                select = {
+                    enable = true,
+                    lookahead = true,
+                    keymaps = {
+                        ["af"] = "@function.outer",
+                        ["if"] = "@function.inner",
+                    },
+                },
+                swap = {
+                    enable = true,
+                    swap_next = {
+                        ["<leader>a"] = "@parameter.inner",
+                    },
+                    swap_previous = {
+                        ["<leader>A"] = "@parameter.inner",
+                    },
+                },
+                move = {
+                    enable = true,
+                    set_jumps = true,
+                    goto_next_start = {
+                        ["]m"] = "@function.outer",
+                        ["]]"] = { query = "@class.outer", desc = "Next class start" },
+                        ["]o"] = "@loop.*",
+                        ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
+                        ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
+                    },
+                    goto_next_end = {
+                        ["]M"] = "@function.outer",
+                        ["]["] = "@class.outer",
+                    },
+                    goto_previous_start = {
+                        ["[m"] = "@function.outer",
+                        ["[["] = "@class.outer",
+                    },
+                    goto_previous_end = {
+                        ["[M"] = "@function.outer",
+                        ["[]"] = "@class.outer",
+                    },
+                },
                 lsp_interop = {
                     enable = true,
                     border = 'single',
@@ -479,17 +585,6 @@ return {
         opts = {}
     },
     {
-        'numToStr/Navigator.nvim',
-        opts = {},
-        keys = {
-            { '<A-h>', '<CMD>NavigatorLeft<CR>' },
-            { '<A-l>', '<CMD>NavigatorRight<CR>' },
-            { '<A-k>', '<CMD>NavigatorUp<CR>' },
-            { '<A-j>', '<CMD>NavigatorDown<CR>' },
-            { '<A-p>', '<CMD>NavigatorPrevious<CR>' }
-        }
-    },
-    {
         'kylechui/nvim-surround',
         config = function()
             require("nvim-surround").setup()
@@ -504,6 +599,14 @@ return {
     {
         'echasnovski/mini.ai',
         version = '*'
+    },
+    {
+        'ckolkey/ts-node-action',
+        dependencies = { 'nvim-treesitter' },
+        opts = {},
+        keys = {
+            { 'gk', function() require("ts-node-action").node_action() end, desc = "Node action" }
+        }
     },
     {
         'Wansmer/treesj',
@@ -535,7 +638,9 @@ return {
         'kevinhwang91/nvim-ufo',
         dependencies = 'kevinhwang91/promise-async',
         config = function()
-            require('ufo').setup()
+            require('ufo').setup({
+                close_fold_kinds = { 'imports' },
+            })
             vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
             vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
         end

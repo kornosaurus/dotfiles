@@ -30,9 +30,9 @@ local configs = {
         }
     },
     omnisharp = {
-        cmd = { "dotnet", "/home/simon/.local/share/nvim/mason/packages/omnisharp/OmniSharp.dll" },
+        cmd = { "dotnet", "/Users/sk/.local/share/nvim/mason/packages/omnisharp/libexec/OmniSharp.dll" },
         on_attach = function(client)
-           client.server_capabilities.semanticTokensProvider = nil
+            client.server_capabilities.semanticTokensProvider = nil
         end
     },
     tsserver = {

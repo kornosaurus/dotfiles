@@ -4,17 +4,23 @@ snippet im "Import"
 snippet ima "Import as"
 	import * as $1 from '$2';
 
-snippet exd "Export"
+snippet ed "Export"
 	export default $0
 
-snippet ex "Export"
+snippet e "Export"
 	export $0
 
 snippet r "return"
 	return $0
 
 snippet th "throw"
-	throw ${1"new Error("$2")};
+	throw ${1:new Error("$2")};
+
+snippet c "const"
+    const ${1:name} = ${2:"$3"}
+
+snippet l "let"
+    let ${1:name} = ${2:"$3"}
 
 snippet if "If case"
 	if ($1) {
@@ -42,7 +48,12 @@ snippet fn "Function" w
 	}
 
 snippet fof "for of"
-	for (let ${1:value} of ${2:iterable}) {
+	for (const ${1:value} of ${2:iterable}) {
+		$0
+	}
+
+snippet fin "for in"
+	for (const ${1:value} in ${2:iterable}) {
 		$0
 	}
 

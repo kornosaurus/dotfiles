@@ -51,6 +51,8 @@ vim.keymap.set('v', "<C-j>", ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', "<C-k>", ":m '<-2<CR>gv=gv")
 
 -- Misc
+vim.keymap.set('n', 'H', ':bprev<CR>')
+vim.keymap.set('n', 'L', ':bnext<CR>')
 vim.keymap.set('n', '<M-q>', ':lopen<CR>')
 vim.keymap.set('n', ']d', ':lafter<CR>')
 vim.keymap.set('n', '[d', ':lbefore<CR>')
@@ -66,4 +68,4 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz')
 
 -- Wezterm
 vim.keymap.set('n', '<leader>gg',
-    '<cmd>!wezterm cli split-pane --right --cwd ' .. vim.fn.getcwd() .. ' -- lazygit <CR><CR>', { desc = 'GIT: Lazygit' })
+    '<cmd>!wezterm start --cwd ' .. vim.fn.getcwd() .. ' -- lazygit<CR><CR>', { desc = 'GIT: Lazygit' })

@@ -83,10 +83,3 @@ fi
 ## MacOS specific
 [ -f /opt/homebrew/etc/profile.d/z.sh ] && source /opt/homebrew/etc/profile.d/z.sh
 PATH=$(pyenv root)/shims:$PATH
-
-# bun completions
-[ -s "/Users/sk/.bun/_bun" ] && source "/Users/sk/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
