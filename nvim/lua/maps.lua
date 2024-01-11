@@ -43,12 +43,12 @@ vim.keymap.set('v', '<leader>s', 'y:<C-u>%s/<C-r>"/')
 -- end)
 
 -- Move line(s)
-vim.keymap.set('n', "<C-j>", ":m .+1<CR>==")
-vim.keymap.set('n', "<C-k>", ":m .-2<CR>==")
+vim.keymap.set('n', "<C-S-j>", ":m .+1<CR>==")
+vim.keymap.set('n', "<C-S-k>", ":m .-2<CR>==")
 -- vim.keymap.set('i', "<C-j>", "<Esc>:m .+1<CR>==gi")
 -- vim.keymap.set('i', "<C-k>", "<Esc>:m .-2<CR>==gi")
-vim.keymap.set('v', "<C-j>", ":m '>+1<CR>gv=gv")
-vim.keymap.set('v', "<C-k>", ":m '<-2<CR>gv=gv")
+vim.keymap.set('v', "<C-S-j>", ":m '>+1<CR>gv=gv")
+vim.keymap.set('v', "<C-S-k>", ":m '<-2<CR>gv=gv")
 
 -- Misc
 vim.keymap.set('n', 'H', ':bprev<CR>')
@@ -68,4 +68,5 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz')
 
 -- Wezterm
 vim.keymap.set('n', '<leader>gg',
-    '<cmd>!wezterm start --cwd ' .. vim.fn.getcwd() .. ' -- lazygit<CR><CR>', { desc = 'GIT: Lazygit' })
+    '<cmd>!wezterm cli split-pane --right --percent 70 --cwd ' .. vim.fn.getcwd() .. ' -- lazygit<CR><CR>',
+    { desc = 'GIT: Lazygit' })

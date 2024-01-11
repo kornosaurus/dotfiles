@@ -2,6 +2,25 @@
 return {
     -- COLORS
     -- {
+    --     'rebelot/kanagawa.nvim',
+    --     priority = 1000,
+    --     config = function()
+    --         require('kanagawa').setup({
+    --             colors = {
+    --                 theme = {
+    --                     all = {
+    --                         ui = {
+    --                             bg_gutter = "none"
+    --                         }
+    --                     }
+    --                 }
+    --             }
+    --         })
+    --
+    --         vim.cmd('colorscheme kanagawa')
+    --     end,
+    -- },
+    -- {
     --     "catppuccin/nvim",
     --     name = "catppuccin",
     --     priority = 1000,
@@ -31,24 +50,28 @@ return {
     --         vim.cmd('colorscheme catppuccin-mocha')
     --     end,
     -- },
-    -- {
-    --     'rose-pine/neovim',
-    --     name = 'rose-pine',
-    --     priority = 1000,
-    --     config = function()
-    --         require('rose-pine').setup({
-    --             disable_italics = true
-    --         })
-    --         vim.cmd('colorscheme rose-pine')
-    --     end,
-    -- },
     {
-        "EdenEast/nightfox.nvim",
+        'rose-pine/neovim',
+        name = 'rose-pine',
         priority = 1000,
         config = function()
-            vim.cmd('colorscheme carbonfox')
+            require('rose-pine').setup({
+                styles = {
+                    bold = true,
+                    italic = false,
+                    transparency = false,
+                },
+            })
+            vim.cmd('colorscheme rose-pine-main')
         end,
     },
+    -- {
+    --     "EdenEast/nightfox.nvim",
+    --     priority = 1000,
+    --     config = function()
+    --         vim.cmd('colorscheme carbonfox')
+    --     end,
+    -- },
     {
         'b0o/incline.nvim',
         config = function()
@@ -118,12 +141,6 @@ return {
         config = function()
             require("refactoring").setup()
         end,
-    },
-    {
-        'boltlessengineer/smart-tab.nvim',
-        config = function()
-            require('smart-tab').setup({})
-        end
     },
     {
         'stevearc/conform.nvim',
@@ -213,7 +230,7 @@ return {
                     end
                 },
                 experimental = {
-                    ghost_text = true
+                    ghost_text = false
                 },
                 formatting = {
                     fields = { "kind", "abbr", "menu" },
@@ -249,8 +266,8 @@ return {
         opts = {
             mappings = {
                 is = {
-                    ['<C-l>'] = 'expand_or_advance',
-                    ['<S-C-l>'] = 'previous',
+                    ['<Tab>'] = 'expand_or_advance',
+                    ['<S-Tab>'] = 'previous',
                 },
                 nx = {
                     ['<leader>x'] = 'cut_text',
@@ -259,72 +276,8 @@ return {
         }
     },
     -- FUZZY FIND
-    -- {
-    --     'nvim-telescope/telescope.nvim',
-    --     config = function()
-    --         require('telescope').setup({
-    --             defaults = {
-    --                 path_display = { "truncate" },
-    --                 sorting_strategy = "ascending",
-    --                 layout_config = {
-    --                     prompt_position = "top",
-    --                     vertical = {
-    --                         width = 0.9,
-    --                         height = 0.9,
-    --                         preview_height = 0.6,
-    --                         preview_cutoff = 0
-    --                     }
-    --                 },
-    --                 -- file_ignore_patterns = {"^node_modules/", "^.git/"}
-    --             },
-    --             pickers = {
-    --                 buffers = {
-    --                     show_all_buffers = true,
-    --                     sort_lastused = true,
-    --                     previewer = false,
-    --                     mappings = {
-    --                         i = { ["<c-d>"] = "delete_buffer" }
-    --                     }
-    --                 },
-    --             },
-    --             extensions = {
-    --                 ["ui-select"] = {
-    --                     require("telescope.themes").get_cursor()
-    --                 },
-    --                 undo = {},
-    --             }
-    --         })
-    --
-    --         require("telescope").load_extension("undo")
-    --         require('telescope').load_extension('ui-select')
-    --         require('telescope').load_extension('fzf')
-    --         require('telescope').load_extension('projects')
-    --     end,
-    --     dependencies = {
-    --         'nvim-lua/popup.nvim',
-    --         'nvim-lua/plenary.nvim',
-    --         'debugloop/telescope-undo.nvim',
-    --         'nvim-telescope/telescope-ui-select.nvim',
-    --         {
-    --             'nvim-telescope/telescope-fzf-native.nvim',
-    --             build = 'make',
-    --         },
-    --     },
-    --     cmd = { 'Telescope' },
-    --     keys = {
-    --         { '<leader>f', function() require('telescope.builtin').find_files({}) end,         desc = 'Find files' },
-    --         { '<leader>b', function() require('telescope.builtin').buffers({}) end,            desc = 'Find buffers' },
-    --         { '<leader>gs', function() require('telescope.builtin').git_status({}) end,         desc = 'GIT: Status' },
-    --         { '<leader>/',  function() require('telescope.builtin').live_grep({}) end,          desc = 'Grep' },
-    --         { '<leader>:',  function() require('telescope.builtin').commands() end,             desc = 'Find command' },
-    --         { '<leader>?',  function() require('telescope.builtin').keymaps() end,             desc = 'Find keymap' },
-    --         { '<leader>p', function() require("telescope").extensions.projects.projects() end, desc = 'Find project' },
-    --         { '<leader>u', "<cmd>Telescope undo<cr>", desc = 'Undo tree'}
-    --     }
-    -- },
     {
         "ibhagwan/fzf-lua",
-        -- optional for icon support
         dependencies = { "nvim-tree/nvim-web-devicons" },
         lazy = false,
         priority = 500,
@@ -528,15 +481,6 @@ return {
                         ["if"] = "@function.inner",
                     },
                 },
-                swap = {
-                    enable = true,
-                    swap_next = {
-                        ["<leader>a"] = "@parameter.inner",
-                    },
-                    swap_previous = {
-                        ["<leader>A"] = "@parameter.inner",
-                    },
-                },
                 move = {
                     enable = true,
                     set_jumps = true,
@@ -574,7 +518,12 @@ return {
             require("nvim-treesitter.configs").setup(opts)
         end,
     },
-    'windwp/nvim-ts-autotag',
+    {
+        'windwp/nvim-ts-autotag',
+        opts = {
+            enable_close_on_slash = false,
+        }
+    },
     {
         "folke/which-key.nvim",
         event = "VeryLazy",
@@ -601,12 +550,22 @@ return {
         version = '*'
     },
     {
-        'ckolkey/ts-node-action',
-        dependencies = { 'nvim-treesitter' },
-        opts = {},
-        keys = {
-            { 'gk', function() require("ts-node-action").node_action() end, desc = "Node action" }
-        }
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function()
+            local harpoon = require("harpoon")
+
+            harpoon:setup()
+
+            vim.keymap.set("n", "<leader>ha", function() harpoon:list():append() end)
+            vim.keymap.set("n", "<leader>hh", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+
+            vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
+            vim.keymap.set("n", "<C-j>", function() harpoon:list():select(2) end)
+            vim.keymap.set("n", "<C-k>", function() harpoon:list():select(3) end)
+            vim.keymap.set("n", "<C-l>", function() harpoon:list():select(4) end)
+        end
     },
     {
         'Wansmer/treesj',
@@ -617,8 +576,10 @@ return {
         keys = {
             {
                 'gj',
-                function() require('treesj').toggle({ split = { recursive = true } }) end,
-                desc = 'Toggle split/join block'
+                function()
+                    require('treesj').toggle({ split = { recursive = true } })
+                end,
+                desc = 'Toggle split/join block',
             },
         }
     },
