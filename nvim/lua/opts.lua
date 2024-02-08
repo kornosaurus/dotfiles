@@ -92,6 +92,17 @@ vim.api.nvim_create_autocmd('BufReadPost', {
     end,
 })
 
+local function get_git_root()
+    local dot_git_path = vim.fn.finddir(".git", ".;")
+    return vim.fn.fnamemodify(dot_git_path, ":h") or ""
+end
+
+vim.api.nvim_create_autocmd('BufEnter', {
+    callback = function()
+        vim.api.nvim_set_current_dir(get_git_root())
+    end
+})
+
 vim.api.nvim_create_autocmd('WinLeave', {
     callback = function()
         vim.opt.cursorline = false

@@ -1,55 +1,6 @@
 -- TODO: Move big configuration plugins to their own files
 return {
     -- COLORS
-    -- {
-    --     'rebelot/kanagawa.nvim',
-    --     priority = 1000,
-    --     config = function()
-    --         require('kanagawa').setup({
-    --             colors = {
-    --                 theme = {
-    --                     all = {
-    --                         ui = {
-    --                             bg_gutter = "none"
-    --                         }
-    --                     }
-    --                 }
-    --             }
-    --         })
-    --
-    --         vim.cmd('colorscheme kanagawa')
-    --     end,
-    -- },
-    -- {
-    --     "catppuccin/nvim",
-    --     name = "catppuccin",
-    --     priority = 1000,
-    --     config = function()
-    --         require('catppuccin').setup({
-    --             integrations = {
-    --                 native_lsp = {
-    --                     enabled = true,
-    --                     virtual_text = {
-    --                         errors = { "italic" },
-    --                         hints = { "italic" },
-    --                         warnings = { "italic" },
-    --                         information = { "italic" },
-    --                     },
-    --                     underlines = {
-    --                         errors = { "undercurl" },
-    --                         hints = { "undercurl" },
-    --                         warnings = { "undercurl" },
-    --                         information = { "undercurl" },
-    --                     },
-    --                     inlay_hints = {
-    --                         background = true,
-    --                     },
-    --                 },
-    --             }
-    --         })
-    --         vim.cmd('colorscheme catppuccin-mocha')
-    --     end,
-    -- },
     {
         'rose-pine/neovim',
         name = 'rose-pine',
@@ -65,13 +16,6 @@ return {
             vim.cmd('colorscheme rose-pine-main')
         end,
     },
-    -- {
-    --     "EdenEast/nightfox.nvim",
-    --     priority = 1000,
-    --     config = function()
-    --         vim.cmd('colorscheme carbonfox')
-    --     end,
-    -- },
     {
         'b0o/incline.nvim',
         config = function()
@@ -288,7 +232,7 @@ return {
         keys = {
             { '<leader>f',  function() require('fzf-lua').files() end,                           desc = 'Find files' },
             { '<leader>b',  function() require('fzf-lua').buffers({ sort_lastused = true }) end, desc = 'Find buffers' },
-            { '<leader>/',  function() require('fzf-lua').live_grep() end,                       desc = 'Grep' },
+            { '<leader>/',  function() require('fzf-lua').live_grep_glob() end,                  desc = 'Grep' },
             { '<leader>gs', function() require('fzf-lua').git_status() end,                      desc = 'GIT: Status' },
             { '<leader>gc', function() require('fzf-lua').git_branches() end,                    desc = 'GIT: Branches' },
             { '<leader>:',  function() require('fzf-lua').commands() end,                        desc = 'Find command' },
@@ -604,22 +548,6 @@ return {
             })
             vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
             vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
-        end
-    },
-    -- WIKI
-    {
-        'mickael-menu/zk-nvim',
-        config = function()
-            require("zk").setup({
-                picker = "select",
-            })
-            vim.keymap.set("n", "<space>zn", "<Cmd>ZkNew { title = vim.fn.input('Title: ') }<CR>", { desc = "New note" })
-            vim.keymap.set("n", "<space>zo", "<Cmd>ZkNotes { sort = { 'modified' } }<CR>", { desc = "Open notes" })
-            vim.keymap.set("n", "<space>zt", "<Cmd>ZkTags<CR>", { desc = "Open notes by tag" })
-            vim.keymap.set("n", "<space>zf",
-                "<Cmd>ZkNotes { sort = { 'modified' }, match = { vim.fn.input('Search: ') } }<CR>",
-                { desc = "Search note" })
-            vim.keymap.set("v", "<space>zf", ":'<,'>ZkMatch<CR>", { desc = "Search note with visual selection" })
         end
     },
 }
