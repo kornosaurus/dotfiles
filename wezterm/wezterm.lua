@@ -1,17 +1,27 @@
 local wezterm = require('wezterm')
-local colors = require('lua/rose-pine').colors()
-local window_frame = require('lua/rose-pine').window_frame()
+-- local colors = require('lua/rose-pine').colors()
+-- local window_frame = require('lua/rose-pine').window_frame()
 local act = wezterm.action;
 
 return {
     -- force_reverse_video_cursor = false,
-    -- color_scheme = 'Kanagawa (Gogh)',
-    colors = colors,
-    window_frame = window_frame,
-    font = wezterm.font('Monolisa'),
-    harfbuzz_features = { 'zero', 'ss01' },
+    color_scheme = 'noir',
+    -- colors = colors,
+    -- window_frame = window_frame,
+    font = wezterm.font('Monolisa Plus', { weight = 'Medium' }),
+    harfbuzz_features = {
+        'zero',
+        'ss01',
+        'ss08',
+        'ss02',
+        'ss16',
+        'ss15',
+        'ss11',
+        'ss04',
+        'ss07'
+    },
     freetype_load_flags = 'NO_HINTING',
-    font_size = 14,
+    font_size = 14.5,
     line_height = 1.2,
     initial_cols = 120,
     initial_rows = 32,

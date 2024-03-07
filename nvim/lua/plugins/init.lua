@@ -2,20 +2,34 @@
 return {
     -- COLORS
     {
-        'rose-pine/neovim',
-        name = 'rose-pine',
+        'jesseleite/nvim-noirbuddy',
+        dependencies = {
+            { 'tjdevries/colorbuddy.nvim', branch = 'dev' }
+        },
+        lazy = false,
         priority = 1000,
-        config = function()
-            require('rose-pine').setup({
-                styles = {
-                    bold = true,
-                    italic = false,
-                    transparency = false,
-                },
-            })
-            vim.cmd('colorscheme rose-pine-main')
-        end,
+        opts = {
+            -- preset = 'miami-nights',
+        },
     },
+    -- {
+    --     'rose-pine/neovim',
+    --     name = 'rose-pine',
+    --     priority = 1000,
+    --     config = function()
+    --         require('rose-pine').setup({
+    --             styles = {
+    --                 bold = true,
+    --                 italic = false,
+    --                 transparency = false,
+    --             },
+    --             highlight_groups = {
+    --                 Comment = { italic = true }
+    --             }
+    --         })
+    --         vim.cmd('colorscheme rose-pine-main')
+    --     end,
+    -- },
     {
         'b0o/incline.nvim',
         config = function()
@@ -341,7 +355,13 @@ return {
     {
         "folke/flash.nvim",
         event = "VeryLazy",
-        opts = {},
+        opts = {
+            modes = {
+                search = {
+                    enabled = false
+                }
+            }
+        },
         keys = {
             { "s", mode = { "n", "o", "x" }, function() require("flash").jump() end, desc = "Flash" },
             {
@@ -550,4 +570,10 @@ return {
             vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
         end
     },
+    {
+        "robitx/gp.nvim",
+        config = function()
+            require("gp").setup()
+        end,
+    }
 }

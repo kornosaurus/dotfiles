@@ -25,7 +25,7 @@ autoload -Uz add-zsh-hook vcs_info
 zstyle ':vcs_info:*' enable git
 
 () {
-    local formats="%{$reset_color%}%{$fg[red]%}%b%c%u%{$reset_color%}"
+    local formats="%{$reset_color%}%{$fg[magenta]%}%b%c%u%{$reset_color%}"
     local actionformats="${formats}%{${fg[default]}%} ${PRCH[sep]} %{${fg[green]}%}%a"
     zstyle ':vcs_info:*:*' formats           $formats
     zstyle ':vcs_info:*:*' actionformats     $actionformats
@@ -36,7 +36,7 @@ zstyle ':vcs_info:*' enable git
 
 add-zsh-hook precmd vcs_info
 
-export PROMPT='%{$fg[cyan]%}%n%{$reset_color%}@%{$fg[red]%}%m %{$fg[yellow]%}%c%(?:%{$fg_bold[green]%}:%{$fg_bold[red]%}) ➜%{$reset_color%} '
+export PROMPT='%{$fg[magenta]%}%n%{$reset_color%}@%{$fg[gray]%}%m %{$fg[magenta]%}%c%(?:%{$fg_bold[gray]%}:%{$fg_bold[gray]%}) ➜%{$reset_color%} '
 export RPROMPT='${vcs_info_msg_0_}'
 
 # if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
@@ -80,6 +80,7 @@ if [ -e /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
     source /usr/share/doc/fzf/examples/completion.zsh
 fi
 
+eval "$(zoxide init zsh)"
+
 ## MacOS specific
-[ -f /opt/homebrew/etc/profile.d/z.sh ] && source /opt/homebrew/etc/profile.d/z.sh
 PATH=$(pyenv root)/shims:$PATH
