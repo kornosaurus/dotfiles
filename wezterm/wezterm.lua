@@ -1,13 +1,13 @@
 local wezterm = require('wezterm')
--- local colors = require('lua/rose-pine').colors()
--- local window_frame = require('lua/rose-pine').window_frame()
+local colors = require('lua/rose-pine').colors()
+local window_frame = require('lua/rose-pine').window_frame()
 local act = wezterm.action;
 
 return {
     -- force_reverse_video_cursor = false,
-    color_scheme = 'noir',
-    -- colors = colors,
-    -- window_frame = window_frame,
+    -- color_scheme = 'noir',
+    colors = colors,
+    window_frame = window_frame,
     font = wezterm.font('Monolisa Plus', { weight = 'Medium' }),
     harfbuzz_features = {
         'zero',

@@ -1,35 +1,42 @@
 -- TODO: Move big configuration plugins to their own files
 return {
     -- COLORS
-    {
-        'jesseleite/nvim-noirbuddy',
-        dependencies = {
-            { 'tjdevries/colorbuddy.nvim', branch = 'dev' }
-        },
-        lazy = false,
-        priority = 1000,
-        opts = {
-            -- preset = 'miami-nights',
-        },
-    },
     -- {
-    --     'rose-pine/neovim',
-    --     name = 'rose-pine',
+    --     'jesseleite/nvim-noirbuddy',
+    --     dependencies = {
+    --         { 'tjdevries/colorbuddy.nvim', branch = 'dev' }
+    --     },
+    --     lazy = false,
     --     priority = 1000,
     --     config = function()
-    --         require('rose-pine').setup({
-    --             styles = {
-    --                 bold = true,
-    --                 italic = false,
-    --                 transparency = false,
-    --             },
-    --             highlight_groups = {
-    --                 Comment = { italic = true }
-    --             }
-    --         })
-    --         vim.cmd('colorscheme rose-pine-main')
-    --     end,
+    --         require('noirbuddy').setup();
+    --         vim.cmd([[
+    --             hi DiagnosticUnderlineError gui=undercurl
+    --             hi DiagnosticUnderlineHint gui=undercurl
+    --             hi DiagnosticUnderlineInfo gui=undercurl
+    --             hi DiagnosticUnderlineWarn gui=undercurl
+    --             hi DiagnosticUnderlineOk gui=undercurl
+    --         ]])
+    --     end
     -- },
+    {
+        'rose-pine/neovim',
+        name = 'rose-pine',
+        priority = 1000,
+        config = function()
+            require('rose-pine').setup({
+                styles = {
+                    bold = true,
+                    italic = false,
+                    transparency = false,
+                },
+                highlight_groups = {
+                    Comment = { italic = true }
+                }
+            })
+            vim.cmd('colorscheme rose-pine-main')
+        end,
+    },
     {
         'b0o/incline.nvim',
         config = function()
