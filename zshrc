@@ -36,7 +36,7 @@ zstyle ':vcs_info:*' enable git
 
 add-zsh-hook precmd vcs_info
 
-export PROMPT='%{$fg[magenta]%}%n%{$reset_color%}@%{$fg[gray]%}%m %{$fg[magenta]%}%c%(?:%{$fg_bold[gray]%}:%{$fg_bold[gray]%}) ➜%{$reset_color%} '
+export PROMPT='%{$fg[gray]%}%n%{$reset_color%}@%{$fg[gray]%}%m %{$fg[magenta]%}%c%(?:%{$fg_bold[gray]%}:%{$fg_bold[gray]%}) ➜%{$reset_color%} '
 export RPROMPT='${vcs_info_msg_0_}'
 
 # if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
