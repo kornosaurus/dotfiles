@@ -293,15 +293,22 @@ return {
     },
     -- FILES
     {
-        'stevearc/oil.nvim',
-        lazy = false,
+        'echasnovski/mini.files',
+        version = false,
         keys = {
-            { '<leader>e', '<cmd>Oil<CR>', desc = 'File explorer' }
-        },
-        cmd = { 'Oil' },
-        opts = {},
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
+            { '<leader>e', '<cmd>lua require("mini.files").open()<CR>', desc = 'File explorer' }
+        }
     },
+    -- {
+    --     'stevearc/oil.nvim',
+    --     lazy = false,
+    --     keys = {
+    --         { '<leader>e', '<cmd>Oil<CR>', desc = 'File explorer' }
+    --     },
+    --     cmd = { 'Oil' },
+    --     opts = {},
+    --     dependencies = { 'nvim-tree/nvim-web-devicons' },
+    -- },
     -- GIT
     {
         'lewis6991/gitsigns.nvim',
