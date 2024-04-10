@@ -91,7 +91,8 @@ return {
                 'lua_ls',
                 'omnisharp',
                 'rust_analyzer',
-                'gdscript'
+                'gdscript',
+                'clangd'
             }
             require('lsp')(servers)
         end
@@ -296,7 +297,11 @@ return {
         'echasnovski/mini.files',
         version = false,
         keys = {
-            { '<leader>e', '<cmd>lua require("mini.files").open()<CR>', desc = 'File explorer' }
+            {
+                '<leader>e',
+                '<cmd>lua require("mini.files").open(vim.api.nvim_buf_get_name(0))<CR>',
+                desc = 'File explorer'
+            }
         }
     },
     -- {
