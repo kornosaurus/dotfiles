@@ -82,5 +82,13 @@ fi
 
 eval "$(zoxide init zsh)"
 
+_fg () { fg 2> /dev/null }
+zle -N _fg
+bindkey ^Z _fg
+
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
+
 ## MacOS specific
 PATH=$(pyenv root)/shims:$PATH
