@@ -29,6 +29,10 @@ local configs = {
             }
         }
     },
+    groovyls = {
+        cmd = { "java", "-jar",
+            "/Users/sk/.local/share/nvim/mason/packages/groovy-language-server/build/libs/groovy-language-server-all.jar" },
+    },
     omnisharp = {
         cmd = { "dotnet", "/Users/sk/.local/share/nvim/mason/packages/omnisharp/libexec/OmniSharp.dll" },
         on_attach = function(client)

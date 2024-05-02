@@ -2,41 +2,68 @@
 return {
     -- COLORS
     -- {
-    --     'jesseleite/nvim-noirbuddy',
-    --     dependencies = {
-    --         { 'tjdevries/colorbuddy.nvim', branch = 'dev' }
-    --     },
+    --     'mcchrish/zenbones.nvim',
     --     lazy = false,
     --     priority = 1000,
+    --     dependencies = {
+    --         "rktjmp/lush.nvim"
+    --     },
     --     config = function()
-    --         require('noirbuddy').setup();
-    --         vim.cmd([[
-    --             hi DiagnosticUnderlineError gui=undercurl
-    --             hi DiagnosticUnderlineHint gui=undercurl
-    --             hi DiagnosticUnderlineInfo gui=undercurl
-    --             hi DiagnosticUnderlineWarn gui=undercurl
-    --             hi DiagnosticUnderlineOk gui=undercurl
-    --         ]])
+    --         vim.cmd('colorscheme zenbones')
     --     end
     -- },
     {
-        'rose-pine/neovim',
-        name = 'rose-pine',
+        'jesseleite/nvim-noirbuddy',
+        dependencies = {
+            { 'tjdevries/colorbuddy.nvim', branch = 'dev' }
+        },
+        lazy = false,
         priority = 1000,
         config = function()
-            require('rose-pine').setup({
-                styles = {
-                    bold = true,
-                    italic = false,
-                    transparency = false,
-                },
-                highlight_groups = {
-                    Comment = { italic = true }
+            require('noirbuddy').setup({
+                colors = {
+                    primary = "#FFD34D"
                 }
-            })
-            vim.cmd('colorscheme rose-pine-main')
-        end,
+            });
+
+            local colorbuddy = require('colorbuddy')
+            local colors = colorbuddy.colors
+            local Color = colorbuddy.Color
+            local Group = colorbuddy.Group
+
+            Color.new('green', '#43BF5C')
+
+            Group.new('@keyword', colors.primary)
+            Group.new('@keyword.return', colors.primary)
+            Group.new('@string', colors.green)
+
+            vim.cmd([[
+               hi DiagnosticUnderlineError gui=undercurl
+               hi DiagnosticUnderlineHint gui=undercurl
+               hi DiagnosticUnderlineInfo gui=undercurl
+               hi DiagnosticUnderlineWarn gui=undercurl
+               hi DiagnosticUnderlineOk gui=undercurl
+           ]])
+        end
     },
+    -- {
+    --     'rose-pine/neovim',
+    --     name = 'rose-pine',
+    --     priority = 1000,
+    --     config = function()
+    --         require('rose-pine').setup({
+    --             styles = {
+    --                 bold = true,
+    --                 italic = false,
+    --                 transparency = false,
+    --             },
+    --             highlight_groups = {
+    --                 Comment = { italic = true }
+    --             }
+    --         })
+    --         vim.cmd('colorscheme rose-pine-main')
+    --     end,
+    -- },
     {
         'b0o/incline.nvim',
         config = function()
@@ -92,7 +119,8 @@ return {
                 'omnisharp',
                 'rust_analyzer',
                 'gdscript',
-                'clangd'
+                'clangd',
+                'groovyls'
             }
             require('lsp')(servers)
         end
@@ -135,6 +163,7 @@ return {
         dependencies = {
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-buffer',
+            'hrsh7th/cmp-cmdline',
             'hrsh7th/cmp-path',
             'dcampos/cmp-snippy'
         },
@@ -224,6 +253,24 @@ return {
                     end,
                 },
             })
+            -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+            cmp.setup.cmdline({ '/', '?' }, {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = {
+                    { name = 'buffer' }
+                }
+            })
+
+            -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+            cmp.setup.cmdline(':', {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = cmp.config.sources({
+                    { name = 'path' }
+                }, {
+                    { name = 'cmdline' }
+                }),
+                matching = { disallow_symbol_nonprefix_matching = false }
+            })
         end,
     },
     {
@@ -246,7 +293,6 @@ return {
         "ibhagwan/fzf-lua",
         dependencies = { "nvim-tree/nvim-web-devicons" },
         lazy = false,
-        priority = 500,
         config = function()
             require("fzf-lua").setup({})
             require("fzf-lua").register_ui_select()
@@ -294,26 +340,15 @@ return {
     },
     -- FILES
     {
-        'echasnovski/mini.files',
-        version = false,
+        'stevearc/oil.nvim',
+        lazy = false,
         keys = {
-            {
-                '<leader>e',
-                '<cmd>lua require("mini.files").open(vim.api.nvim_buf_get_name(0))<CR>',
-                desc = 'File explorer'
-            }
-        }
+            { '<leader>e', '<cmd>Oil<CR>', desc = 'File explorer' }
+        },
+        cmd = { 'Oil' },
+        opts = { default_file_explorer = true },
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
     },
-    -- {
-    --     'stevearc/oil.nvim',
-    --     lazy = false,
-    --     keys = {
-    --         { '<leader>e', '<cmd>Oil<CR>', desc = 'File explorer' }
-    --     },
-    --     cmd = { 'Oil' },
-    --     opts = {},
-    --     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    -- },
     -- GIT
     {
         'lewis6991/gitsigns.nvim',
@@ -523,32 +558,8 @@ return {
         end
     },
     {
-        'echasnovski/mini.comment',
-        config = function()
-            require('mini.comment').setup()
-        end
-    },
-    {
         'echasnovski/mini.ai',
         version = '*'
-    },
-    {
-        "ThePrimeagen/harpoon",
-        branch = "harpoon2",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        config = function()
-            local harpoon = require("harpoon")
-
-            harpoon:setup()
-
-            vim.keymap.set("n", "<leader>ha", function() harpoon:list():append() end)
-            vim.keymap.set("n", "<leader>hh", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
-
-            vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
-            vim.keymap.set("n", "<C-j>", function() harpoon:list():select(2) end)
-            vim.keymap.set("n", "<C-k>", function() harpoon:list():select(3) end)
-            vim.keymap.set("n", "<C-l>", function() harpoon:list():select(4) end)
-        end
     },
     {
         'Wansmer/treesj',
@@ -575,10 +586,6 @@ return {
         end
     },
     {
-        'kevinhwang91/nvim-bqf',
-        ft = 'qf'
-    },
-    {
         'kevinhwang91/nvim-ufo',
         dependencies = 'kevinhwang91/promise-async',
         config = function()
@@ -596,5 +603,5 @@ return {
         config = function()
             require("gp").setup()
         end,
-    }
+    },
 }
