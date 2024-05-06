@@ -2,8 +2,6 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
 export DOCKER_BUILDKIT=1
 export DENO_INSTALL="/home/simon/.deno"
-export GOPATH=$HOME/.go
-export GOROOT=$HOME/.go
 export PATH=$PATH:$N_PREFIX/bin:$HOME/.bin:$HOME/.bin/work:$HOME/.cargo/bin:$PATH:/usr/local/go/bin:$GOPATH:/opt/cisco/anyconnect/bin/
 export PATH="/opt/homebrew/bin:$PATH"
 export LANG=en_US.UTF-8
@@ -36,7 +34,7 @@ zstyle ':vcs_info:*' enable git
 
 add-zsh-hook precmd vcs_info
 
-export PROMPT='%{$fg[cyan]%}%n%{$reset_color%}@%{$fg[red]%}%m %{$fg[yellow]%}%c%(?:%{$fg_bold[green]%}:%{$fg_bold[red]%}) ➜%{$reset_color%} '
+export PROMPT='%{$fg[cyan]%}%n%{$reset_color%}@%{$fg[red]%}%m %{$fg[blue]%}%c%(?:%{$fg_bold[green]%}:%{$fg_bold[red]%}) ➜%{$reset_color%} '
 export RPROMPT='${vcs_info_msg_0_}'
 
 # if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then

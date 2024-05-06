@@ -15,7 +15,7 @@ return {
     {
         'jesseleite/nvim-noirbuddy',
         dependencies = {
-            { 'tjdevries/colorbuddy.nvim', branch = 'dev' }
+            { 'tjdevries/colorbuddy.nvim' }
         },
         lazy = false,
         priority = 1000,
@@ -28,14 +28,20 @@ return {
 
             local colorbuddy = require('colorbuddy')
             local colors = colorbuddy.colors
+            local styles = colorbuddy.styles
             local Color = colorbuddy.Color
             local Group = colorbuddy.Group
 
             Color.new('green', '#43BF5C')
+            Color.new('light_primary', '#FFE79E')
 
             Group.new('@keyword', colors.primary)
             Group.new('@keyword.return', colors.primary)
             Group.new('@string', colors.green)
+            Group.new('@number', colors.light_primary)
+            Group.new('@boolean', colors.light_primary)
+            Group.new('@constant.builtin', colors.noir_2, nil, styles.bold)
+            Group.new('@comment', colors.noir_7, nil, styles.italic)
 
             vim.cmd([[
                hi DiagnosticUnderlineError gui=undercurl
@@ -120,7 +126,8 @@ return {
                 'rust_analyzer',
                 'gdscript',
                 'clangd',
-                'groovyls'
+                'groovyls',
+                'gopls'
             }
             require('lsp')(servers)
         end
@@ -591,7 +598,7 @@ return {
         config = function()
             require('ufo').setup({
                 close_fold_kinds_for_ft = {
-                    default = { 'imports' },
+                    -- default = { 'imports' },
                 }
             })
             vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
