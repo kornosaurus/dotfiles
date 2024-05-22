@@ -2,7 +2,8 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
 export DOCKER_BUILDKIT=1
 export DENO_INSTALL="/home/simon/.deno"
-export PATH=$PATH:$N_PREFIX/bin:$HOME/.bin:$HOME/.bin/work:$HOME/.cargo/bin:$PATH:/usr/local/go/bin:$GOPATH:/opt/cisco/anyconnect/bin/
+export GOPATH=$HOME/go
+export PATH=$PATH:$N_PREFIX/bin:$HOME/.bin:$HOME/.bin/work:$HOME/.cargo/bin:$PATH:/usr/local/go/bin:$GOPATH/bin:/opt/cisco/anyconnect/bin/
 export PATH="/opt/homebrew/bin:$PATH"
 export LANG=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
@@ -86,7 +87,7 @@ bindkey ^Z _fg
 
 autoload -z edit-command-line
 zle -N edit-command-line
-bindkey "^X^E" edit-command-line
+bindkey "^E" edit-command-line
 
 ## MacOS specific
 PATH=$(pyenv root)/shims:$PATH

@@ -1,17 +1,6 @@
 -- TODO: Move big configuration plugins to their own files
 return {
     -- COLORS
-    -- {
-    --     'mcchrish/zenbones.nvim',
-    --     lazy = false,
-    --     priority = 1000,
-    --     dependencies = {
-    --         "rktjmp/lush.nvim"
-    --     },
-    --     config = function()
-    --         vim.cmd('colorscheme zenbones')
-    --     end
-    -- },
     {
         'jesseleite/nvim-noirbuddy',
         dependencies = {
@@ -28,6 +17,7 @@ return {
 
             local colorbuddy = require('colorbuddy')
             local colors = colorbuddy.colors
+            local groups = colorbuddy.groups
             local styles = colorbuddy.styles
             local Color = colorbuddy.Color
             local Group = colorbuddy.Group
@@ -42,6 +32,7 @@ return {
             Group.new('@boolean', colors.light_primary)
             Group.new('@constant.builtin', colors.noir_2, nil, styles.bold)
             Group.new('@comment', colors.noir_7, nil, styles.italic)
+            Group.link('ErrorMsg', groups.DiffDelete)
 
             vim.cmd([[
                hi DiagnosticUnderlineError gui=undercurl
@@ -52,24 +43,6 @@ return {
            ]])
         end
     },
-    -- {
-    --     'rose-pine/neovim',
-    --     name = 'rose-pine',
-    --     priority = 1000,
-    --     config = function()
-    --         require('rose-pine').setup({
-    --             styles = {
-    --                 bold = true,
-    --                 italic = false,
-    --                 transparency = false,
-    --             },
-    --             highlight_groups = {
-    --                 Comment = { italic = true }
-    --             }
-    --         })
-    --         vim.cmd('colorscheme rose-pine-main')
-    --     end,
-    -- },
     {
         'b0o/incline.nvim',
         config = function()
@@ -337,7 +310,7 @@ return {
                 sections = {
                     lualine_a = {},
                     lualine_b = { 'branch', 'diff', 'diagnostics' },
-                    lualine_c = { { 'filename', path = 0 } },
+                    lualine_c = { { 'filename', path = 1 } },
                     lualine_x = {},
                     lualine_y = { 'searchcount', 'progress', 'location' },
                     lualine_z = {}
@@ -401,15 +374,10 @@ return {
             {
                 '<leader>gd',
                 function() require('gitsigns').diffthis() end,
+                mode = 'n',
                 desc =
                 'GIT: Diff file'
             },
-            {
-                '<leader>gD',
-                function() require('gitsigns').toggle_deleted() end,
-                desc =
-                'GIT: Toggle deleted'
-            }
         }
     },
     -- EDITOR
@@ -455,7 +423,6 @@ return {
             },
         },
     },
-    -- { 'RRethy/vim-illuminate' },
     -- {
     --     "lukas-reineke/indent-blankline.nvim",
     --     main = "ibl",
@@ -472,8 +439,40 @@ return {
         "sindrets/diffview.nvim",
         event = "VeryLazy",
         keys = {
-            { "<leader>go", '<cmd>DiffviewOpen<CR>',          desc = 'GIT: View diff against index' },
-            { "<leader>gf", '<cmd>DiffviewFileHistory %<CR>', desc = 'GIT: View current file history' },
+            {
+                "<leader>go",
+                '<cmd>DiffviewOpen<CR>',
+                mode = 'n',
+                desc =
+                'GIT: View diff against index'
+            },
+            {
+                "<leader>gf",
+                '<cmd>DiffviewFileHistory --follow %<CR>',
+                mode = 'n',
+                desc =
+                'GIT: View current file history'
+            },
+            {
+                "<leader>gm",
+                '<cmd>DiffViewOpen master<CR>',
+                mode = 'n',
+                desc =
+                'GIT: Diff against master'
+            },
+            {
+                "<leader>gl",
+                "<cmd>.DiffviewFileHistory --follow<CR>",
+                mode = 'n',
+                desc =
+                "GIT: File history for the current line"
+            },
+            {
+                "<leader>gd",
+                "<esc><cmd>'<,'>DiffviewFileHistory --follow<CR>",
+                mode = 'v',
+                desc = "GIT: File history for the visual selection"
+            }
         }
     },
     {

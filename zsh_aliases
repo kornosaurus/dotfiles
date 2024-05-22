@@ -8,14 +8,11 @@ alias nvim='env TERM=wezterm nvim'
 
 # GIT
 function git_current_branch() {
-    local ref
-    ref=$(git symbolic-ref --quiet HEAD 2> /dev/null)
-    local ret=$?
-    if [[ $ret != 0 ]]; then
-        [[ $ret == 128 ]] && return
-        ref=$(git rev-parse --short HEAD 2> /dev/null) || return
+    local ret=$(git branch --show-current 2> /dev/null)
+    if [[ $? != 0 ]]; then
+        return
     fi
-    echo ${ref#refs/heads/}
+    echo ${ret}
 }
 
 alias gpsup='git push --set-upstream origin $(git_current_branch)'
@@ -44,7 +41,7 @@ function gcpb() {
 }
 
 function gstash() {
-    if [[ ! -z $@ ]]; then
+    if [[ ! -z "$@" ]]; then
         git stash $@
     else
         local stash=$(git stash list | fzf --preview 'echo {} | sed "s/\}.*/}/" | xargs git stash show' | sed 's/\}.*/}/')
