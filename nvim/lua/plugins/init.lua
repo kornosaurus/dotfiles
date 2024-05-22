@@ -23,7 +23,7 @@ return {
             local Group = colorbuddy.Group
 
             Color.new('green', '#43BF5C')
-            Color.new('light_primary', '#FFE79E')
+            Color.new('light_primary', '#F0750F')
 
             Group.new('@keyword', colors.primary)
             Group.new('@keyword.return', colors.primary)
