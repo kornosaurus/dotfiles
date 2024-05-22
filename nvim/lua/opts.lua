@@ -115,22 +115,16 @@ vim.api.nvim_create_autocmd('WinEnter', {
     end
 })
 
-vim.fn.sign_define(
-    "DiagnosticSignError",
-    { texthl = "DiagnosticSignError", text = "", numhl = "DiagnosticSignError" }
-)
-vim.fn.sign_define(
-    "DiagnosticSignWarn",
-    { texthl = "DiagnosticSignWarn", text = "", numhl = "DiagnosticSignWarn" }
-)
-vim.fn.sign_define(
-    "DiagnosticSignHint",
-    { texthl = "DiagnosticSignHint", text = "", numhl = "DiagnosticSignHint" }
-)
-vim.fn.sign_define(
-    "DiagnosticSignInfo",
-    { texthl = "DiagnosticSignInfo", text = "", numhl = "DiagnosticSignInfo" }
-)
+vim.diagnostic.config({
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = '',
+            [vim.diagnostic.severity.WARN] = '',
+            [vim.diagnostic.severity.HINT] = '',
+            [vim.diagnostic.severity.INFO] = '',
+        },
+    }
+})
 
 vim.api.nvim_create_autocmd("RecordingEnter", {
     callback = function()
