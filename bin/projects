@@ -1,0 +1,6 @@
+#! /bin/bash
+PROJECTS_PATH=~/git
+
+for file in $PROJECTS_PATH/*; do
+    project_name=$(basename $file)
+done

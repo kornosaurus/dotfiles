@@ -28,8 +28,8 @@ return {
             Group.new('@keyword', colors.primary)
             Group.new('@keyword.return', colors.primary)
             Group.new('@string', colors.green)
-            Group.new('@number', colors.light_primary)
-            Group.new('@boolean', colors.light_primary)
+            Group.new('@number', colors.noir_2)
+            Group.new('@boolean', colors.noir_2)
             Group.new('@constant.builtin', colors.noir_2, nil, styles.bold)
             Group.new('@comment', colors.noir_7, nil, styles.italic)
             Group.link('ErrorMsg', groups.DiffDelete)
@@ -286,6 +286,7 @@ return {
             { '<leader>:',  function() require('fzf-lua').commands() end,                        desc = 'Find command' },
             { 'gr',         function() require('fzf-lua').lsp_references() end,                  desc = 'Find files' },
             { '<leader>?',  function() require('fzf-lua').keymaps() end,                         desc = 'Find keymap' },
+            { '<leader>r',  function() require('fzf-lua').resume() end,                          desc = 'Resume' },
             {
                 '<leader>*',
                 function() require('fzf-lua').grep_cword() end,
@@ -605,12 +606,12 @@ return {
         }
     },
     {
-        'windwp/nvim-autopairs',
-        config = function()
-            require("nvim-autopairs").setup({
-                disable_filetype = { "markdown" }
-            })
-        end
+        'altermo/ultimate-autopair.nvim',
+        event = { 'InsertEnter', 'CmdlineEnter' },
+        branch = 'v0.6', --recommended as each new version will have breaking changes
+        opts = {
+            --Config goes here
+        },
     },
     {
         'kevinhwang91/nvim-ufo',
