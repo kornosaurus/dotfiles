@@ -6,5 +6,8 @@
         "/Users/sk/.local/share/nvim/mason/packages/lua-language-server/libexec/meta/692f4135",
         "/Users/sk/.local/share/nvim/mason/packages/lua-language-server/libexec/meta/68d21d7a"
     ],
-    "workspace.checkThirdParty": false
+    "workspace.checkThirdParty": false,
+    "diagnostics.globals": [
+        "vim"
+    ]
 }

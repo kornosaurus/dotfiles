@@ -39,7 +39,7 @@ local configs = {
             client.server_capabilities.semanticTokensProvider = nil
         end
     },
-    tsserver = {
+    ts_ls = {
         settings = {
             typescript = {
                 inlayHints = {
