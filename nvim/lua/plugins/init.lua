@@ -15,22 +15,12 @@ return {
       vim.cmd("colorscheme rose-pine")
     end
   },
-  -- LSP
   {
     "mason-org/mason.nvim",
     opts = {}
-},
+  },
   {
-    'neovim/nvim-lspconfig',
-    config = function()
-      local servers = {
-        'pylsp',
-        'eslint',
-        'ts_ls',
-        'cssls'
-      }
-      require('lsp')(servers)
-    end
+    'neovim/nvim-lspconfig'
   },
   {
     'stevearc/conform.nvim',

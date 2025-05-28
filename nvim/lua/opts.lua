@@ -37,6 +37,7 @@ opt.relativenumber = false
 opt.wrap = false
 opt.signcolumn = 'yes'
 -- opt.winblend = blend
+opt.winborder = 'single'
 opt.list = true
 opt.spelllang = 'en'
 opt.expandtab = true
