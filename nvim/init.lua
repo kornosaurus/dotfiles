@@ -14,7 +14,6 @@ vim.opt.runtimepath:prepend(lazypath)
 require('opts')
 require('maps')
 require("lazy").setup("plugins")
-
 require('hlsearch')
 
 pcall(require, 'work')

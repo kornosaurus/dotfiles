@@ -1,5 +1,5 @@
 local opt = vim.opt
-local indent = 4
+local indent = 2
 -- local blend = 10
 
 vim.g.mapleader = ' '
@@ -38,7 +38,7 @@ opt.wrap = false
 opt.signcolumn = 'yes'
 -- opt.winblend = blend
 opt.list = true
-opt.spelllang = 'en,sv'
+opt.spelllang = 'en'
 opt.expandtab = true
 opt.swapfile = false
 opt.undofile = true
@@ -48,16 +48,15 @@ opt.smartindent = true
 opt.cmdheight = 0
 opt.conceallevel = 3
 opt.laststatus = 3
-opt.guifont = { "Jetbrains Mono", ":h11" }
 opt.diffopt:append({ "linematch:50", "iwhiteall", "algorithm:patience" })
 
 vim.api.nvim_create_autocmd(
-    { "BufWrite", "BufEnter", "InsertLeave" },
-    {
-        pattern = { "*" },
-        callback = function()
-            vim.diagnostic.setloclist({ open = false })
-        end,
+	{ "BufWrite", "BufEnter", "InsertLeave" },
+	{
+		pattern = { "*" },
+		callback = function()
+			vim.diagnostic.setloclist({ open = false })
+		end,
     }
 )
 

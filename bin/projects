@@ -1,6 +1,5 @@
 #! /bin/bash
-PROJECTS_PATH=~/git
-
-for file in $PROJECTS_PATH/*; do
+for file in $REPOS_PATH/*; do
     project_name=$(basename $file)
+    echo $project_name
 done

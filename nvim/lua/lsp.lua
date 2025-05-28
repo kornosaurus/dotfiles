@@ -40,6 +40,9 @@ local configs = {
         end
     },
     ts_ls = {
+        on_attach = function(client)
+            client.server_capabilities.semanticTokensProvider = nil
+        end,
         settings = {
             typescript = {
                 inlayHints = {
@@ -75,6 +78,14 @@ local configs = {
                 all_features = true,
             },
         },
+    },
+    eslint = {
+        on_attach = function(client, bufnr)
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                buffer = bufnr,
+                command = "EslintFixAll",
+            })
+        end,
     },
     cssls = {},
     clangd = {},

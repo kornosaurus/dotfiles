@@ -1,9 +1,11 @@
 extends javascript
 
-snippet usee "useEffect"
-	useEffect(() => {
-		$1
-	}, [$0]);
+snippet ! "React boilerplate"
+	const ${1:Component} = (${2:props}) => {
+		$0
+		return null;
+	}
 
-snippet user "useRef"
-	const ${1:ref} = useRef(${0:null});
+	$1.propTypes = {};
+
+	export default $1;

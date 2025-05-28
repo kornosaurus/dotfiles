@@ -1,21 +1,12 @@
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
 export DOCKER_BUILDKIT=1
-export DENO_INSTALL="/home/simon/.deno"
 export GOPATH=$HOME/go
-export PATH=$PATH:$N_PREFIX/bin:$HOME/.bin:$HOME/.bin/work:$HOME/.cargo/bin:$PATH:/usr/local/go/bin:$GOPATH/bin:/opt/cisco/anyconnect/bin/
-export PATH="/opt/homebrew/bin:$PATH"
-export LANG=en_US.UTF-8
-export LC_CTYPE=en_US.UTF-8
-export LC_ALL="en_US.UTF-8"
-export LC_COLLATE="en_US.UTF-8"
-export LC_MESSAGES="en_US.UTF-8"
-export LC_MONETARY="en_US.UTF-8"
-export LC_NUMERIC="en_US.UTF-8"
-export LC_TIME="en_US.UTF-8"
+export PATH=$PATH:$N_PREFIX/bin:$HOME/.bin:$HOME/.bin/work:$HOME/.cargo/bin:/usr/local/go/bin:$GOPATH/bin:$HOME/.local/bin:/snap/bin
 export EDITOR="nvim"
 export VISUAL="nvim"
-export ZK_NOTEBOOK_DIR=$HOME/notes
+export REPOS_PATH="$HOME/repos"
+export CYPRESS_INSTALL_BINARY=0
 
 # Prompt
 autoload -U colors && colors
@@ -66,7 +57,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' menu select
 
 # fzf
-export FZF_DEFAULT_COMMAND='rg --hidden --follow --files --no-ignore-vcs -g "!{node_modules,.git}"'
+export FZF_DEFAULT_COMMAND='rg --hidden --follow --files --no-ignore-vcs -g "!{node_modules,.git,package-lock.json}"'
 export FZF_CTRL_T_COMMAND='rg --hidden --follow --files --null | xargs -0 dirname | uniq'
 export FZF_DEFAULT_OPTS='--height 50% --reverse'
 

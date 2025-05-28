@@ -25,8 +25,14 @@ alias grs='git restore'
 alias gst='git status'
 alias gc='git commit -v --cleanup=scissors'
 alias gd='git diff'
+alias gdss='git diff --shortstat'
+alias gds='git diff --stat'
 alias ga='git add'
 
+function grr() {
+  git reset --soft $(git reflog | fzf | awk '{ print $1 }')
+}
+#
 # Git switch
 function gsw() {
     if [[ ! -z "$@" ]]; then

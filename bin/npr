@@ -1,0 +1,6 @@
+#! /bin/bash
+script=$(jq -r ".scripts | keys | .[]" package.json | fzf)
+
+if [[ ! -z "$script" ]]; then
+  npm run $script
+fi

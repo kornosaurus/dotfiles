@@ -4,10 +4,10 @@ snippet im "Import"
 snippet ima "Import as"
 	import * as $1 from '$2';
 
-snippet ed "Export"
+snippet exd "Export default"
 	export default $0
 
-snippet e "Export"
+snippet ex "Export"
 	export $0
 
 snippet r "return"
@@ -42,6 +42,11 @@ snippet af "Arrow function" w
 		$0
 	\}}
 
+snippet afn "Const arrow Function" w
+	const ${1:name} = ($2) => ${3:{
+		$0
+	\}}
+
 snippet fn "Function" w
 	function ${1:name}($2) {
 		$0
@@ -61,7 +66,7 @@ snippet lg "Log"
 	console.log(${1});
 
 snippet lgv "Log variable"
-	console.log("${1} =", ${1});$0
+	console.log('${1}:', $1);$0
 
 snippet desc
 	describe('${1:something}', () => {
@@ -87,3 +92,24 @@ snippet ca "Switch case"
 	case $1:
 		$0
 		break;
+
+snippet uses "useState"
+	const [$1, set${1/.*/\u\0/g}] = useState(${2:null});$0
+
+snippet usem "useMemo"
+	const ${1:name} = useMemo(() => ${2:{$3\}}, [$4]);$0
+
+snippet usec "useCallback"
+	const ${1:name} = useCallback(($2) => ${3:{$4\}}, [$5]);$0
+
+snippet usee "useEffect"
+	useEffect(() => {
+		$1
+	}, [$2]);$0
+
+snippet user "useRef"
+	const ${1:ref} = useRef(${2:null});$0
+
+snippet useC "useContext"
+	const ${1:name} = useContext(${2:Context});$0
+
