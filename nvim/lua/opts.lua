@@ -115,17 +115,6 @@ vim.api.nvim_create_autocmd('WinEnter', {
     end
 })
 
-vim.diagnostic.config({
-    signs = {
-        text = {
-            [vim.diagnostic.severity.ERROR] = '',
-            [vim.diagnostic.severity.WARN] = '',
-            [vim.diagnostic.severity.HINT] = '',
-            [vim.diagnostic.severity.INFO] = '',
-        },
-    }
-})
-
 vim.api.nvim_create_autocmd("RecordingEnter", {
     callback = function()
         vim.opt.cmdheight = 1
@@ -136,4 +125,15 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
     callback = function()
         vim.opt.cmdheight = 0
     end
+})
+
+vim.api.nvim_create_autocmd({"BufEnter"}, {
+    callback = function(event)
+        local title = "nvim"
+        if event.file ~= "" then
+            title = string.format("nvim: %s", vim.fs.basename(event.file))
+        end
+
+        vim.fn.system({"wezterm.exe", "cli", "set-tab-title", title})
+    end,
 })

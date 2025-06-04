@@ -141,48 +141,6 @@ return {
   },
   -- EDITOR
   {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    opts = {
-      modes = {
-        search = {
-          enabled = false
-        }
-      }
-    },
-    keys = {
-      { "s", mode = { "n", "o", "x" }, function() require("flash").jump() end, desc = "Flash" },
-      {
-        "S",
-        mode = { "n" },
-        function() require("flash").treesitter() end,
-        desc =
-          "Flash Treesitter"
-      },
-      {
-        "r",
-        mode = "o",
-        function() require("flash").remote() end,
-        desc =
-          "Remote Flash"
-      },
-      {
-        "R",
-        mode = { "o", "x" },
-        function() require("flash").treesitter_search() end,
-        desc =
-          "Treesitter Search"
-      },
-      {
-        "<c-s>",
-        mode = { "c" },
-        function() require("flash").toggle() end,
-        desc =
-          "Toggle Flash Search"
-      },
-    },
-  },
-  {
     "sindrets/diffview.nvim",
     event = "VeryLazy",
     keys = {
@@ -459,7 +417,18 @@ return {
   {
     'altermo/ultimate-autopair.nvim',
     event = { 'InsertEnter', 'CmdlineEnter' },
-    branch = 'v0.6',
     opts = {},
   },
+  {
+    'mkajsjo/windowcolumns.nvim',
+    keys = {
+      { '<C-w>v', function() require('windowcolumns').create_column() end },
+      { '<C-w>H', function() require('windowcolumns').move_column('left') end },
+      { '<C-w>L', function() require('windowcolumns').move_column('right') end },
+      { '<C-w>J', function() require('windowcolumns').move_window('down') end },
+      { '<C-w>K', function() require('windowcolumns').move_window('up') end },
+      { '<C-w>[', function() require('windowcolumns').move_window('left') end },
+      { '<C-w>]', function() require('windowcolumns').move_window('right') end },
+    },
+  }
 }
