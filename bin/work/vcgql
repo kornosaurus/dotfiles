@@ -1,0 +1,49 @@
+#! /bin/bash
+if [ -z "$1" ] || [ -z "$2" ]; then
+  echo "Usage:"
+  echo
+  echo "$0 <URL> <file.gql> [variables.json]"
+  exit 0
+fi
+
+token="0bb1377f-f946-4375-a802-7707321c7f73"
+print_query=false
+variables_file=
+
+url=$1
+query=$(jq -n --arg q "$(cat $2 | tr -d '\n')" '{query: $q}')
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -v|--variables)
+      variables_file=$2
+      shift
+      shift
+      ;;
+    -p|--print-query)
+      print_query=true
+      shift
+      ;;
+    -*|--*)
+      echo "Unknown option $1"
+      exit 1
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+
+if [ ! -z "$variables_file" ]; then
+  query=$(echo $query $(cat $variables_file) | jq -s '.[0] * {variables: .[1]}')
+fi
+
+if ["$print_query" = true]; then
+  echo $query
+fi
+
+curl -s -X POST \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $token" \
+  --data "$query" \
+  https://api.eu.iot1.vgcs.volvo.com/$url

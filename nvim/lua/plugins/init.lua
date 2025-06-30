@@ -2,17 +2,12 @@
 return {
   -- COLORS
   {
-    "rose-pine/neovim",
-    name = "rose-pine",
-    opts = {
-      styles = {
-        bold = true,
-        italic = false,
-        transparency = false,
-      }
-    },
+    "zenbones-theme/zenbones.nvim",
+    dependencies = "rktjmp/lush.nvim",
+    lazy = false,
+    priority = 1000,
     config = function()
-      vim.cmd("colorscheme rose-pine")
+      vim.cmd.colorscheme('duckbones')
     end
   },
   {
@@ -420,15 +415,34 @@ return {
     opts = {},
   },
   {
-    'mkajsjo/windowcolumns.nvim',
-    keys = {
-      { '<C-w>v', function() require('windowcolumns').create_column() end },
-      { '<C-w>H', function() require('windowcolumns').move_column('left') end },
-      { '<C-w>L', function() require('windowcolumns').move_column('right') end },
-      { '<C-w>J', function() require('windowcolumns').move_window('down') end },
-      { '<C-w>K', function() require('windowcolumns').move_window('up') end },
-      { '<C-w>[', function() require('windowcolumns').move_window('left') end },
-      { '<C-w>]', function() require('windowcolumns').move_window('right') end },
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    opts = {
+      suggestion = { enabled = false },
+      panel = { enabled = false },
     },
-  }
+  },
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    dependencies = {
+      { "zbirenbaum/copilot.lua" },
+      { "nvim-lua/plenary.nvim", branch = "master" },
+    },
+    build = "make tiktoken",
+    opts = {
+    },
+  },
+  -- {
+  --   'mkajsjo/windowcolumns.nvim',
+  --   keys = {
+  --     { '<C-w>v', function() require('windowcolumns').create_column() end },
+  --     { '<C-w>H', function() require('windowcolumns').move_column('left') end },
+  --     { '<C-w>L', function() require('windowcolumns').move_column('right') end },
+  --     { '<C-w>J', function() require('windowcolumns').move_window('down') end },
+  --     { '<C-w>K', function() require('windowcolumns').move_window('up') end },
+  --     { '<C-w>[', function() require('windowcolumns').move_window('left') end },
+  --     { '<C-w>]', function() require('windowcolumns').move_window('right') end },
+  --   },
+  -- },
 }

@@ -37,7 +37,7 @@ opt.relativenumber = false
 opt.wrap = false
 opt.signcolumn = 'yes'
 -- opt.winblend = blend
-opt.winborder = 'single'
+-- opt.winborder = 'single'
 opt.list = true
 opt.spelllang = 'en'
 opt.expandtab = true
@@ -125,15 +125,4 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
     callback = function()
         vim.opt.cmdheight = 0
     end
-})
-
-vim.api.nvim_create_autocmd({"BufEnter"}, {
-    callback = function(event)
-        local title = "nvim"
-        if event.file ~= "" then
-            title = string.format("nvim: %s", vim.fs.basename(event.file))
-        end
-
-        vim.fn.system({"wezterm.exe", "cli", "set-tab-title", title})
-    end,
 })

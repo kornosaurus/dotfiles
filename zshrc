@@ -8,9 +8,6 @@ export VISUAL="nvim"
 export REPOS_PATH="$HOME/repos"
 export CYPRESS_INSTALL_BINARY=0
 
-# WSL and wezterm
-cd ~
-
 # Prompt
 autoload -U colors && colors
 setopt PROMPT_SUBST
@@ -31,24 +28,6 @@ add-zsh-hook precmd vcs_info
 
 export PROMPT='%{$fg[cyan]%}%n%{$reset_color%}@%{$fg[red]%}%m %{$fg[blue]%}%c%(?:%{$fg_bold[green]%}:%{$fg_bold[red]%}) ➜%{$reset_color%} '
 export RPROMPT='${vcs_info_msg_0_}'
-
-# if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-#     exec tmux
-# fi
-function termsupport_cwd {
-  emulate -L zsh
-  wezterm.exe cli set-tab-title "$(basename $(pwd))"
-}
-
-function termsupport_cwd_preexec {
-  emulate -L zsh
-  local CMD="${2}"
-  wezterm.exe cli set-tab-title "$(basename $(pwd)): ${CMD}"
-}
-
-autoload -Uz add-zsh-hook
-add-zsh-hook precmd termsupport_cwd
-add-zsh-hook preexec termsupport_cwd_preexec
 
 # History
 export HISTFILE=~/.zsh_history
