@@ -72,7 +72,7 @@
   keys = {
     { '<leader>f',  function() require('fzf-lua').files() end,                           desc = 'Find files' },
     { '<leader>b',  function() require('fzf-lua').buffers({ sort_lastused = true }) end, desc = 'Find buffers' },
-    { '<leader>/',  function() require('fzf-lua').live_grep_glob() end,                  desc = 'Grep' },
+    { '<leader>/',  function() require('fzf-lua').live_grep() end,                       desc = 'Grep' },
     { '<leader>gs', function() require('fzf-lua').git_status() end,                      desc = 'GIT: Status' },
     { '<leader>gc', function() require('fzf-lua').git_branches() end,                    desc = 'GIT: Branches' },
     { '<leader>:',  function() require('fzf-lua').commands() end,                        desc = 'Find command' },

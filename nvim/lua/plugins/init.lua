@@ -32,7 +32,6 @@ return {
       },
     },
   },
-  'onsails/lspkind.nvim',
   {
     'dcampos/nvim-snippy',
     event = 'InsertEnter',
@@ -249,11 +248,6 @@ return {
     config = function()
       local cmp = require('cmp')
 
-      local format = require("lspkind").cmp_format({
-        mode = "symbol_text",
-        maxwidth = 50,
-      })
-
       cmp.setup({
         completion = {
           -- autocomplete = true,
@@ -309,31 +303,6 @@ return {
         },
         experimental = {
           ghost_text = false
-        },
-        formatting = {
-          fields = { "kind", "abbr", "menu" },
-          format = function(entry, vim_item)
-            local original_kind = vim_item.kind
-            local kind = format(entry, vim_item)
-
-            -- Split the kind from lspkind into two parts so we can place the icon
-            -- on the left and the text on the right. This allows for quick scanning
-            -- on the left near the text while still providing the full completion
-            -- information if needed.
-            local strings = vim.split(kind.kind, "%s", { trimempty = true })
-
-            if strings[2] == nil then
-              return kind
-            end
-
-            kind.kind = strings[1] .. " "
-            kind.menu = "   " .. strings[2]
-
-            -- Highlight the menu text the same as the kind icon
-            kind.menu_hl_group = "CmpItemKind" .. original_kind
-
-            return kind
-          end,
         },
       })
       -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
@@ -415,34 +384,7 @@ return {
     opts = {},
   },
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    build = ":Copilot auth",
-    opts = {
-      suggestion = { enabled = false },
-      panel = { enabled = false },
-    },
-  },
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    dependencies = {
-      { "zbirenbaum/copilot.lua" },
-      { "nvim-lua/plenary.nvim", branch = "master" },
-    },
-    build = "make tiktoken",
-    opts = {
-    },
-  },
-  -- {
-  --   'mkajsjo/windowcolumns.nvim',
-  --   keys = {
-  --     { '<C-w>v', function() require('windowcolumns').create_column() end },
-  --     { '<C-w>H', function() require('windowcolumns').move_column('left') end },
-  --     { '<C-w>L', function() require('windowcolumns').move_column('right') end },
-  --     { '<C-w>J', function() require('windowcolumns').move_window('down') end },
-  --     { '<C-w>K', function() require('windowcolumns').move_window('up') end },
-  --     { '<C-w>[', function() require('windowcolumns').move_window('left') end },
-  --     { '<C-w>]', function() require('windowcolumns').move_window('right') end },
-  --   },
-  -- },
+    'stevearc/overseer.nvim',
+    opts = {},
+  }
 }
