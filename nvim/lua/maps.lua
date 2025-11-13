@@ -44,8 +44,8 @@ vim.keymap.set('v', 'Y', '"+y')
 vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
 
--- Testing
-vim.keymap.set('n', '<leader>tf', ':vsplit | term npm run test -- % --watch<CR><C-w>h', { desc = 'TEST: Run file' })
+vim.keymap.set('n', '<leader>yp', function() vim.fn.setreg("+", vim.fn.expand("%")) end, { desc = 'Yank path' })
+vim.keymap.set('n', '<leader>yP', function() vim.fn.setreg("+", vim.fn.expand("%:p")) end, { desc = 'Yank absolute path' })
 
 -- Wezterm
 vim.keymap.set('n', '<leader>gg',

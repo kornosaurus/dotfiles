@@ -11,6 +11,41 @@ return {
     end
   },
   {
+    'b0o/incline.nvim',
+    config = function()
+      require('incline').setup {
+        window = {
+          margin = {
+            vertical = {
+              bottom = 0,
+              top = 0,
+            },
+          },
+        },
+        hide = {
+          cursorline = true,
+          focused_win = false,
+          only_win = false
+        },
+        render = function(props)
+          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ':t')
+          local icon, color = require('nvim-web-devicons').get_icon_color(filename)
+
+          local segments = {}
+
+          if icon and #icon then
+            table.insert(segments, { icon, guifg = color })
+            table.insert(segments, { ' ' })
+          end
+
+          table.insert(segments, { filename })
+
+          return segments
+        end,
+      }
+    end,
+  },
+  {
     "mason-org/mason.nvim",
     opts = {}
   },
@@ -19,18 +54,81 @@ return {
   },
   {
     'stevearc/conform.nvim',
-    opts = {
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_format = "fallback"
+    lazy = false,
+    keys = {
+      {
+        '<leader>lf',
+        function()
+          -- If autoformat is currently disabled for this buffer,
+          -- then enable it, otherwise disable it
+          if vim.b.disable_autoformat then
+            vim.cmd 'FormatEnable'
+            vim.notify 'Enabled autoformat for current buffer'
+          else
+            vim.cmd 'FormatDisable!'
+            vim.notify 'Disabled autoformat for current buffer'
+          end
+        end,
+        desc = 'Toggle autoformat for current buffer',
       },
+      {
+        '<leader>lF',
+        function()
+          -- If autoformat is currently disabled globally,
+          -- then enable it globally, otherwise disable it globally
+          if vim.g.disable_autoformat then
+            vim.cmd 'FormatEnable'
+            vim.notify 'Enabled autoformat globally'
+          else
+            vim.cmd 'FormatDisable'
+            vim.notify 'Disabled autoformat globally'
+          end
+        end,
+        desc = 'Toggle autoformat globally',
+      },
+    },
+    opts = {
+      format_on_save = function(bufnr)
+        if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+          return
+        end
+        local disable_filetypes = { c = false, cpp = false }
+        return {
+          timeout_ms = 500,
+          lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+        }
+      end,
       formatters_by_ft = {
         javascript = { "prettierd", "prettier", stop_after_first = true },
         typescript = { "prettierd", "prettier", stop_after_first = true },
         javascriptreact = { "prettierd", "prettier", stop_after_first = true },
         typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+        java = { 'google-java-format', stop_after_first = true }
       },
     },
+    config = function(_, opts)
+      require('conform').setup(opts)
+
+      vim.api.nvim_create_user_command('FormatDisable', function(args)
+        if args.bang then
+          -- :FormatDisable! disables autoformat for this buffer only
+          vim.b.disable_autoformat = true
+        else
+          -- :FormatDisable disables autoformat globally
+          vim.g.disable_autoformat = true
+        end
+      end, {
+          desc = 'Disable autoformat-on-save',
+          bang = true, -- allows the ! variant
+        })
+
+      vim.api.nvim_create_user_command('FormatEnable', function()
+        vim.b.disable_autoformat = false
+        vim.g.disable_autoformat = false
+      end, {
+          desc = 'Re-enable autoformat-on-save',
+        })
+    end,
   },
   {
     'dcampos/nvim-snippy',
@@ -167,7 +265,7 @@ return {
       },
       {
         "<leader>gl",
-        "<cmd>.DiffviewFileHistory --follow<CR>",
+        "<cmd>DiffviewFileHistory --follow<CR>",
         mode = 'n',
         desc =
           "GIT: File history for the current line"
@@ -385,6 +483,60 @@ return {
   },
   {
     'stevearc/overseer.nvim',
-    opts = {},
-  }
+    opts = {
+      templates = { "builtin", "mvn", "jest" },
+      task_list = {
+        min_height = 12
+      }
+    },
+    keys = {
+      { '<leader>tT', function()
+        local overseer = require("overseer")
+        overseer.run_template({ tags = {'test'} })
+        overseer.open({ enter = false })
+      end, desc = 'Run tests'},
+      { '<leader>tt', function()
+        local overseer = require("overseer")
+        overseer.run_template({ tags = {'test:single'} })
+        overseer.open({ enter = false })
+      end, desc = 'Run under cursor'},
+      { '<leader>tf', function()
+        local overseer = require("overseer")
+        overseer.run_template({ tags = {'test:file'} })
+        overseer.open({ enter = false })
+      end, desc = 'Run test file'},
+      { '<leader>or', '<cmd>OverseerRun<CR>', desc = 'Overseer: Run' },
+      { '<leader>oo', '<cmd>OverseerToggle!<CR>', desc = 'Overseer: Toggle' },
+      { '<leader>ol', function()
+        local overseer = require("overseer")
+        local tasks = overseer.list_tasks({ recent_first = true })
+        if vim.tbl_isempty(tasks) then
+          vim.notify("No tasks found", vim.log.levels.WARN)
+        else
+          overseer.run_action(tasks[1], "restart")
+        end
+      end, desc = 'Overseer: Rerun last task' }
+    },
+  },
+  {
+    'mfussenegger/nvim-jdtls',
+    dependencies = {
+      {
+        'mfussenegger/nvim-dap',
+        config = function () 
+          local dap = require('dap')
+          dap.configurations.java = {
+            {
+              type = 'java';
+              request = 'attach';
+              name = "Debug (Attach) - Remote";
+              hostName = "localhost";
+              port = 8787;
+            },
+          }
+        end
+      }
+    },
+  },
 }
+

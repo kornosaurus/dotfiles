@@ -4,6 +4,7 @@ local indent = 2
 
 vim.g.mapleader = ' '
 
+opt.exrc = true
 opt.guicursor = ""
 opt.syntax = 'on'
 opt.background = 'dark'

@@ -9,17 +9,15 @@ return {
     mode = "legacy",
     instructions_file = "avante.md",
     provider = "copilot",
-    providers = {},
+    providers = {
+      copilot = {
+        model = "claude-sonnet-4.5"
+      },
+    },
     mappings = {
       submit = {
         normal = "<CR>",
         insert = "<C-y>",
-      },
-      suggestion = {
-        accept = "<C-y>",
-        next = "<C-]>",
-        prev = "<C-[>",
-        dismiss = "<C-]>",
       },
     },
     selection = {
@@ -47,6 +45,13 @@ return {
           use_absolute_path = true,
         },
       },
+    },
+    {
+      'MeanderingProgrammer/render-markdown.nvim',
+      opts = {
+        file_types = { "markdown", "Avante" },
+      },
+      ft = { "markdown", "Avante" },
     },
   },
 }
