@@ -7,6 +7,12 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
+      grpid = vim.api.nvim_create_augroup('custom_highlights', {})
+      vim.api.nvim_create_autocmd('ColorScheme', {
+        group = grpid,
+        pattern = '*bones',
+        command = 'hi Constant gui=NONE | hi String gui=NONE'
+      })
       vim.cmd.colorscheme('duckbones')
     end
   },
@@ -51,84 +57,6 @@ return {
   },
   {
     'neovim/nvim-lspconfig'
-  },
-  {
-    'stevearc/conform.nvim',
-    lazy = false,
-    keys = {
-      {
-        '<leader>lf',
-        function()
-          -- If autoformat is currently disabled for this buffer,
-          -- then enable it, otherwise disable it
-          if vim.b.disable_autoformat then
-            vim.cmd 'FormatEnable'
-            vim.notify 'Enabled autoformat for current buffer'
-          else
-            vim.cmd 'FormatDisable!'
-            vim.notify 'Disabled autoformat for current buffer'
-          end
-        end,
-        desc = 'Toggle autoformat for current buffer',
-      },
-      {
-        '<leader>lF',
-        function()
-          -- If autoformat is currently disabled globally,
-          -- then enable it globally, otherwise disable it globally
-          if vim.g.disable_autoformat then
-            vim.cmd 'FormatEnable'
-            vim.notify 'Enabled autoformat globally'
-          else
-            vim.cmd 'FormatDisable'
-            vim.notify 'Disabled autoformat globally'
-          end
-        end,
-        desc = 'Toggle autoformat globally',
-      },
-    },
-    opts = {
-      format_on_save = function(bufnr)
-        if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-          return
-        end
-        local disable_filetypes = { c = false, cpp = false }
-        return {
-          timeout_ms = 500,
-          lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-        }
-      end,
-      formatters_by_ft = {
-        javascript = { "prettierd", "prettier", stop_after_first = true },
-        typescript = { "prettierd", "prettier", stop_after_first = true },
-        javascriptreact = { "prettierd", "prettier", stop_after_first = true },
-        typescriptreact = { "prettierd", "prettier", stop_after_first = true },
-        java = { 'google-java-format', stop_after_first = true }
-      },
-    },
-    config = function(_, opts)
-      require('conform').setup(opts)
-
-      vim.api.nvim_create_user_command('FormatDisable', function(args)
-        if args.bang then
-          -- :FormatDisable! disables autoformat for this buffer only
-          vim.b.disable_autoformat = true
-        else
-          -- :FormatDisable disables autoformat globally
-          vim.g.disable_autoformat = true
-        end
-      end, {
-          desc = 'Disable autoformat-on-save',
-          bang = true, -- allows the ! variant
-        })
-
-      vim.api.nvim_create_user_command('FormatEnable', function()
-        vim.b.disable_autoformat = false
-        vim.g.disable_autoformat = false
-      end, {
-          desc = 'Re-enable autoformat-on-save',
-        })
-    end,
   },
   {
     'dcampos/nvim-snippy',
@@ -391,7 +319,7 @@ return {
             { name = 'path' },
           },
           {
-            { name = 'buffer', keyword_length = 6 },
+            { name = 'buffer', options = { keyword_length = 6 } },
           }
         ),
         snippet = {
@@ -484,7 +412,7 @@ return {
   {
     'stevearc/overseer.nvim',
     opts = {
-      templates = { "builtin", "mvn", "jest" },
+      templates = { "builtin", "mvn", "jest", "cypress" },
       task_list = {
         min_height = 12
       }
@@ -492,17 +420,17 @@ return {
     keys = {
       { '<leader>tT', function()
         local overseer = require("overseer")
-        overseer.run_template({ tags = {'test'} })
+        overseer.run_task({ tags = {'test'} })
         overseer.open({ enter = false })
       end, desc = 'Run tests'},
       { '<leader>tt', function()
         local overseer = require("overseer")
-        overseer.run_template({ tags = {'test:single'} })
+        overseer.run_task({ tags = {'test:single'} })
         overseer.open({ enter = false })
       end, desc = 'Run under cursor'},
       { '<leader>tf', function()
         local overseer = require("overseer")
-        overseer.run_template({ tags = {'test:file'} })
+        overseer.run_task({ tags = {'test:file'} })
         overseer.open({ enter = false })
       end, desc = 'Run test file'},
       { '<leader>or', '<cmd>OverseerRun<CR>', desc = 'Overseer: Run' },

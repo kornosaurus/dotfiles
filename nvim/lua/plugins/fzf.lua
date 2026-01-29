@@ -8,7 +8,9 @@
       require("fzf-lua").setup({
         -- preview_opts = 'hidden',
         winopts = {
+          border = "rounded",
           preview = {
+            border = "rounded",
             layout = "vertical",
           }
         },

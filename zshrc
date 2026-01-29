@@ -6,7 +6,6 @@ export PATH=$PATH:$N_PREFIX/bin:$HOME/.bin:$HOME/.bin/work:$HOME/.cargo/bin:/usr
 export EDITOR="nvim"
 export VISUAL="nvim"
 export REPOS_PATH="$HOME/repos"
-export CYPRESS_INSTALL_BINARY=0
 
 # Prompt
 autoload -U colors && colors
@@ -40,6 +39,9 @@ setopt HIST_REDUCE_BLANKS  # remove unnecessary blanks
 setopt INC_APPEND_HISTORY_TIME  # append command to history file immediately after execution
 setopt EXTENDED_HISTORY  # record command start time
 
+# vimmode
+bindkey -v
+
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search
@@ -61,11 +63,8 @@ export FZF_DEFAULT_OPTS='--height 50% --reverse'
 [ -f ~/.zsh_work ] && source ~/.zsh_work
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-if [ -e /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
-    source /usr/share/doc/fzf/examples/key-bindings.zsh
-    source /usr/share/doc/fzf/examples/completion.zsh
-fi
 
+source <(fzf --zsh)
 eval "$(zoxide init zsh)"
 
 _fg () { fg 2> /dev/null }
@@ -74,7 +73,7 @@ bindkey ^Z _fg
 
 autoload -z edit-command-line
 zle -N edit-command-line
-bindkey "^E" edit-command-line
+bindkey "^x" edit-command-line
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

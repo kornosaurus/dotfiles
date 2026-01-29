@@ -1,0 +1,21 @@
+# Font
+font-family = "MonoLisa"
+font-size = 15
+adjust-cell-height=20%
+
+# Style
+theme = "Duckbones"
+shell-integration-features = "no-cursor"
+cursor-style = "block"
+
+# MacOS
+macos-titlebar-style = "tabs"
+macos-option-as-alt = true
+font-thicken = true
+font-thicken-strength = 100
+
+# Keybinds
+keybind = global:cmd+`=toggle_quick_terminal
+keybind = cmd+p=toggle_command_palette
+
+custom-shader = shaders/cursor_warp.glsl

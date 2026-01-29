@@ -18,7 +18,7 @@ local config = {
   name = "jdtls",
   cmd = {
     "jdtls",
-    "--jvm-arg=-javaagent:" .. os.getenv("HOME") .. "/.local/share/nvim/mason/share/lombok-nightly/lombok.jar"
+    "--jvm-arg=-javaagent:" .. os.getenv("HOME") .. "/.local/share/nvim/mason/packages/jdtls/lombok.jar",
   },
   root_dir = vim.fs.root(0, {'gradlew', '.git', 'mvnw'}),
   settings = {
