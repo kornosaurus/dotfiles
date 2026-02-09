@@ -451,8 +451,26 @@ return {
     dependencies = {
       {
         'mfussenegger/nvim-dap',
-        config = function () 
+        config = function ()
+          -- fix me
           local dap = require('dap')
+
+          dap.adapters.godot = {
+            type = "server",
+            host = "127.0.0.1",
+            port = 6006,
+          }
+
+          dap.configurations.gdscript = {
+            {
+              type = "godot",
+              request = "launch",
+              name = "Launch scene",
+              project = "${workspaceFolder}",
+              launch_scene = true,
+            },
+          }
+
           dap.configurations.java = {
             {
               type = 'java';

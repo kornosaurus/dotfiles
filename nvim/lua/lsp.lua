@@ -6,11 +6,8 @@ vim.lsp.enable('eslint')
 vim.lsp.enable('clangd')
 
 -- Godot
-vim.lsp.start({
-  name = "godot",
-  cmd = vim.lsp.rpc.connect("127.0.0.1", 6005),
-  root_dir = vim.fs.root(0, {'project.godot'})
-})
+vim.lsp.config('gdscript', {})
+vim.lsp.enable('gdscript')
 
 vim.diagnostic.config({
   underline = true,

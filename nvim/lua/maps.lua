@@ -46,8 +46,3 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz')
 
 vim.keymap.set('n', '<leader>yp', function() vim.fn.setreg("+", vim.fn.expand("%")) end, { desc = 'Yank path' })
 vim.keymap.set('n', '<leader>yP', function() vim.fn.setreg("+", vim.fn.expand("%:p")) end, { desc = 'Yank absolute path' })
-
--- Wezterm
-vim.keymap.set('n', '<leader>gg',
-    '<cmd>!wezterm.exe cli split-pane --left --percent 75 --cwd ' .. vim.fn.getcwd() .. ' -- lazygit<CR><CR>',
-    { desc = 'GIT: Lazygit' })
